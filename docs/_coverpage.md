@@ -1,6 +1,6 @@
-![logo](_media/icon.jpg)
+![logo](_media/icon.svg)
 
-# docsify <small>1.3.3</small>
+# Talk Is Cheap <small>0.0.1 Dev</small>
 
 > A magical documentation site generator.
 
