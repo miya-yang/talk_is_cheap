@@ -2,6 +2,9 @@
 
 > An electron-vue project
 
+#### Docs
+[Doc Click Here](https://miya-yang.github.io/talk_is_cheap/#/)
+
 #### Build Setup
 
 ``` bash
