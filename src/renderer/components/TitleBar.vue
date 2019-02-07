@@ -22,11 +22,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/common.scss";
+
 header {
   width: 100%;
-  height: 25px;
-  background: red;
+  height: $titlebar-height;
+  background: $titlebar-bgcolor;
   -webkit-app-region: drag;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
 
   .control-buttons {
     float: right;

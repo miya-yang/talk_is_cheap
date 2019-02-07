@@ -1,12 +1,31 @@
 <template>
-  <a class="control-button" href="javascript:alert('123');">
-    <Icon class="control-button-icon" type="md-close" />
+  <a class="control-button" @click="handle">
+    <Icon 
+      class="control-button-icon" 
+      :type="iconName" 
+      :color="iconColor" 
+    />
   </a>
 </template>
 
 <script>
 export default {
   name: 'ControlButton',
+  data () {
+    return {
+
+    }
+  },
+  props: {
+    iconName: {
+      type: String,
+      default: 'md-close'
+    },
+    iconColor: {
+      type: String,
+      default: '#fff'
+    }
+  },
   methods: {
     handle () {
       alert('hhhh')
@@ -16,13 +35,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/common.scss";
+
 .control-button {
-  width: 50px;
-  height: 50px;
-  margin-right: 20px;
-  cursor: pointer;
+  width: 40px;
+  height: $titlebar-height;
+  position: relative;
+  display: block;
+  background: inherit;
+  -webkit-app-region: no-drag;
+
   .control-button-icon {
-    cursor: pointer;
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
+}
+
+.control-button:hover {
+  background: #ff0000;
 }
 </style>
