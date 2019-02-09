@@ -10,4 +10,4 @@
 
 
 [GitHub](https://github.com/miya-yang/talk_is_cheap)
-[Get Started](#Talk Is Cheap)
+[Get Started](#talk-is-cheap)
