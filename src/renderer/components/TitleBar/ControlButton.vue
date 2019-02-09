@@ -1,5 +1,10 @@
 <template>
-  <a class="control-button" @click="handle">
+  <a 
+    class="control-button" 
+    @click="handleClickEvent"
+    :class="{ 'default-hover': hoverType === 'default', 'warning-hover': hoverType === 'warning' }"
+    :title="hoverTitle"
+  >
     <Icon 
       class="control-button-icon" 
       :type="iconName" 
@@ -19,16 +24,24 @@ export default {
   props: {
     iconName: {
       type: String,
-      default: 'md-close'
+      default: ''
     },
     iconColor: {
       type: String,
       default: '#fff'
+    },
+    hoverType: {
+      type: String,
+      default: 'default'
+    },
+    hoverTitle: {
+      type: String,
+      default: ''
     }
   },
   methods: {
-    handle () {
-      alert('hhhh')
+    handleClickEvent () {
+      this.$emit('click')
     }
   }
 }
@@ -41,7 +54,7 @@ export default {
   width: 40px;
   height: $titlebar-height;
   position: relative;
-  display: block;
+  display: inline-block;
   background: inherit;
   -webkit-app-region: no-drag;
 
@@ -54,7 +67,11 @@ export default {
   }
 }
 
-.control-button:hover {
-  background: #ff0000;
+.default-hover:hover {
+  background: $default-hover-background;
+}
+
+.warning-hover:hover {
+  background: $warning-hover-background;
 }
 </style>

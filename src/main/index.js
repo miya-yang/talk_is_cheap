@@ -23,10 +23,18 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 330,
+    width: 430,
     useContentSize: true,
-    width: 1000,
-    frame: false // 去除标题栏边框
+    title: 'Talk Is Cheap',
+    frame: false,
+    center: true,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false,
+    alwaysOnTop: true,
+    transparent: true,
+    show: true
   })
 
   mainWindow.loadURL(winURL)

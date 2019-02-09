@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <title-bar></title-bar>
+    <title-bar
+      v-if="false"
+    >
+    </title-bar>
     <router-view></router-view>
   </div>
 </template>
@@ -19,6 +22,7 @@ export default {
 #app {
   width: 100%;
   height: 100%;
+  background: #fafafa;
   overflow: hidden;
 }
 </style>
