@@ -1,5 +1,8 @@
 <template>
   <header>
+    <div class="title">
+      {{ this.title }}
+    </div>
     <div class="control-buttons">
       <control-button
         iconName="md-remove"
@@ -47,6 +50,10 @@ export default {
     hasCloseBtn: {
       type: Boolean,
       default: true
+    },
+    title: {
+      type: String,
+      default: ''
     }
   }
 }
@@ -65,6 +72,16 @@ header {
   z-index: 999;
   top: 0;
   left: 0;
+
+  .title {
+    float: left;
+    line-height: $titlebar-height;
+    margin-left: 10px;
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
 
   .control-buttons {
     float: right;

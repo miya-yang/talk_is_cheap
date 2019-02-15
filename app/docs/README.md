@@ -15,6 +15,7 @@ props 参数
 | hasMinimumBtn | 是否显示最小化按钮 | Boolean | true |
 | hasScaleBtn | 是否显示放大缩小按钮 | Boolean | true |
 | hasCloseBtn | 是否显示关闭按钮 | Boolean | true |
+| title | 显示标题内容 | String | - |
 
 #### ControlButton / 控制按钮
 
