@@ -12,7 +12,7 @@
       }"
       class="input-ele"
     >
-    <span class="tips">{{ tip }}</span>
+    <span class="tips" :class="{ tipsSkip: tip === '' }">{{ tip }}</span>
   </div>
 </template>
 
@@ -64,6 +64,10 @@ export default {
     font-family: 'Microsoft YaHei';
   }
 
+  .input-ele:focus {
+    border: 1px solid #549df8;
+  }
+
   .tips {
     color: #888;
     font-size: 14px;
@@ -73,5 +77,11 @@ export default {
   input::-webkit-input-placeholder {
     color: #aaa;
   }
+}
+
+.tipsSkip {
+  display: block;
+  width: 1px;
+  height: 26px;
 }
 </style>
