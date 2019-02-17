@@ -1,6 +1,6 @@
 <template>
   <div class="register-page">
-    <div class="left-carousel" ref="leftCarousel"></div>
+    <m-carousel class="left-carousel"></m-carousel>
     <div class="right-panel">
       <div class="content">
         <h1>欢迎注册Talk Is Cheap</h1>
@@ -52,38 +52,13 @@
 <script>
 import mInput from '@/components/m-Input'
 import mButton from '@/components/m-Button'
+import mCarousel from '@/components/m-carousel'
 export default {
   name: 'register-page',
   components: {
     mInput,
-    mButton
-  },
-  data () {
-    return {
-      imagesArr: [
-        '/static/img/register-left-banner-1.jpg',
-        '/static/img/register-left-banner-2.jpg',
-        '/static/img/register-left-banner-3.jpg',
-        '/static/img/register-left-banner-4.jpg'
-      ]
-    }
-  },
-  mounted () {
-    this.toggleImages()
-  },
-  methods: {
-    toggleImages () {
-      let index = 0
-      setInterval(() => {
-        if (index === this.imagesArr.length - 1) {
-          index = 0
-        } else {
-          index++
-        }
-        this.$refs.leftCarousel.style.background = `url(${this.imagesArr[index]})`
-        this.$refs.leftCarousel.style.backgroundPosition = 'center center'
-      }, 5000)
-    }
+    mButton,
+    mCarousel
   }
 }
 </script>
@@ -97,19 +72,15 @@ export default {
   .left-carousel {
     width: 480px;
     height: 100%;
-    background: url('/static/img/register-left-banner-1.jpg');
-    background-position: center center;
     position: fixed;
     z-index: 999;
     left: 0;
     top: 0;
-    transition: all 1s;
   }
 
   @media screen and (max-width: 1000px) {
     .left-carousel {
       display: none;
-      width: 0;
     }
 
     .right-panel {
