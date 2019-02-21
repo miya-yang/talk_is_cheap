@@ -1,10 +1,8 @@
 <template>
-  <div class="register-success-page">
-    <m-carousel class="left-carousel"></m-carousel>
+  <div class="register-page">
+    <m-carousel class="left-carousel" />
     <div class="right-panel">
-      <h2>您的 TIC 账号为 <span class="account-number">511287680</span></h2>
-      <h4>感谢您的注册，您可以使用 <span class="account-number">TIC 账号</span> 或者 <span class="account-number">邮箱账号</span> 登录</h4>
-      <h5>:)</h5>
+      <nuxt class="content" />
       <div class="copyright">
         Copyright © 2015-2019 Tianjin University of Technology All Rights Reserved
       </div>
@@ -15,7 +13,7 @@
 <script>
 import mCarousel from '@/components/m-carousel'
 export default {
-  name: 'register-success-page',
+  name: 'layout-register',
   components: {
     mCarousel
   }
@@ -23,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.register-success-page {
+.register-page {
   width: 100%;
   height: 100%;
   color: #000;
@@ -48,21 +46,24 @@ export default {
   }
 
   .right-panel {
-    padding-top: 200px;
-    height: 100%;
+    min-height: 100%;
     margin-left: 480px;
+    padding-top: 100px;
+    position: relative;
     transition: all .2s;
+
+    .content {
+      padding-bottom: 100px;
+    }
 
     .copyright {
       color: #aaa;
-      margin: 200px auto 20px auto;
+      position: absolute;
+      margin: auto;
+      left: 50%;
+      transform: translate(-50%, 0);
+      bottom: 20px;
     }
   }
 }
-
-.account-number {
-  font-family: 'Microsoft Yahei';
-  color: #ff0000;
-}
-
 </style>
