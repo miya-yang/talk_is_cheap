@@ -8,7 +8,7 @@
     <div class="userinfo-inputs login-pages-content">
       <Input class="input no-drag" autofocus v-model.trim="users.username" placeholder="账号" clearable />
       <Input class="input no-drag" type="password" v-model.trim="users.password" placeholder="密码" clearable />
-      <Button class="login-btn no-drag" type="success" long>登录</Button>
+      <Button class="login-btn no-drag" type="success" long @click="handleLoginBtn">登录</Button>
     </div>
     <div class="bottom-menubar login-pages-content">
       <a class="menu-item no-drag" href="javascript:;">注册账号</a>
@@ -19,6 +19,8 @@
 
 <script>
 import TitleBar from '@/components/TitleBar'
+import events from '@/events'
+
 export default {
   name: 'Login',
   components: {
@@ -30,6 +32,12 @@ export default {
         username: '',
         password: ''
       }
+    }
+  },
+  methods: {
+    handleLoginBtn () {
+      this.$router.push({ name: 'message-page' })
+      events.handleLoginEvent()
     }
   }
 }
