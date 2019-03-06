@@ -6,18 +6,21 @@
     <div class="control-buttons">
       <control-button
         iconName="md-remove"
+        :iconColor="iconColor"
         hoverTitle="最小化"
         @click="handleClick"
         v-if="hasMinimumBtn"
       ></control-button>
       <control-button
         iconName="md-browsers"
+        :iconColor="iconColor"
         @click="handleClick"
         v-if="hasScaleBtn"
       ></control-button>
       <control-button
         hoverType="warning"
         iconName="md-close"
+        :iconColor="iconColor"
         hoverTitle="关闭"
         @click="handleClick"
         v-if="hasCloseBtn"
@@ -29,9 +32,14 @@
 <script>
 import ControlButton from '@/components/TitleBar/ControlButton'
 export default {
-  name: 'TitleBar',
+  name: 'title-bar',
   components: {
     ControlButton
+  },
+  data () {
+    return {
+      iconColor: '#fff'
+    }
   },
   methods: {
     handleClick () {
@@ -55,6 +63,9 @@ export default {
       type: String,
       default: ''
     }
+  },
+  watch: {
+    // TODO: 监听路由改变菜单按钮颜色至 #333
   }
 }
 </script>
@@ -75,7 +86,6 @@ header {
 
   .title {
     float: left;
-    line-height: $titlebar-height;
     margin-left: 10px;
     color: #999;
     font-size: 14px;

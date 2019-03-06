@@ -1,5 +1,5 @@
 <template>
-  <div class="login-panel">
+  <div class="login-panel panel">
     <title-bar
       :hasScaleBtn="false"
     >
@@ -22,7 +22,7 @@ import TitleBar from '@/components/TitleBar'
 import events from '@/events'
 
 export default {
-  name: 'Login',
+  name: 'login',
   components: {
     TitleBar
   },
@@ -47,8 +47,6 @@ export default {
 @import '@/scss/common.scss';
 
 .login-panel {
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   -webkit-app-region: drag;
   position: absolute;

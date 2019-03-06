@@ -13,7 +13,22 @@ $warning-hover-background: #ff0000;
 // Login Panel Background Color
 $loginPanel-background: #fafafa;
 
+// LeftNav / 左侧导航栏
+$left-nav-width: 70px;
+
+// SubNav / 子导航栏
+$sub-nav-width: 250px;
+
 // Common Class
+.panel {
+  width: 100%;
+  height: 100%;
+}
+
+.remove-titlebar-content {
+  padding-top: $titlebar-height;
+}
+
 .no-drag {
   -webkit-app-region: no-drag;
 }

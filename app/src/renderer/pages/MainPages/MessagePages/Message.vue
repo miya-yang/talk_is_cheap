@@ -1,11 +1,11 @@
 <template>
   <div>
-    message page
+    <h1>Message Page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Message'
+  name: 'message-page'
 }
 </script>

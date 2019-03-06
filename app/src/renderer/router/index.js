@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import MainBaseFrame from '@/pages/MainPages/BaseFrame'
+
 import LoginPage from '@/pages/LoginPages/Login'
-import MessagePage from '@/pages/MainPages/Message'
+
+import MessagePage from '@/pages/MainPages/MessagePages/Message'
 
 Vue.use(Router)
 
@@ -21,7 +24,7 @@ export default new Router({
     {
       path: '/main',
       name: 'main-page',
-      component: MessagePage,
+      component: MainBaseFrame,
       children: [
         {
           path: '/message',
