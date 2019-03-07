@@ -34,6 +34,33 @@ $sub-nav-width: 250px;
   -webkit-app-region: no-drag;
 }
 
+.single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+  background: #bbb;
+}
+
+.scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  background: #EDEDED;
+}
+
 .login-pages-content {
   display: block;
   width: 60%;

@@ -5,7 +5,7 @@
         <Icon
           class="icon"
           type="ios-chatbubbles-outline"
-          :size="35"
+          :size="30"
         />
       </router-link>
     </li>
@@ -14,7 +14,7 @@
         <Icon
           class="icon"
           type="ios-contacts-outline"
-          :size="35"
+          :size="30"
         />
       </router-link>
     </li>
@@ -38,8 +38,8 @@ export default {
       
       .icon {
         display: block;
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
         margin: 0 auto;
       }
     }

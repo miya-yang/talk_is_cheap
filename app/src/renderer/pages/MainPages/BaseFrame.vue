@@ -27,6 +27,8 @@ export default {
 .base-frame {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  position: absolute;
 
   .left-nav {
     position: absolute;

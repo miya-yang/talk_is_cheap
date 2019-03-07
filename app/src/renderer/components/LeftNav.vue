@@ -1,7 +1,7 @@
 <template>
   <div class="left-nav remove-titlebar-content">
     <portrait class="portrait no-drag" title="测试名称" />
-    <nav-list class="nav-list no-drag"></nav-list>
+    <nav-list class="nav-list no-drag" />
   </div>
 </template>
 
