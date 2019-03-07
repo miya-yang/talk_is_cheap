@@ -7,6 +7,8 @@ import LoginPage from '@/pages/LoginPages/Login'
 
 import MessagePage from '@/pages/MainPages/MessagePages/Message'
 
+import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
+
 Vue.use(Router)
 
 export default new Router({
@@ -30,6 +32,18 @@ export default new Router({
           path: '/message',
           name: 'message-page',
           component: MessagePage
+        }
+      ]
+    },
+    {
+      path: '/window',
+      name: 'child-window',
+      component: UserInfoWindow,
+      children: [
+        {
+          path: 'userinfo',
+          name: 'userinfo-window',
+          component: UserInfoWindow
         }
       ]
     },

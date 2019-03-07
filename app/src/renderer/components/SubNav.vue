@@ -1,6 +1,6 @@
 <template>
   <div class="sub-nav">
-
+    123
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
 .sub-nav {
   width: $sub-nav-width;
   height: 100%;
-  background: gray;
+  background: #F2EFE6;
+  padding-top: 80px;
 }
 </style>
 

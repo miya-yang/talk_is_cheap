@@ -5,21 +5,18 @@
       <router-view></router-view>
     </div>
     <left-nav class="left-nav"></left-nav>
-    <sub-nav class="sub-nav"></sub-nav>
   </div>
 </template>
 
 <script>
 import TitleBar from '@/components/TitleBar'
 import LeftNav from '@/components/LeftNav'
-import SubNav from '@/components/SubNav'
 
 export default {
   name: 'base-frame',
   components: {
     TitleBar,
-    LeftNav,
-    SubNav
+    LeftNav
   }
 }
 </script>
@@ -34,12 +31,6 @@ export default {
   .left-nav {
     position: absolute;
     left: 0;
-    top: 0;
-  }
-
-  .sub-nav {
-    position: absolute;
-    left: $left-nav-width;
     top: 0;
   }
 }

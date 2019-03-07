@@ -17,6 +17,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
+global.__winURL = winURL
 
 function createWindow () {
   /**
@@ -78,4 +79,4 @@ app.on('ready', () => {
 })
  */
 
-require('./ipcMain/login')
+require('./ipcMain/createWindow')

@@ -1,6 +1,6 @@
 <template>
   <div class="left-nav remove-titlebar-content">
-    <portrait class="portrait no-drag" />
+    <portrait class="portrait no-drag" title="测试名称" />
     <nav-list class="nav-list no-drag"></nav-list>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 .left-nav {
   width: $left-nav-width;
   height: 100%;
-  background: #000;
+  background: $left-nav-background;
   -webkit-user-select: none;
   -webkit-app-region: drag;
 

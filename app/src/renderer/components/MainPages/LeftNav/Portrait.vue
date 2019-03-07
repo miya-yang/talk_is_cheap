@@ -1,12 +1,18 @@
 <template>
-  <a class="portrait-component" href="javascript:;">
+  <a class="portrait-component" href="javascript:;" @click="handleOpenUserInfoWindow">
     <img class="portrait-img" src="../../../assets/test/portrait.png" alt="">
   </a>
 </template>
 
 <script>
+import events from '../.././../events.js'
 export default {
-  name: 'portrait'
+  name: 'portrait',
+  methods: {
+    handleOpenUserInfoWindow () {
+      events.handleCreateUserInfoWindow()
+    }
+  }
 }
 </script>
 
