@@ -1,6 +1,6 @@
 <template>
   <div class="sub-nav">
-    <ul class="chat-lists scroll">
+    <ul class="chat-lists scroll" v-if="router === 'message-page'">
       <chat-item
         v-for="(item) of chatList"
         :key="item.id"
@@ -11,15 +11,27 @@
         :isActive="item.isActive"
       />
     </ul>
+    <ul class="friends-lists scroll" v-else-if="router === 'friends-page'">
+      <sub-nav
+      />
+      <friends-item
+        v-for="(item) of friendsList"
+        :key="item.id"
+      />
+    </ul>
   </div>
 </template>
 
 <script>
 import ChatItem from '@/components/MainPages/SubNav/ChatItem'
+import FriendsItem from '@/components/MainPages/SubNav/FriendsItem'
+import SubTitle from '@/components/MainPages/SubNav/SubTitle'
 export default {
   name: 'sub-nav',
   components: {
-    ChatItem
+    ChatItem,
+    FriendsItem,
+    SubTitle
   },
   data () {
     return {
@@ -95,7 +107,18 @@ export default {
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         }
-      ]
+      ],
+      friendsList: [
+        {
+          id: 1
+        }
+      ],
+      router: 'message-page'
+    }
+  },
+  watch: {
+    $route () {
+      this.router = this.$route.name
     }
   }
 }

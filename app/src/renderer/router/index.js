@@ -5,7 +5,8 @@ import MainBaseFrame from '@/pages/MainPages/BaseFrame'
 
 import LoginPage from '@/pages/LoginPages/Login'
 
-import MessagePage from '@/pages/MainPages/MessagePages/Message'
+import MessagePage from '@/pages/MainPages/MessagePage'
+import FriendsPage from '@/pages/MainPages/FriendsPage'
 
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
 
@@ -32,6 +33,11 @@ export default new Router({
           path: '/message',
           name: 'message-page',
           component: MessagePage
+        },
+        {
+          path: '/friends',
+          name: 'friends-page',
+          component: FriendsPage
         }
       ]
     },

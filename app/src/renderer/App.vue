@@ -26,6 +26,8 @@ export default {
   height: 100%;
   background: $loginPanel-background;
   overflow: hidden;
+  border: 1px solid #ccc;
+  position: absolute;
 }
 </style>
 
