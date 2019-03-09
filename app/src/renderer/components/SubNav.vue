@@ -39,7 +39,7 @@ export default {
         {
           id: 1,
           portrait: 'imgs/portrait--test.png',
-          title: '58同城',
+          title: '58同城58同城58同城58同城58同城58同城58同城',
           time: '16:40',
           message: '您有一条新消息',
           isActive: true

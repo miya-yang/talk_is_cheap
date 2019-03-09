@@ -75,26 +75,23 @@ export default {
 
 header {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   height: $titlebar-height;
   background: $titlebar-bgcolor;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
   position: fixed;
   z-index: 999;
   top: 0;
   left: 0;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 
   .title {
-    float: left;
     margin-left: 10px;
     color: #999;
     font-size: 14px;
     letter-spacing: 1px;
     font-weight: 400;
-  }
-
-  .control-buttons {
-    float: right;
   }
 }
 </style>

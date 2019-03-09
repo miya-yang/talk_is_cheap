@@ -41,26 +41,22 @@ export default {
 @import '@/scss/common.scss';
 
 .chat-item {
+  display: flex;
   list-style: none;
   width: 100%;
   height: 65px;
-  padding: 12.5px 20px;
+  padding: 12.5px 10px;
   cursor: default;
   -webkit-user-select: none;
 
-  .avatar {
-    float: left;
-  }
-
   .chat-info {
-    display: block;
-    width: 100%;
-    padding-left: 50px;
+    flex: 1;
+    margin-left: 10px;
     position: relative;
 
     .chat-title {
       display: block;
-      width: 100px;
+      width: 120px;
       font-size: 14px;
       color: #000;
     }

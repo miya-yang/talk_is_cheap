@@ -1,7 +1,7 @@
 <template>
   <div class="left-nav remove-titlebar-content">
     <portrait class="portrait no-drag" title="测试名称" />
-    <nav-list class="nav-list no-drag" />
+    <nav-list class="no-drag" />
   </div>
 </template>
 
@@ -29,10 +29,6 @@ export default {
 
   .portrait {
     margin: 0 auto;
-  }
-
-  .nav-list {
-    margin-top: 50px;
   }
 }
 </style>

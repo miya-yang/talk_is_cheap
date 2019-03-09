@@ -68,19 +68,11 @@ export default {
 <style lang="scss" scoped>
 .nav-list {
   li {
-    margin: 20px auto;
-
     .nav-item {
-      display: block;
+      display: flex;
+      justify-content: center;
       color: #fff;
       margin: 20px 0;
-      
-      .icon {
-        display: block;
-        width: 30px;
-        height: 30px;
-        margin: 0 auto;
-      }
     }
   }
 }

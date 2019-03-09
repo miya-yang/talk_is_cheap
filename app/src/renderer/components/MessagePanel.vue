@@ -1,7 +1,7 @@
 <template>
   <div class="message-panel remove-titlebar-content">
     <div class="chat-title-panel">
-      <h2 class="chat-title single-line">2019届华信软件学院</h2>
+      <h2 class="chat-title single-line">2019届华信软件学院2019届华信软件学院</h2>
       <span class="chat-group-count">（256）</span>
     </div>
     <Split
@@ -88,6 +88,7 @@ export default {
     height: 53px;
     border-bottom: 1px solid #ccc;
     box-shadow: 0 1px 0 #ddd;
+    display: flex;
 
     .chat-group-count {
       -webkit-user-select: none;
@@ -98,7 +99,6 @@ export default {
       font-size: 24px;
       font-weight: 300;
       max-width: 80%;
-      float: left;
       padding: 8px 0 8px 30px;
       font-family: 'Microsoft YaHei';
       cursor: pointer;
@@ -116,15 +116,13 @@ export default {
     .chat-input-panel-menu {
       width: 100%;
       height: 40px;
-      padding-top: 5px;
-      padding-bottom: 5px;
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
 
       .send-message-btn {
-        float: right;
         margin-right: 10px;
-        margin-top: 3px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 0 20px;
       }
 
       .menu-list {
@@ -146,7 +144,7 @@ export default {
       outline: none;
       width: 100%;
       height: 100%;
-      padding: 10px 20px 0 20px;
+      padding: 5px 20px 0 20px;
       font-size: 16px;
       resize: none;
     }
