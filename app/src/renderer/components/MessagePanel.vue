@@ -10,8 +10,18 @@
       :max="system.panel.max"
       mode="vertical"
     >
-      <div class="chat-dialog" slot="top">
-      
+      <div class="chat-dialog scroll" slot="top">
+        <ul>
+          <chat-dialog-item 
+            v-for="(item) of chatList"
+            :key="item.id"
+            :userId="item.userId"
+            :portrait="item.portrait"
+            :message="item.message"
+            :time="item.time"
+            :username="item.username"
+          />
+        </ul>
       </div>
       <div class="chat-input-panel" slot="bottom">
         <div class="chat-input-panel-menu">
@@ -42,8 +52,12 @@
 </template>
 
 <script>
+import ChatDialogItem from '@/components/MainPages/Message/ChatDialogItem'
 export default {
   name: 'message-panel',
+  components: {
+    ChatDialogItem
+  },
   data () {
     return {
       system: {
@@ -64,7 +78,44 @@ export default {
             handleMethods: ''
           }
         ]
-      }
+      },
+      chatList: [
+        {
+          id: 1,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '晚上吃饭吗？',
+          time: '03.11 18:10'
+        },
+        {
+          id: 2,
+          userId: 'cba',
+          portrait: 'imgs/portrait--test.png',
+          message: '你是饭桶吗？',
+          time: '03.11 18:10'
+        },
+        {
+          id: 3,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '吃什么呢',
+          time: '03.11 18:10'
+        },
+        {
+          id: 4,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '吃什么呢',
+          time: '03.11 18:10'
+        },
+        {
+          id: 5,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '吃什么呢',
+          time: '03.11 18:10'
+        }
+      ]
     }
   },
   methods: {
@@ -103,6 +154,11 @@ export default {
       font-family: 'Microsoft YaHei';
       cursor: pointer;
     }
+  }
+  .chat-dialog {
+    padding: 20px;
+    height: 100%;
+    overflow: auto;
   }
   .chat-input-panel {
     background: #fff;

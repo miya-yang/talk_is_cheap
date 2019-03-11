@@ -23,7 +23,7 @@ export default {
     },
     message: {
       type: String,
-      default: '123'
+      default: ''
     },
     time: {
       type: String,
