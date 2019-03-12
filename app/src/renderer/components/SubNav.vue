@@ -26,6 +26,7 @@
           v-for="(item2) of item.list"
           :key="item2.id"
           :portrait="item2.portrait"
+          :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
         />
@@ -129,7 +130,7 @@ export default {
           list: [
             {
               id: 1,
-              portrait: 'imgs/portrait--test.png',
+              icon: 'md-person-add',
               title: '新的好友'
             }
           ]
@@ -199,7 +200,7 @@ export default {
   padding-left: calc(100vw - 100%);
 
   .carousel {
-    padding: 30px;
+    padding: 27px;
   }
 
   .sub-lists {

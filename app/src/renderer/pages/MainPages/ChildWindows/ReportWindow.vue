@@ -1,14 +1,14 @@
 <template>
   <div>
-    Child Window
+    Report Window
   </div>
 </template>
 
 <script>
 export default {
-  name: 'userinfo-window',
+  name: 'report-window',
   mounted () {
-    console.log('here is userinfo-window')
+    console.log('here is report-window')
   }
 }
 </script>

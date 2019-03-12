@@ -7,8 +7,10 @@ import LoginPage from '@/pages/LoginPages/Login'
 
 import MessagePage from '@/pages/MainPages/MessagePage'
 import FriendsPage from '@/pages/MainPages/FriendsPage'
+import MomentsPage from '@/pages/MainPages/MomentsPage'
 
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
+import ReportWindow from '@/pages/MainPages/ChildWindows/ReportWindow'
 
 Vue.use(Router)
 
@@ -38,20 +40,23 @@ export default new Router({
           path: '/friends',
           name: 'friends-page',
           component: FriendsPage
+        },
+        {
+          path: '/moments',
+          name: 'moments-page',
+          component: MomentsPage
         }
       ]
     },
     {
-      path: '/window',
-      name: 'child-window',
-      component: UserInfoWindow,
-      children: [
-        {
-          path: 'userinfo',
-          name: 'userinfo-window',
-          component: UserInfoWindow
-        }
-      ]
+      path: '/window/userinfo',
+      name: 'userinfo-window',
+      component: UserInfoWindow
+    },
+    {
+      path: '/window/report',
+      name: 'report-window',
+      component: ReportWindow
     },
     {
       path: '*',

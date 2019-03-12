@@ -20,6 +20,8 @@ export default {
   font-size: 12px;
   color: #bbb;
   padding: 5px 20px;
+  -webkit-user-select: none;
+  cursor: default;
 }
 </style>
 

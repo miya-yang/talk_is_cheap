@@ -131,6 +131,8 @@ export default {
 <style lang="scss" scoped>
 @import '@/scss/common.scss';
 .message-panel {
+  display: flex;
+  flex-direction: column;
   background: #eee;
   position: relative;
   overflow: hidden;
@@ -156,13 +158,15 @@ export default {
     }
   }
   .chat-dialog {
+    flex: 1;
     padding: 20px;
     height: 100%;
     overflow: auto;
   }
   .chat-input-panel {
+    display: flex;
+    flex-direction: column;
     background: #fff;
-    position: absolute;
     height: 100%;
     bottom: 0;
     left: 0;
@@ -196,10 +200,11 @@ export default {
     }
 
     .chat-input-panel-textarea {
+      flex: 1;
       border: none;
       outline: none;
       width: 100%;
-      height: 100%;
+      overflow: auto;
       padding: 5px 20px 0 20px;
       font-size: 16px;
       resize: none;

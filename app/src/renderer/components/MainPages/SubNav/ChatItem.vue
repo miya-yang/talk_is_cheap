@@ -1,6 +1,6 @@
 <template>
   <li class="chat-item" :class="{ 'chat-active': isActive }">
-    <Avatar :src="portrait" class="avatar" icon="ios-person" size="large" shape="square" />
+    <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
     <div class="chat-info">
       <span class="chat-title single-line">{{ title }}</span>
       <span class="chat-message single-line">{{ message }}</span>
@@ -32,6 +32,10 @@ export default {
     isActive: {
       type: Boolean,
       default: false
+    },
+    icon: {
+      type: String,
+      default: 'ios-person'
     }
   }
 }

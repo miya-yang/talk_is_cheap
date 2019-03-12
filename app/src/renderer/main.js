@@ -4,7 +4,7 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
-import { Button, Icon, Input, Avatar, Split, Form, FormItem } from 'iview'
+import { Button, Icon, Input, Avatar, Split, Form, FormItem, Card, CellGroup, Cell } from 'iview'
 import 'iview/dist/styles/iview.css'
 
 Vue.component('Button', Button)
@@ -14,6 +14,9 @@ Vue.component('Avatar', Avatar)
 Vue.component('Split', Split)
 Vue.component('Form', Form)
 Vue.component('FormItem', FormItem)
+Vue.component('Card', Card)
+Vue.component('CellGroup', CellGroup)
+Vue.component('Cell', Cell)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios

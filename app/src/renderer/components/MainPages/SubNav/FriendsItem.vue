@@ -1,6 +1,6 @@
 <template>
   <li class="friends-item" :class="{ 'friends-active': isActive }">
-    <Avatar :src="portrait" class="avatar" icon="ios-person" size="large" shape="square" />
+    <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
     <div class="friends-info">
       <span class="friends-title single-line">{{ title }}</span>
     </div>
@@ -22,6 +22,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    icon: {
+      type: String,
+      default: 'ios-person'
     }
   }
 }

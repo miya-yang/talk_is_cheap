@@ -10,6 +10,7 @@
         <p class="intro">
           {{ intro }}
         </p>
+        <Button class="delete-friends-btn" type="error">删除该好友</Button>
       </div>
       <img :src="portrait" class="avatar" />
     </header>
@@ -107,6 +108,10 @@ export default {
     padding-bottom: 30px;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+  }
+
+  .delete-friends-btn {
+    margin-top: 10px;
   }
 
   .send-message-btn {

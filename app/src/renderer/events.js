@@ -15,8 +15,8 @@ const events = {
     currWin.setResizable(true)
     currWin.setMinimumSize(750, 600)
   },
-  handleCreateUserInfoWindow () {
-    ipcRenderer.send('createUserInfoWindow')
+  handleCreateWindow (name) {
+    ipcRenderer.send(`createWindow`, name)
   }
 }
 

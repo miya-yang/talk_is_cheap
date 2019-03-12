@@ -10,7 +10,7 @@ export default {
   name: 'portrait',
   methods: {
     handleOpenUserInfoWindow () {
-      events.handleCreateUserInfoWindow()
+      events.handleCreateWindow('UserInfoWindow')
     }
   }
 }

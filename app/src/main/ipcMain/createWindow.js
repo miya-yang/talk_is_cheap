@@ -6,7 +6,6 @@ import {
 } from 'electron'
 
 function createUserInfoWindow () {
-  console.log('createPortraitWindow function start...')
   let userInfoWindow = new BrowserWindow({
     height: 480,
     width: 330,
@@ -20,14 +19,33 @@ function createUserInfoWindow () {
     show: true
   })
   userInfoWindow.loadURL(`${global.__winURL}/#/window/userInfo`)
-  console.log(`${global.__winURL}/window/userinfo`)
-  let browserArr = BrowserWindow.getAllWindows()
-  console.log('userinfoWindow id: ', userInfoWindow)
-  console.log('browserArr: ', browserArr)
 }
 
-ipcMain.on('createUserInfoWindow', (event, arg) => {
-  console.log('ipcMain: createUserInfoWindow start..')
-  createUserInfoWindow()
-  console.log('ipcMain: createUserInfoWindow complete')
+function createReportWindow () {
+  let reportWindow = new BrowserWindow({
+    height: 500,
+    width: 500,
+    useContentSize: true,
+    title: '举报系统',
+    center: true,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false,
+    transparent: true,
+    show: true
+  })
+  reportWindow.loadURL(`${global.__winURL}/#/window/report`)
+}
+
+ipcMain.on('createWindow', (event, arg) => {
+  switch (arg) {
+    case 'UserInfoWindow':
+      createUserInfoWindow()
+      break
+    case 'ReportWindow':
+      createReportWindow()
+      break
+    default:
+      break
+  }
 })
