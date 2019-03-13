@@ -1,15 +1,15 @@
 <template>
-  <li class="friends-item" :class="{ 'friends-active': isActive }">
+  <li class="lists-item" :class="{ 'lists-active': isActive }">
     <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
-    <div class="friends-info">
-      <span class="friends-title single-line">{{ title }}</span>
+    <div class="lists-info">
+      <span class="lists-title single-line">{{ title }}</span>
     </div>
   </li>
 </template>
 
 <script>
 export default {
-  name: 'friends-item',
+  name: 'lists-item',
   props: {
     portrait: {
       type: String,
@@ -34,7 +34,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/scss/common.scss';
 
-.friends-item {
+.lists-item {
   display: flex;
   list-style: none;
   width: 100%;
@@ -43,11 +43,11 @@ export default {
   cursor: default;
   -webkit-user-select: none;
 
-  .friends-info {
+  .lists-info {
     flex: 1;
     margin-left: 10px;
 
-    .friends-title {
+    .lists-title {
       display: block;
       width: 160px;
       font-size: 16px;
@@ -57,11 +57,11 @@ export default {
   }
 }
 
-.friends-item:hover {
+.lists-item:hover {
   background: #eaeaea;
 }
 
-.friends-active {
+.lists-active {
   background: #d3d3d3 !important;
 }
 </style>

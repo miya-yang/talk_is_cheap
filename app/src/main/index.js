@@ -5,6 +5,11 @@ import {
   BrowserWindow
 } from 'electron'
 
+global.__onlyWindow = {
+  userInfo: false,
+  report: false
+}
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -80,3 +85,4 @@ app.on('ready', () => {
  */
 
 require('./ipcMain/createWindow')
+require('./ipcMain/controlWindow')

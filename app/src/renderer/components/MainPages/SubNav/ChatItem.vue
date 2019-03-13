@@ -1,5 +1,5 @@
 <template>
-  <li class="chat-item" :class="{ 'chat-active': isActive }">
+  <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive }" @contextmenu="hcRightChatItem" :chat-id="chatId">
     <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
     <div class="chat-info">
       <span class="chat-title single-line">{{ title }}</span>
@@ -36,6 +36,17 @@ export default {
     icon: {
       type: String,
       default: 'ios-person'
+    },
+    chatId: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    hcRightChatItem (e) {
+      let mouseX = `${e.clientX}px`
+      let mouseY = `${e.clientY}px`
+      this.$store.dispatch('showChatRightHandMenu', { mouseX, mouseY })
     }
   }
 }

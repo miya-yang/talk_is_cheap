@@ -33,7 +33,7 @@
             >
               <a 
                 href="javascript:;"
-                @click="handleListenCall(item.handleMethods)"
+                @click="hListenCall(item.hMethods)"
               >
                 <Icon 
                   class="menu-item" 
@@ -70,12 +70,12 @@ export default {
           {
             title: '表情',
             icon: 'ios-outlet-outline',
-            handleMethods: ''
+            hMethods: ''
           },
           {
             title: '历史记录',
             icon: 'ios-chatboxes-outline',
-            handleMethods: ''
+            hMethods: ''
           }
         ]
       },
@@ -119,7 +119,7 @@ export default {
     }
   },
   methods: {
-    handleListenCall (methods) {
+    hListenCall (methods) {
       if (typeof methods === 'string' && methods !== '') {
         this[methods]()
       }

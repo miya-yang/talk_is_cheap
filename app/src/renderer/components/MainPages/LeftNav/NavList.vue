@@ -10,7 +10,7 @@
           class="nav-item" 
           :to="{ name: item.linkName }" 
           :title="item.title"
-          @click.native="handleToggleIcon(index)"
+          @click.native="hToggleIcon(index)"
         >
           <Icon
             class="icon"
@@ -24,7 +24,7 @@
           class="nav-item" 
           :to="{ name: item.linkName }" 
           :title="item.title"
-          @click.stop="handleListenCall(item.function)"
+          @click.stop="hListenCall(item.function)"
           :id="item.name"
         >
           <Icon
@@ -109,7 +109,7 @@ export default {
             name: 'more-item',
             icon: 'md-list',
             activeIcon: 'md-list',
-            function: 'handleShowMoreMenu',
+            function: 'hShowMoreMenu',
             active: false
           }
         ]
@@ -117,7 +117,7 @@ export default {
     }
   },
   methods: {
-    handleToggleIcon (index) {
+    hToggleIcon (index) {
       for (let i = 0; i < this.system.menuList.length; i++) {
         let obj = this.system.menuList[i]
         if (i === index) {
@@ -129,12 +129,12 @@ export default {
         }
       }
     },
-    handleListenCall (methods) {
+    hListenCall (methods) {
       if (typeof methods === 'string' && methods !== '') {
         this[methods]()
       }
     },
-    handleShowMoreMenu () {
+    hShowMoreMenu () {
       this.$store.getters.MoreMenu ? this.$store.dispatch('hideMoreMenu') : this.$store.dispatch('showMoreMenu')
     }
   }

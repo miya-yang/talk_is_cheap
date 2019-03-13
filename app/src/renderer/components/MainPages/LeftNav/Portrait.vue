@@ -1,5 +1,5 @@
 <template>
-  <a class="portrait-component" href="javascript:;" @click="handleOpenUserInfoWindow">
+  <a class="portrait-component" href="javascript:;" @click="hOpenUserInfoWindow">
     <img class="portrait-img" src="../../../assets/test/portrait.png" alt="">
   </a>
 </template>
@@ -9,8 +9,8 @@ import events from '../.././../events.js'
 export default {
   name: 'portrait',
   methods: {
-    handleOpenUserInfoWindow () {
-      events.handleCreateWindow('UserInfoWindow')
+    hOpenUserInfoWindow () {
+      events.hCreateWindow('UserInfoWindow')
     }
   }
 }

@@ -8,6 +8,10 @@ import LoginPage from '@/pages/LoginPages/Login'
 import MessagePage from '@/pages/MainPages/MessagePage'
 import FriendsPage from '@/pages/MainPages/FriendsPage'
 import MomentsPage from '@/pages/MainPages/MomentsPage'
+import ActivityPage from '@/pages/MainPages/ActivityPage'
+import CirclePage from '@/pages/MainPages/CirclePage'
+import MatchPage from '@/pages/MainPages/MatchPage'
+import RankingPage from '@/pages/MainPages/RankingPage'
 
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
 import ReportWindow from '@/pages/MainPages/ChildWindows/ReportWindow'
@@ -18,7 +22,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'root-page',
+      name: 'login-page',
       component: LoginPage
     },
     {
@@ -45,6 +49,26 @@ export default new Router({
           path: '/moments',
           name: 'moments-page',
           component: MomentsPage
+        },
+        {
+          path: '/activity',
+          name: 'activity-page',
+          component: ActivityPage
+        },
+        {
+          path: '/circle',
+          name: 'circle-page',
+          component: CirclePage
+        },
+        {
+          path: '/match',
+          name: 'match-page',
+          component: MatchPage
+        },
+        {
+          path: '/ranking',
+          name: 'ranking-page',
+          component: RankingPage
         }
       ]
     },

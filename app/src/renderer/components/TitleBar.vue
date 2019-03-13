@@ -8,13 +8,14 @@
         iconName="md-remove"
         :iconColor="iconColor"
         hoverTitle="最小化"
-        @click="handleClick"
+        @click="hcControlBtns('min')"
         v-if="hasMinimumBtn"
       ></control-button>
       <control-button
-        iconName="md-browsers"
+        :iconName="scaleIconName"
         :iconColor="iconColor"
-        @click="handleClick"
+        :hoverTitle="scaleHoverTitle"
+        @click="hcControlBtns('scale')"
         v-if="hasScaleBtn"
       ></control-button>
       <control-button
@@ -22,7 +23,7 @@
         iconName="md-close"
         :iconColor="iconColor"
         hoverTitle="关闭"
-        @click="handleClick"
+        @click="hcControlBtns('close')"
         v-if="hasCloseBtn"
       ></control-button>
     </div>
@@ -31,6 +32,7 @@
 
 <script>
 import ControlButton from '@/components/TitleBar/ControlButton'
+import events from '../events.js'
 export default {
   name: 'title-bar',
   components: {
@@ -38,12 +40,16 @@ export default {
   },
   data () {
     return {
-      iconColor: '#fff'
+      iconColor: '#fff',
+      isMax: false
     }
   },
   methods: {
-    handleClick () {
-      alert('我被点击了')
+    hcControlBtns (operator) {
+      if (operator === 'scale') {
+        this.isMax = !this.isMax
+      }
+      events.hWindowControl({ name: operator, isMain: this.isMain, windowName: this.windowName })
     }
   },
   props: {
@@ -62,10 +68,30 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    isColorDefault: {
+      type: Boolean,
+      default: true
+    },
+    isMain: {
+      type: Boolean,
+      default: true
+    },
+    windowName: {
+      type: String,
+      default: ''
     }
   },
-  watch: {
-    // TODO: 监听路由改变菜单按钮颜色至 #333
+  computed: {
+    scaleHoverTitle () {
+      return this.isMax ? '向下还原' : '最大化'
+    },
+    scaleIconName () {
+      return this.isMax ? 'ios-browsers' : 'md-browsers'
+    }
+  },
+  mounted () {
+    this.iconColor = this.isColorDefault ? '#fff' : '#333'
   }
 }
 </script>

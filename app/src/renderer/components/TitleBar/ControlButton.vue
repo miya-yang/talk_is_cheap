@@ -1,7 +1,7 @@
 <template>
   <a 
     class="control-button" 
-    @click="handleClickEvent"
+    @click="hcEvent"
     :class="{ 'default-hover': hoverType === 'default', 'warning-hover': hoverType === 'warning' }"
     :title="hoverTitle"
   >
@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    handleClickEvent () {
+    hcEvent () {
       this.$emit('click')
     }
   }

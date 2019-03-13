@@ -5,10 +5,12 @@
       content="这里显示轮播消息"
       type="danger"
     />
+    <!-- message-page start -->
     <ul class="sub-lists scroll" v-if="router === 'message-page'">
       <chat-item
         v-for="(item) of chatList"
         :key="item.id"
+        :chatId="item.id"
         :portrait="item.portrait"
         :title="item.title"
         :time="item.time"
@@ -16,13 +18,15 @@
         :isActive="item.isActive"
       />
     </ul>
+    <!-- message-page end -->
+    <!-- friends-page start -->
     <ul class="sub-lists scroll" v-else-if="router === 'friends-page'">
       <template v-for="(item) of friendsList">
         <sub-title 
           :key="item.id"
           :title="item.subTitle"
         />
-        <friends-item
+        <lists-item
           v-for="(item2) of item.list"
           :key="item2.id"
           :portrait="item2.portrait"
@@ -32,19 +36,105 @@
         />
       </template>
     </ul>
+    <!-- friends-page end -->
+    <!-- moments-page start -->
+    <ul class="sub-lists scroll" v-else-if="router === 'moments-page'">
+      <template v-for="(item) of momentsList">
+        <sub-title 
+          :key="item.id"
+          :title="item.subTitle"
+        />
+        <lists-item 
+          v-for="(item2) of item.list"
+          :key="item2.id"
+          :icon="item2.icon"
+          :title="item2.title"
+          :isActive="item2.isActive"
+        />
+      </template>
+    </ul>
+    <!-- moments-page end -->
+    <!-- activity-page start -->
+    <ul class="sublists scroll" v-else-if="router === 'activity-page'">
+      <template v-for="(item) of activityList">
+        <sub-title 
+          :key="item.id"
+          :title="item.subTitle"
+        />
+        <lists-item 
+          v-for="(item2) of item.list"
+          :key="item2.id"
+          :icon="item2.icon"
+          :title="item2.title"
+          :isActive="item2.isActive"
+        />
+      </template>
+    </ul>
+    <!-- activity-page end -->
+    <!-- circle-page start -->
+    <ul class="sublists scroll" v-else-if="router === 'circle-page'">
+      <template v-for="(item) of circleList">
+        <sub-title 
+          :key="item.id"
+          :title="item.subTitle"
+        />
+        <lists-item 
+          v-for="(item2) of item.list"
+          :key="item2.id"
+          :icon="item2.icon"
+          :title="item2.title"
+          :isActive="item2.isActive"
+        />
+      </template>
+    </ul>
+    <!-- circle-page end -->
+    <!-- match-page start -->
+    <ul class="sublists scroll" v-else-if="router === 'match-page'">
+      <template v-for="(item) of matchList">
+        <sub-title 
+          :key="item.id"
+          :title="item.subTitle"
+        />
+        <lists-item 
+          v-for="(item2) of item.list"
+          :key="item2.id"
+          :icon="item2.icon"
+          :title="item2.title"
+          :isActive="item2.isActive"
+        />
+      </template>
+    </ul>
+    <!-- match-page end -->
+    <!-- ranking-page start -->
+    <ul class="sublists scroll" v-else-if="router === 'ranking-page'">
+      <template v-for="(item) of rankingList">
+        <sub-title 
+          :key="item.id"
+          :title="item.subTitle"
+        />
+        <lists-item 
+          v-for="(item2) of item.list"
+          :key="item2.id"
+          :icon="item2.icon"
+          :title="item2.title"
+          :isActive="item2.isActive"
+        />
+      </template>
+    </ul>
+    <!-- ranking-page end -->
   </div>
 </template>
 
 <script>
 import ChatItem from '@/components/MainPages/SubNav/ChatItem'
-import FriendsItem from '@/components/MainPages/SubNav/FriendsItem'
+import ListsItem from '@/components/MainPages/SubNav/ListsItem'
 import SubTitle from '@/components/MainPages/SubNav/SubTitle'
 import Carousel from '@/components/MainPages/SubNav/Carousel'
 export default {
   name: 'sub-nav',
   components: {
     ChatItem,
-    FriendsItem,
+    ListsItem,
     SubTitle,
     Carousel
   },
@@ -52,7 +142,7 @@ export default {
     return {
       chatList: [
         {
-          id: 1,
+          id: '1',
           portrait: 'imgs/portrait--test.png',
           title: '58同城58同城58同城58同城58同城58同城58同城',
           time: '16:40',
@@ -60,63 +150,63 @@ export default {
           isActive: true
         },
         {
-          id: 2,
+          id: '2',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 3,
+          id: '3',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 4,
+          id: '4',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 5,
+          id: '5',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 6,
+          id: '6',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 7,
+          id: '7',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 8,
+          id: '8',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 9,
+          id: '9',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
           message: '您的offer已经发送到您的邮箱中了'
         },
         {
-          id: 10,
+          id: '10',
           portrait: 'imgs/portrait--test.png',
           title: '58同城',
           time: '14:40',
@@ -125,55 +215,189 @@ export default {
       ],
       friendsList: [
         {
-          id: 1,
+          id: '1',
           subTitle: '新的好友',
           list: [
             {
-              id: 1,
+              id: '1-1',
               icon: 'md-person-add',
-              title: '新的好友'
+              title: '添加好友'
+            },
+            {
+              id: '1-2',
+              icon: 'md-person',
+              title: '好友请求'
             }
           ]
         },
         {
-          id: 2,
+          id: '2',
           subTitle: '好友列表',
           list: [
             {
-              id: 2,
+              id: '2-1',
               portrait: 'imgs/portrait--test.png',
               title: '58 测试名称 前端58 测试名称 前端',
               isActive: true
             },
             {
-              id: 3,
+              id: '2-2',
               portrait: 'imgs/portrait--test.png',
               title: '58 测试名称 前端'
+            }
+          ]
+        },
+        {
+          id: '3',
+          subTitle: '群组列表',
+          list: [
+            {
+              id: '3-1',
+              portrait: 'imgs/portrait--test.png',
+              title: '58 商业产品技术部前端'
+            }
+          ]
+        }
+      ],
+      momentsList: [
+        {
+          id: '4',
+          subTitle: '我的',
+          list: [
+            {
+              id: '4-1',
+              icon: 'ios-send',
+              title: '发布动态'
             },
             {
-              id: 3,
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
+              id: '4-2',
+              icon: 'md-text',
+              title: '新的提醒'
+            }
+          ]
+        },
+        {
+          id: '5',
+          subTitle: '好友',
+          list: [
+            {
+              id: '5-1',
+              icon: 'ios-quote',
+              title: '最新动态'
+            }
+          ]
+        }
+      ],
+      activityList: [
+        {
+          id: '6',
+          subTitle: '我的',
+          list: [
+            {
+              id: '6-1',
+              icon: 'ios-share',
+              title: '发起活动'
             },
             {
-              id: 3,
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
+              id: '6-2',
+              icon: 'ios-wifi',
+              title: '我发起的'
             },
             {
-              id: 3,
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
+              id: '6-3',
+              icon: 'ios-stats',
+              title: '我参与的'
+            }
+          ]
+        },
+        {
+          id: '7',
+          subTitle: '所有',
+          list: [
+            {
+              id: '7-1',
+              icon: 'ios-walk',
+              title: '所有活动'
+            }
+          ]
+        }
+      ],
+      circleList: [
+        {
+          id: '8',
+          subTitle: '我的',
+          list: [
+            {
+              id: '8-1',
+              icon: 'ios-share',
+              title: '我发布的'
             },
             {
-              id: 3,
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
+              id: '8-2',
+              icon: 'md-text',
+              title: '新的回复'
             },
             {
-              id: 3,
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
+              id: '8-3',
+              icon: 'md-contacts',
+              title: '我的关注'
+            },
+            {
+              id: '8-4',
+              icon: 'ios-people',
+              title: '我的粉丝'
+            }
+          ]
+        },
+        {
+          id: '9',
+          subTitle: '所有',
+          list: [
+            {
+              id: '9-1',
+              icon: 'logo-chrome',
+              title: '所有圈子'
+            }
+          ]
+        }
+      ],
+      matchList: [
+        {
+          id: '10',
+          subTitle: '匹配',
+          list: [
+            {
+              id: '10-1',
+              icon: 'ios-heart',
+              title: '猜你喜欢'
+            }
+          ]
+        }
+      ],
+      rankingList: [
+        {
+          id: '11',
+          subTitle: '排行榜',
+          list: [
+            {
+              id: '11-1',
+              icon: 'ios-trending-up',
+              title: '积分排行榜'
+            },
+            {
+              id: '11-2',
+              icon: 'ios-trending-up',
+              title: '圈子排行榜'
+            },
+            {
+              id: '11-3',
+              icon: 'ios-trending-up',
+              title: '动态排行榜'
+            },
+            {
+              id: '11-4',
+              icon: 'ios-trending-up',
+              title: '活动排行榜'
             }
           ]
         }

@@ -6,19 +6,23 @@ import {
 } from 'electron'
 
 function createUserInfoWindow () {
-  let userInfoWindow = new BrowserWindow({
-    height: 480,
-    width: 330,
-    useContentSize: true,
-    title: '个人资料',
-    center: true,
-    resizable: false,
-    maximizable: false,
-    fullscreenable: false,
-    transparent: true,
-    show: true
-  })
-  userInfoWindow.loadURL(`${global.__winURL}/#/window/userInfo`)
+  if (!global.__onlyWindow.userInfo) {
+    let userInfoWindow = new BrowserWindow({
+      height: 480,
+      width: 330,
+      useContentSize: true,
+      title: '个人资料',
+      center: true,
+      frame: false,
+      resizable: false,
+      maximizable: false,
+      fullscreenable: false,
+      transparent: true,
+      show: true
+    })
+    userInfoWindow.loadURL(`${global.__winURL}/#/window/userInfo`)
+    global.__onlyWindow.userInfo = true
+  }
 }
 
 function createReportWindow () {
@@ -35,6 +39,7 @@ function createReportWindow () {
     show: true
   })
   reportWindow.loadURL(`${global.__winURL}/#/window/report`)
+  global.__onlyWindow.report = true
 }
 
 ipcMain.on('createWindow', (event, arg) => {
