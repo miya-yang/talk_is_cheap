@@ -1,6 +1,10 @@
 <template>
   <div class="left-nav remove-titlebar-content">
-    <portrait class="portrait no-drag" title="测试名称" />
+    <portrait 
+      class="portrait no-drag" 
+      :title="nickname" 
+      :portrait="portrait"
+    />
     <nav-list class="no-drag" />
   </div>
 </template>
@@ -13,6 +17,16 @@ export default {
   components: {
     Portrait,
     NavList
+  },
+  data () {
+    return {
+      nickname: '',
+      portrait: ''
+    }
+  },
+  mounted () {
+    this.nickname = sessionStorage.getItem('_nickname')
+    this.portrait = sessionStorage.getItem('_portrait')
   }
 }
 </script>

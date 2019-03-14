@@ -26,20 +26,23 @@ function createUserInfoWindow () {
 }
 
 function createReportWindow () {
-  let reportWindow = new BrowserWindow({
-    height: 500,
-    width: 500,
-    useContentSize: true,
-    title: '举报系统',
-    center: true,
-    resizable: false,
-    maximizable: false,
-    fullscreenable: false,
-    transparent: true,
-    show: true
-  })
-  reportWindow.loadURL(`${global.__winURL}/#/window/report`)
-  global.__onlyWindow.report = true
+  if (!global.__onlyWindow.report) {
+    let reportWindow = new BrowserWindow({
+      height: 500,
+      width: 500,
+      useContentSize: true,
+      title: '举报系统',
+      center: true,
+      frame: false,
+      resizable: false,
+      maximizable: false,
+      fullscreenable: false,
+      transparent: true,
+      show: true
+    })
+    reportWindow.loadURL(`${global.__winURL}/#/window/report`)
+    global.__onlyWindow.report = true
+  }
 }
 
 ipcMain.on('createWindow', (event, arg) => {

@@ -55,6 +55,9 @@ export default {
     this.hHideMoreMenu()
     this.hShowChatRightHandMenu()
   },
+  mounted () {
+    this.listenRoute()
+  },
   data () {
     return {
       router: 'message-page',
@@ -99,9 +102,6 @@ export default {
     showChatRightHandMenu () {
       return this.$store.state.ShowMenu.ChatRightHandMenu
     }
-  },
-  mounted () {
-    this.listenRoute()
   },
   watch: {
     $route () {

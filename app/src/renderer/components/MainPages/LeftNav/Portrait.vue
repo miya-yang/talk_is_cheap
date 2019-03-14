@@ -1,6 +1,6 @@
 <template>
   <a class="portrait-component" href="javascript:;" @click="hOpenUserInfoWindow">
-    <img class="portrait-img" src="../../../assets/test/portrait.png" alt="">
+    <img class="portrait-img" :src="portrait" alt="">
   </a>
 </template>
 
@@ -8,6 +8,12 @@
 import events from '../.././../events.js'
 export default {
   name: 'portrait',
+  props: {
+    portrait: {
+      type: String,
+      default: ''
+    }
+  },
   methods: {
     hOpenUserInfoWindow () {
       events.hCreateWindow('UserInfoWindow')

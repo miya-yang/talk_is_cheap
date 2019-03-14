@@ -6,8 +6,8 @@
     </title-bar>
     <img class="login-background" src="../../assets/skin/login-background.jpg">
     <div class="userinfo-inputs login-pages-content">
-      <Input class="input no-drag" autofocus v-model.trim="users.username" placeholder="账号" clearable />
-      <Input class="input no-drag" type="password" v-model.trim="users.password" placeholder="密码" clearable />
+      <Input class="input no-drag" autofocus v-model.trim="users.username" placeholder="TIC账号 / 邮箱" :maxlength="50" clearable />
+      <Input class="input no-drag" type="password" v-model.trim="users.password" placeholder="密码" :maxlength="50" clearable @keyup.enter.native="hLoginBtn" />
       <Button class="login-btn no-drag" type="success" long @click="hLoginBtn">登录</Button>
     </div>
     <div class="bottom-menubar login-pages-content">
@@ -36,8 +36,23 @@ export default {
   },
   methods: {
     hLoginBtn () {
-      this.$router.push({ name: 'message-page' })
-      events.hLoginEvent()
+      // 验证数据
+      if (this.users.username === '' || this.users.password === '') {
+        this.$Message.error('请输入账号或密码')
+        return false
+      }
+      this.$http.post('?m=user&c=user&a=login', {
+        username: this.users.username,
+        password: this.users.password
+      }).then(res => {
+        // 登录成功
+        sessionStorage.setItem('_account', res.data.account)
+        sessionStorage.setItem('_nickname', res.data.nickname)
+        sessionStorage.setItem('_id', res.data.id)
+        sessionStorage.setItem('_portrait', res.data.portrait)
+        this.$router.push({ name: 'message-page' })
+        events.hLoginEvent()
+      })
     }
   }
 }

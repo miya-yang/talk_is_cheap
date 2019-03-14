@@ -1,0 +1,22 @@
+{
+  "code":0,
+  "message":"登录成功",
+  "data":{
+      "id":"de82c1d5-ad3b-2ebb-5681-0cc0770c6561",
+      "account":"903452785",
+      "email":"1239236430@qq.com",
+      "nickname":"wendy",
+      "sex":"女",
+      "portrait":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552567891374&di=eee6ab450a91d91fdd5f4c6b84955766&imgtype=0&src=http%3A%2F%2F01imgmini.eastday.com%2Fmobile%2F20180819%2F20180819211345_d95256d98c4df4d318ea5e8d9cd8806d_22.jpeg",
+      "score":"0",
+      "province":"天津市",
+      "city":"塘沽区",
+      "phone":"15510843983",
+      "birthday":"1998-03-16",
+      "constellation":"双鱼座",
+      "describe":"人生真是寂寞如雪啊",
+      "createtime":"1552532797",
+      "createtimes":"2019-03-14 11:06:37",
+      "status":"1"
+  }
+}

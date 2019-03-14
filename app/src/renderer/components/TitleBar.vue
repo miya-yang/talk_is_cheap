@@ -48,8 +48,19 @@ export default {
     hcControlBtns (operator) {
       if (operator === 'scale') {
         this.isMax = !this.isMax
+      } else if (operator === 'close' && this.windowName === '') {
+        if (window.confirm('真的要退出TIC吗？')) {
+          this.$http.post('?m=user&c=user&a=logout').then(res => {
+            if (res.code === 0) {
+              events.hWindowControl({ name: operator, isMain: this.isMain, windowName: this.windowName })
+            }
+          })
+        } else {
+          return false
+        }
+      } else {
+        events.hWindowControl({ name: operator, isMain: this.isMain, windowName: this.windowName })
       }
-      events.hWindowControl({ name: operator, isMain: this.isMain, windowName: this.windowName })
     }
   },
   props: {
@@ -118,6 +129,7 @@ header {
     font-size: 14px;
     letter-spacing: 1px;
     font-weight: 400;
+    line-height: $titlebar-height;
   }
 }
 </style>
