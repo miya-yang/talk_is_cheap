@@ -45,13 +45,16 @@ export default {
         username: this.users.username,
         password: this.users.password
       }).then(res => {
-        // 登录成功
-        sessionStorage.setItem('_account', res.data.account)
-        sessionStorage.setItem('_nickname', res.data.nickname)
-        sessionStorage.setItem('_id', res.data.id)
-        sessionStorage.setItem('_portrait', res.data.portrait)
-        this.$router.push({ name: 'message-page' })
-        events.hLoginEvent()
+        // console.log('data', res.data)
+        if (res.code === 0) {
+          // 登录成功
+          this.$store.dispatch('setUserNickname', res.data.nickname)
+          this.$store.dispatch('setUserAccount', res.data.account)
+          this.$store.dispatch('setUserId', res.data.id)
+          this.$store.dispatch('setUserPortrait', res.data.portrait)
+          this.$router.push({ name: 'message-page' })
+          events.hLoginEvent()
+        }
       })
     }
   }

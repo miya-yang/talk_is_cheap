@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import events from '../.././../events.js'
+import events from '../../../events.js'
 export default {
   name: 'portrait',
   props: {

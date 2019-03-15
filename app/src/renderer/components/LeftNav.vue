@@ -25,8 +25,8 @@ export default {
     }
   },
   mounted () {
-    this.nickname = sessionStorage.getItem('_nickname')
-    this.portrait = sessionStorage.getItem('_portrait')
+    this.nickname = this.$store.getters.userNickname
+    this.portrait = this.$store.getters.userPortrait
   }
 }
 </script>

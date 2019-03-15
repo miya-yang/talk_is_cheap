@@ -4,11 +4,15 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
-import { Button, Icon, Input, Avatar, Split, Form, FormItem, Card, CellGroup, Cell, Upload, DatePicker, RadioGroup, Radio, Select, Option, Message } from 'iview'
+import { Button, Icon, Input, Avatar, Split, Form, FormItem, Card, CellGroup, Cell, Upload, DatePicker, RadioGroup, Radio, Select, Option, Message, Spin } from 'iview'
 import 'iview/dist/styles/iview.css'
-import Mock from './mock'
+import qs from 'qs'
+import Loading from './plugins/Loading/index'
+// import Mock from './mock'
 
-Vue.use(Mock)
+// Vue.use(Mock)
+
+Vue.use(Loading)
 
 Vue.component('Button', Button)
 Vue.component('Icon', Icon)
@@ -26,24 +30,40 @@ Vue.component('RadioGroup', RadioGroup)
 Vue.component('Radio', Radio)
 Vue.component('Select', Select)
 Vue.component('Option', Option)
+Vue.component('Spin', Spin)
 
 Vue.prototype.$Message = Message
+Vue.prototype.$qs = qs
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.baseURL = 'http://www.codergzw.com/tic/'
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
+// 统一进行请求处理
+axios.interceptors.request.use((config) => {
+  Vue.$Loading.show()
+  config.method === 'post'
+    ? config.data = qs.stringify({...config.data})
+    : config.params = {...config.params}
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  return config
+}, error => {
+  Vue.$Message.error(error)
+  Promise.reject(error)
+})
+
 // 统一进行错误处理
 axios.interceptors.response.use((response) => {
+  Vue.$Loading.hide()
   if (response.data.code !== 0) {
     Message.error(response.data.message)
+    return Promise.reject(response)
   } else {
-    return Promise.resolve(response.data)
+    return response.data
   }
-}, (error) => {
-  Message.error(error.message)
-  return Promise.reject(error.response)
+}, (reject) => {
+  Message.error('请求出现错误，请查看请求信息')
 })
 
 /* eslint-disable no-new */

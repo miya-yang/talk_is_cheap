@@ -13,13 +13,9 @@
         class="portrait"
         ref="upload"
         :show-upload-list="false"
-        :default-file-list="defaultList"
-        :on-success="handleSuccess"
+        :on-success="hUploadPortraitSuccess"
         :format="['jpg','jpeg','png']"
         :max-size="2048"
-        :on-format-error="handleFormatError"
-        :on-exceeded-size="handleMaxSize"
-        :before-upload="handleBeforeUpload"
         type="drag"
         action="//jsonplaceholder.typicode.com/posts/">
         <div class="icon" v-if="formItem.portrait === ''">
@@ -33,10 +29,10 @@
         </h1>
         <Form class="form" :model="formItem" :label-width="40">
           <FormItem label="昵称">
-            <Input v-model.trim="formItem.nickname" placeholder="展示给他人看的名字" />
+            <Input v-model.trim="formItem.nickname" placeholder="展示给他人看的名字" :maxlength="10" />
           </FormItem>
           <FormItem label="介绍">
-            <Input v-model.trim="formItem.intro" placeholder="一句话介绍自己" />
+            <Input v-model.trim="formItem.intro" placeholder="一句话介绍自己" :maxlength="50" />
           </FormItem>
           <FormItem label="性别">
             <RadioGroup v-model="formItem.sex">
@@ -48,17 +44,23 @@
             <DatePicker style="display: block;" type="date" v-model.trim="formItem.birth" placeholder="出生日期" />
           </FormItem>
           <FormItem label="手机">
-            <Input v-model.trim="formItem.phone" placeholder="手机号" />
+            <Input v-model.trim="formItem.phone" placeholder="手机号" :maxlength="11" />
           </FormItem>
           <FormItem label="省份">
             <Select v-model.trim="formItem.province" placeholder="省份">
-              <Option value="北京市">北京</Option>
-              <Option value="天津市">天津</Option>
+              <Option 
+                v-for="(val, key, i) in chinaList"
+                :key="i"
+                :value="key"
+              >{{ key }}</Option>
             </Select>
           </FormItem>
           <FormItem label="城市">
             <Select v-model.trim="formItem.city" placeholder="城市">
-              <Option value="塘沽区">塘沽区</Option>
+              <Option
+                v-for="item of cityList"
+                :key="item"
+                :value="item">{{ item }}</Option>
             </Select>
           </FormItem>
           <FormItem>
@@ -72,6 +74,7 @@
 
 <script>
 import TitleBar from '@/components/TitleBar'
+import ChinaList from '@/data/china-city-list'
 export default {
   name: 'userinfo-window',
   components: {
@@ -79,6 +82,7 @@ export default {
   },
   data () {
     return {
+      userId: '',
       ticNumber: '',
       formItem: {
         nickname: '',
@@ -89,13 +93,16 @@ export default {
         phone: '',
         province: '',
         city: ''
-      }
+      },
+      chinaList: ChinaList,
+      cityList: []
     }
   },
   methods: {
     getUserInfo () {
+      this.userId = this.$store.getters.userId
       this.$http.post('?m=user&c=user&a=get_userinfo', {
-        userid: sessionStorage.getItem('_id')
+        userid: this.userId
       }).then(res => {
         let data = res.data
         this.ticNumber = data.account
@@ -108,10 +115,18 @@ export default {
         this.formItem.province = data.province
         this.formItem.city = data.city
       })
+    },
+    hUploadPortraitSuccess () {
+      console.log('portrait upload success')
     }
   },
   mounted () {
     this.getUserInfo()
+  },
+  watch: {
+    'formItem.province' (val) {
+      this.cityList = this.chinaList[val]
+    }
   }
 }
 </script>
