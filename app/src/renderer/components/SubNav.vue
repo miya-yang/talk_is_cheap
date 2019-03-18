@@ -1,12 +1,7 @@
 <template>
   <div class="sub-nav">
-    <carousel 
-      class="carousel" 
-      content="这里显示轮播消息"
-      type="danger"
-    />
     <!-- message-page start -->
-    <ul class="sub-lists scroll" v-if="router === 'message-page'">
+    <ul class="sub-lists scroll" v-if="router.indexOf('message') > -1">
       <chat-item
         v-for="(item) of chatList"
         :key="item.id"
@@ -16,11 +11,12 @@
         :time="item.time"
         :message="item.message"
         :isActive="item.isActive"
+        @contextmenu.native="hcRightChatItem"
       />
     </ul>
     <!-- message-page end -->
     <!-- friends-page start -->
-    <ul class="sub-lists scroll" v-else-if="router === 'friends-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('friends') > -1">
       <template v-for="(item) of friendsList">
         <sub-title 
           :key="item.id"
@@ -38,7 +34,7 @@
     </ul>
     <!-- friends-page end -->
     <!-- moments-page start -->
-    <ul class="sub-lists scroll" v-else-if="router === 'moments-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('moments') > -1">
       <template v-for="(item) of momentsList">
         <sub-title 
           :key="item.id"
@@ -55,7 +51,7 @@
     </ul>
     <!-- moments-page end -->
     <!-- activity-page start -->
-    <ul class="sublists scroll" v-else-if="router === 'activity-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('activity') > -1">
       <template v-for="(item) of activityList">
         <sub-title 
           :key="item.id"
@@ -72,7 +68,7 @@
     </ul>
     <!-- activity-page end -->
     <!-- circle-page start -->
-    <ul class="sublists scroll" v-else-if="router === 'circle-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('circle') > -1">
       <template v-for="(item) of circleList">
         <sub-title 
           :key="item.id"
@@ -89,7 +85,7 @@
     </ul>
     <!-- circle-page end -->
     <!-- match-page start -->
-    <ul class="sublists scroll" v-else-if="router === 'match-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('match') > -1">
       <template v-for="(item) of matchList">
         <sub-title 
           :key="item.id"
@@ -106,7 +102,7 @@
     </ul>
     <!-- match-page end -->
     <!-- ranking-page start -->
-    <ul class="sublists scroll" v-else-if="router === 'ranking-page'">
+    <ul class="sub-lists scroll" v-else-if="router.indexOf('ranking') > -1">
       <template v-for="(item) of rankingList">
         <sub-title 
           :key="item.id"
@@ -122,6 +118,19 @@
       </template>
     </ul>
     <!-- ranking-page end -->
+    <!-- chat-right-hand-menu start -->
+    <div 
+      id="chat-right-hand-menu"
+      class="chat-right-hand-menu"
+      v-if="chatRightMenu.display"
+      :style="{ top: chatRightMenu.y, left: chatRightMenu.x }"
+    >
+      <CellGroup>
+        <Cell class="item" title="置顶聊天" @click.native="hcChatRightHandMenuStick" />
+        <Cell class="item" title="删除聊天" @click.native="hcChatRightHandMenuDelete" />
+      </CellGroup>
+    </div>
+    <!-- chat-right-hand-menu end -->
   </div>
 </template>
 
@@ -129,17 +138,27 @@
 import ChatItem from '@/components/MainPages/SubNav/ChatItem'
 import ListsItem from '@/components/MainPages/SubNav/ListsItem'
 import SubTitle from '@/components/MainPages/SubNav/SubTitle'
-import Carousel from '@/components/MainPages/SubNav/Carousel'
 export default {
   name: 'sub-nav',
   components: {
     ChatItem,
     ListsItem,
-    SubTitle,
-    Carousel
+    SubTitle
+  },
+  props: {
+    router: {
+      type: String,
+      default: ''
+    }
   },
   data () {
     return {
+      chatRightMenu: {
+        x: 0,
+        y: 0,
+        display: false,
+        ele: ''
+      },
       chatList: [
         {
           id: '1',
@@ -401,13 +420,32 @@ export default {
             }
           ]
         }
-      ],
-      router: 'message-page'
+      ]
     }
   },
-  watch: {
-    $route () {
-      this.router = this.$route.name
+  mounted () {
+    this.hHideChatRightHandMenu()
+  },
+  methods: {
+    hcRightChatItem (e) {
+      let mouseX = `${e.clientX}px`
+      let mouseY = `${e.clientY}px`
+      this.chatRightMenu.x = mouseX
+      this.chatRightMenu.y = mouseY
+      this.chatRightMenu.display = true
+      this.chatRightMenu.id = e.currentTarget.firstChild.getAttribute('chat-id')
+    },
+    hHideChatRightHandMenu () {
+      let app = document.querySelector('#app')
+      app.addEventListener('click', (e) => {
+        this.chatRightMenu.display = false
+      }, false)
+    },
+    hcChatRightHandMenuStick () {
+      alert('聊天已置顶')
+    },
+    hcChatRightHandMenuDelete () {
+      alert('聊天已删除')
     }
   }
 }
@@ -423,15 +461,18 @@ export default {
   padding-bottom: 80px;
   padding-left: calc(100vw - 100%);
 
-  .carousel {
-    padding: 27px;
-  }
-
   .sub-lists {
     height: 100%;
     width: 100%;
     overflow-y: auto;
+    margin-top: 76px;
   }
+}
+.chat-right-hand-menu {
+  width: 120px;
+  position: fixed;
+  background: #fff;
+  z-index: 999;
 }
 </style>
 

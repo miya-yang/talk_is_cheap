@@ -1,15 +1,27 @@
 <template>
   <div class="message-page">
+    <sub-nav 
+      class="sub-nav"
+      :router="router"
+    />
     <message-panel class="message-panel" />
   </div>
 </template>
 
 <script>
 import MessagePanel from '@/components/MessagePanel'
+import SubNav from '@/components/SubNav'
 export default {
   name: 'message-page',
   components: {
-    MessagePanel
+    MessagePanel,
+    SubNav
+  },
+  props: {
+    router: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>
@@ -28,6 +40,12 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
+  }
+
+  .sub-nav {
+    position: absolute;
+    left: $left-nav-width;
+    top: 0;
   }
 }
 </style>

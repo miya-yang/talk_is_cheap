@@ -48,6 +48,7 @@ export default {
     hcControlBtns (operator) {
       if (operator === 'scale') {
         this.isMax = !this.isMax
+        events.hWindowControl({ name: operator, isMain: this.isMain, windowName: this.windowName })
       } else if (operator === 'close' && this.windowName === '') {
         if (window.confirm('真的要退出TIC吗？')) {
           this.$http.post('?m=user&c=user&a=logout').then(res => {

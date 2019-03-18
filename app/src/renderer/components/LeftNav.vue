@@ -2,8 +2,8 @@
   <div class="left-nav remove-titlebar-content">
     <portrait 
       class="portrait no-drag" 
-      :title="nickname" 
-      :portrait="portrait"
+      :title="this.$store.getters.userNickname" 
+      :portrait="userPortrait"
     />
     <nav-list class="no-drag" />
   </div>
@@ -18,15 +18,10 @@ export default {
     Portrait,
     NavList
   },
-  data () {
-    return {
-      nickname: '',
-      portrait: ''
+  computed: {
+    userPortrait () {
+      return this.$store.state.UserInfo._portrait
     }
-  },
-  mounted () {
-    this.nickname = this.$store.getters.userNickname
-    this.portrait = this.$store.getters.userPortrait
   }
 }
 </script>

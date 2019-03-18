@@ -36,15 +36,28 @@
         </a>
       </li>
     </ul>
+    <!-- more-menu start -->
+    <div
+      id="more-menu"
+      class="more-menu"
+      v-if="showMoreMenu"
+    >
+      <CellGroup>
+        <Cell class="item" title="举报" @click.native="hcMoreMenuReport" />
+      </CellGroup>
+    </div>
+    <!-- more-menu end -->
   </div>
 </template>
 
 
 <script>
+import events from '../../../events.js'
 export default {
   name: 'nav-list',
   data () {
     return {
+      showMoreMenu: false,
       system: {
         menuList: [
           {
@@ -116,6 +129,9 @@ export default {
       }
     }
   },
+  mounted () {
+    this.hHideMoreMenu()
+  },
   methods: {
     hToggleIcon (index) {
       for (let i = 0; i < this.system.menuList.length; i++) {
@@ -135,7 +151,16 @@ export default {
       }
     },
     hShowMoreMenu () {
-      this.$store.getters.MoreMenu ? this.$store.dispatch('hideMoreMenu') : this.$store.dispatch('showMoreMenu')
+      this.showMoreMenu = !this.showMoreMenu
+    },
+    hcMoreMenuReport () {
+      events.hCreateWindow('ReportWindow')
+    },
+    hHideMoreMenu () {
+      let app = document.querySelector('#app')
+      app.addEventListener('click', (e) => {
+        this.showMoreMenu = false
+      }, false)
     }
   }
 }
@@ -149,6 +174,21 @@ export default {
       justify-content: center;
       color: #fff;
     }
+  }
+}
+.more-menu {
+  width: 120px;
+  position: fixed;
+  z-index: 999;
+  top: 420px;
+  left: 70px;
+  background: #1A2D27;
+  
+  .item {
+    color: #fff;
+  }
+  .item:hover {
+    background: #333;
   }
 }
 </style>

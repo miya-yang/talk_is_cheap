@@ -36,7 +36,7 @@ Vue.prototype.$Message = Message
 Vue.prototype.$qs = qs
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-axios.defaults.baseURL = 'http://www.codergzw.com/tic/'
+axios.defaults.baseURL = 'http://tic.codergzw.com'
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 

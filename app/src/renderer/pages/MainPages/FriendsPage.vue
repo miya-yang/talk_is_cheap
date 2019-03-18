@@ -1,15 +1,28 @@
 <template>
   <div class="friends-page">
-    <friends-panel class="friends-panel" />
+    <sub-nav 
+      class="sub-nav"
+      :router="router"
+    />
+    <router-view class="panel-page remove-titlebar-content"></router-view>
+    <!-- <friends-panel class="friends-panel" /> -->
   </div>
 </template>
 
 <script>
 import FriendsPanel from '@/components/FriendsPanel'
+import SubNav from '@/components/SubNav'
 export default {
   name: 'friends-page',
   components: {
-    FriendsPanel
+    FriendsPanel,
+    SubNav
+  },
+  props: {
+    router: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>
@@ -28,6 +41,21 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
+  }
+
+  .panel-page {
+    position: absolute;
+    margin: auto;
+    left: 320px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .sub-nav {
+    position: absolute;
+    left: $left-nav-width;
+    top: 0;
   }
 }
 </style>

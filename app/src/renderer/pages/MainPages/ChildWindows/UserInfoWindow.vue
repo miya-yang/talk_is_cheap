@@ -17,7 +17,7 @@
         :format="['jpg','jpeg','png']"
         :max-size="2048"
         type="drag"
-        action="//jsonplaceholder.typicode.com/posts/">
+        action="http://tic.codergzw.com/?m=user&c=user&a=uploadPortrait">
         <div class="icon" v-if="formItem.portrait === ''">
           <Icon type="ios-camera" size="50"></Icon>
         </div>
@@ -58,13 +58,13 @@
           <FormItem label="城市">
             <Select v-model.trim="formItem.city" placeholder="城市">
               <Option
-                v-for="item of cityList"
-                :key="item"
+                v-for="(item, index) of cityList"
+                :key="index"
                 :value="item">{{ item }}</Option>
             </Select>
           </FormItem>
           <FormItem>
-            <Button type="primary">保存信息</Button>
+            <Button type="primary" @click="hSaveUserInfo">保存信息</Button>
           </FormItem>
         </Form>
       </div>
@@ -116,8 +116,42 @@ export default {
         this.formItem.city = data.city
       })
     },
-    hUploadPortraitSuccess () {
-      console.log('portrait upload success')
+    hUploadPortraitSuccess (result) {
+      this.$http.post(`?m=user&c=user&a=savePortrait`, {
+        account: this.ticNumber,
+        portrait: result.data
+      }).then(res => {
+        this.$Message.success('头像修改成功！')
+        this.formItem.portrait = result.data
+        this.$store.dispatch('setUserPortrait', this.formItem.portrait)
+      })
+    },
+    hSaveUserInfo () {
+      let formatBirth = ' '
+      if (this.formItem.nickname === '') {
+        this.$Message.warning('昵称不得为空')
+        return false
+      }
+      if (this.formItem.phone.trim() !== '' && !(/^1[34578]\d{9}$/.test(this.formItem.phone))) {
+        this.$Message.warning('手机号格式有误')
+        return false
+      }
+      if (this.formItem.birth !== '') {
+        formatBirth = `${this.formItem.birth.getFullYear()}-${this.formItem.birth.getMonth() + 1 > 9 ? this.formItem.birth.getMonth() + 1 : '0' + (this.formItem.birth.getMonth() + 1)}-${this.formItem.birth.getDate() > 9 ? this.formItem.birth.getDate() : '0' + this.formItem.birth.getDate()}`
+      }
+      this.$http.post(`?m=user&c=user&a=update_userinfo`, {
+        userid: this.userId,
+        nickname: this.formItem.nickname,
+        sex: this.formItem.sex,
+        phone: this.formItem.phone || ' ',
+        birthday: formatBirth,
+        describe: this.formItem.intro,
+        province: this.formItem.province,
+        city: this.formItem.city
+      }).then(res => {
+        this.$Message.success(res.message)
+        this.$store.dispatch('setUserNickname', this.formItem.nickname)
+      })
     }
   },
   mounted () {

@@ -1,10 +1,10 @@
 <template>
-  <li class="lists-item" :class="{ 'lists-active': isActive }">
+  <router-link :to="{ name: 'add-friends-page' }" class="lists-item" :class="{ 'lists-active': isActive }">
     <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
     <div class="lists-info">
       <span class="lists-title single-line">{{ title }}</span>
     </div>
-  </li>
+  </router-link>
 </template>
 
 <script>

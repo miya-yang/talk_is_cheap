@@ -13,6 +13,8 @@ import CirclePage from '@/pages/MainPages/CirclePage'
 import MatchPage from '@/pages/MainPages/MatchPage'
 import RankingPage from '@/pages/MainPages/RankingPage'
 
+import AddFriendsPage from '@/pages/MainPages/FriendsPages/AddFriendsPage'
+
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
 import ReportWindow from '@/pages/MainPages/ChildWindows/ReportWindow'
 
@@ -43,7 +45,14 @@ export default new Router({
         {
           path: '/friends',
           name: 'friends-page',
-          component: FriendsPage
+          component: FriendsPage,
+          children: [
+            {
+              path: '/add-friends',
+              name: 'add-friends-page',
+              component: AddFriendsPage
+            }
+          ]
         },
         {
           path: '/moments',

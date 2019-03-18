@@ -5,6 +5,8 @@ import {
   BrowserWindow
 } from 'electron'
 
+import '../renderer/store'
+
 global.__onlyWindow = {
   userInfo: false,
   report: false
