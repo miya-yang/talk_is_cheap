@@ -3,7 +3,7 @@
     <!-- message-page start -->
     <ul class="sub-lists scroll" v-if="router.indexOf('message') > -1">
       <chat-item
-        v-for="(item) of chatList"
+        v-for="(item, index) of chatList"
         :key="item.id"
         :chatId="item.id"
         :portrait="item.portrait"
@@ -12,6 +12,7 @@
         :message="item.message"
         :isActive="item.isActive"
         @contextmenu.native="hcRightChatItem"
+        @click.native="hcActiveList(item, index, 'chatList')"
       />
     </ul>
     <!-- message-page end -->
@@ -23,12 +24,13 @@
           :title="item.subTitle"
         />
         <lists-item
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :portrait="item2.portrait"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'friendsList')"
         />
       </template>
     </ul>
@@ -41,11 +43,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'momentsList')"
         />
       </template>
     </ul>
@@ -58,11 +61,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'activityList')"
         />
       </template>
     </ul>
@@ -75,11 +79,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'circleList')"
         />
       </template>
     </ul>
@@ -92,11 +97,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'matchList')"
         />
       </template>
     </ul>
@@ -109,11 +115,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2) of item.list"
+          v-for="(item2, index2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          @click.native="hcActiveList(item2, index2, 'rankingList')"
         />
       </template>
     </ul>
@@ -165,8 +172,7 @@ export default {
           portrait: 'imgs/portrait--test.png',
           title: '58同城58同城58同城58同城58同城58同城58同城',
           time: '16:40',
-          message: '您有一条新消息',
-          isActive: true
+          message: '您有一条新消息'
         },
         {
           id: '2',
@@ -256,8 +262,7 @@ export default {
             {
               id: '2-1',
               portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端58 测试名称 前端',
-              isActive: true
+              title: '58 测试名称 前端58 测试名称 前端'
             },
             {
               id: '2-2',
@@ -440,6 +445,20 @@ export default {
       app.addEventListener('click', (e) => {
         this.chatRightMenu.display = false
       }, false)
+    },
+    hcActiveList (item, index, listName) {
+      this.$nextTick(() => {
+        this[listName].forEach((i) => {
+          if (i.list) {
+            i.list.forEach((i2) => {
+              this.$set(i2, 'isActive', false)
+            })
+          } else {
+            this.$set(i, 'isActive', false)
+          }
+        })
+        this.$set(item, 'isActive', true)
+      })
     },
     hcChatRightHandMenuStick () {
       alert('聊天已置顶')

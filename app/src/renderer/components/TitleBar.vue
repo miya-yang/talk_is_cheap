@@ -102,6 +102,11 @@ export default {
       return this.isMax ? 'ios-browsers' : 'md-browsers'
     }
   },
+  watch: {
+    isColorDefault (val) {
+      this.iconColor = val ? '#fff' : '#333'
+    }
+  },
   mounted () {
     this.iconColor = this.isColorDefault ? '#fff' : '#333'
   }

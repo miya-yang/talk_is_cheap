@@ -8,7 +8,7 @@
     <div class="userinfo-inputs login-pages-content">
       <Input class="input no-drag" autofocus v-model.trim="users.username" placeholder="TIC账号 / 邮箱" :maxlength="50" clearable />
       <Input class="input no-drag" type="password" v-model.trim="users.password" placeholder="密码" :maxlength="50" clearable @keyup.enter.native="hLoginBtn" />
-      <Button class="login-btn no-drag" type="success" long @click="hLoginBtn">登录</Button>
+      <Button class="login-btn no-drag" type="success" :loading="isLoading" long @click="hLoginBtn">登录</Button>
     </div>
     <div class="bottom-menubar login-pages-content">
       <a class="menu-item no-drag" href="javascript:;">注册账号</a>
@@ -28,6 +28,7 @@ export default {
   },
   data () {
     return {
+      isLoading: false,
       users: {
         username: '',
         password: ''
@@ -41,20 +42,21 @@ export default {
         this.$Message.error('请输入账号或密码')
         return false
       }
+      this.isLoading = true
       this.$http.post('?m=user&c=user&a=login', {
         username: this.users.username,
         password: this.users.password
       }).then(res => {
-        // console.log('data', res.data)
-        if (res.code === 0) {
-          // 登录成功
-          this.$store.dispatch('setUserNickname', res.data.nickname)
-          this.$store.dispatch('setUserAccount', res.data.account)
-          this.$store.dispatch('setUserId', res.data.id)
-          this.$store.dispatch('setUserPortrait', res.data.portrait)
-          this.$router.push({ name: 'message-page' })
-          events.hLoginEvent()
-        }
+        // 登录成功
+        this.isLoading = false
+        this.$store.dispatch('setUserNickname', res.data.nickname)
+        this.$store.dispatch('setUserAccount', res.data.account)
+        this.$store.dispatch('setUserId', res.data.id)
+        this.$store.dispatch('setUserPortrait', res.data.portrait)
+        this.$router.push({ name: 'message-page' })
+        events.hLoginEvent()
+      }).catch(res => {
+        this.isLoading = false
       })
     }
   }

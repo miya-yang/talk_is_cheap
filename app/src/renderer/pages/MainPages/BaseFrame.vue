@@ -31,9 +31,8 @@ export default {
   },
   methods: {
     listenRoute () {
-      this.isLoginPage = this.router === 'login-page'
+      this.isLoginPage = this.$route.name === 'login-page'
       this.router = this.$route.path
-      console.log(this.router)
     }
   },
   watch: {
