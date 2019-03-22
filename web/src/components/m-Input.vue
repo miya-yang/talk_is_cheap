@@ -6,6 +6,7 @@
       :maxlength="maxLength"
       :minlength="minLength"
       :value="value"
+      :disabled="disabled"
       ref="input"
       @input="$emit('input', $event.target.value)"
       @blur="blur"
@@ -57,6 +58,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

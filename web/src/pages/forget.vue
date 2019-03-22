@@ -9,7 +9,7 @@
       </Steps>
     </div>
     <div class="content">
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>
@@ -20,6 +20,32 @@ export default {
   data () {
     return {
       current: 0
+    }
+  },
+  methods: {
+    controlSteps () {
+      switch (this.$route.name) {
+        case 'forget-step1':
+          this.current = 0
+          break
+        case 'forget-step2':
+          this.current = 1
+          break
+        case 'forget-step3':
+          this.current = 2
+          break
+        case 'forget-step4':
+          this.current = 4
+          break
+      }
+    }
+  },
+  mounted () {
+    this.controlSteps()
+  },
+  watch: {
+    $route () {
+      this.controlSteps()
     }
   }
 }

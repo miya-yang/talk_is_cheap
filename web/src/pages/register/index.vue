@@ -53,6 +53,7 @@
           class="register-btn"
           height="60px"
           @click="handleRegister"
+          :disabled="registerBtnDisabled"
         >立即注册</m-button>
       </div>
     </div>
@@ -91,8 +92,9 @@ export default {
         email: 2,
         code: 3
       },
-      sendCodeBtnText: '发送短信验证码',
-      sendCodeBtnDisabled: false
+      sendCodeBtnText: '发送邮箱验证码',
+      sendCodeBtnDisabled: false,
+      registerBtnDisabled: false
     }
   },
   components: {
@@ -133,22 +135,23 @@ export default {
       if (!this.dataVerify[this.verifyCodeList.email]) {
         this.$Message.error('请输入正确的邮箱')
       } else {
+        this.sendCodeBtnDisabled = true
         // 调用发送邮箱验证码接口
-        this.$http.post(`/api?m=user&c=user&a=verify`, {
+        this.$http.post(`?m=user&c=user&a=verify`, {
           mailto: this.email.value,
           type: 1
         }).then(res => {
-          console.log(res)
           this.sendCodeBtnText = 60
-          this.sendCodeBtnDisabled = true
           let sendCodeInterval = setInterval(() => {
             this.sendCodeBtnText--
             if (this.sendCodeBtnText === 0) {
-              this.sendCodeBtnText = '发送短信验证码'
+              this.sendCodeBtnText = '发送邮箱验证码'
               this.sendCodeBtnDisabled = false
               clearInterval(sendCodeInterval)
             }
           }, 1000)
+        }).catch(() => {
+          this.sendCodeBtnDisabled = false
         })
       }
     },
@@ -161,14 +164,18 @@ export default {
         this.$Message.error('请确认注册信息')
         return false
       }
-      this.$http.post(`/api?m=user&c=user&a=register`, {
+      this.registerBtnDisabled = true
+      this.$http.post(`?m=user&c=user&a=register`, {
         email: this.email.value,
         nickname: this.nickname.value,
         password: this.password.value,
         code: this.code.value
       }).then(res => {
-        console.log(res)
-        this.$Message.success('注册成功')
+        this.registerBtnDisabled = false
+        sessionStorage.setItem('register_info', JSON.stringify(res.data))
+        this.$router.push({ name: 'register-success' })
+      }).catch(() => {
+        this.registerBtnDisabled = false
       })
     }
   }

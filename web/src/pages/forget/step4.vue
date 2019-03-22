@@ -14,11 +14,6 @@ export default {
   components: {
     mInput,
     mButton
-  },
-  data () {
-    return {
-      ticNumber: ''
-    }
   }
 }
 </script>

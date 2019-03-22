@@ -8,10 +8,10 @@ export default {
   data () {
     return {
       imagesArr: [
-        '/static/img/register-left-banner-1.jpg',
-        '/static/img/register-left-banner-2.jpg',
-        '/static/img/register-left-banner-3.jpg',
-        '/static/img/register-left-banner-4.jpg'
+        './static/img/register-left-banner-1.jpg',
+        './static/img/register-left-banner-2.jpg',
+        './static/img/register-left-banner-3.jpg',
+        './static/img/register-left-banner-4.jpg'
       ]
     }
   },
@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .carousel {
-  background: url('/static/img/register-left-banner-1.jpg');
+  background: url('../assets/img/register-left-banner-1.jpg');
   background-position: center center;
   transition: all 1s;
 }

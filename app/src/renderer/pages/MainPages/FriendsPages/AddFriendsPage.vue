@@ -1,7 +1,7 @@
 <template>
   <div class="add-friends-page">
     <div class="add-input-panel">
-      <Input class="inputAccount" clearable v-model.trim="inputAccount" size="large" placeholder="请输入TIC账号或昵称" :maxlength="20" />
+      <Input class="inputAccount" @on-enter="hcSearchUser" clearable v-model.trim="inputAccount" size="large" placeholder="请输入TIC账号或昵称" :maxlength="20" />
       <Button class="inputBtn" @click="hcSearchUser" type="primary">搜索</Button>
     </div>
     <div class="friends-list scroll">

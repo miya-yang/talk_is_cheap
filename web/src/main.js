@@ -19,7 +19,7 @@ Vue.prototype.$Message = Message
 Vue.component('Steps', Steps)
 Vue.component('Step', Step)
 
-// axios.defaults.baseURL = 'http://tic.codergzw.com/'
+axios.defaults.baseURL = 'http://tic.codergzw.com/'
 
 // 统一进行请求处理
 axios.interceptors.request.use((config) => {

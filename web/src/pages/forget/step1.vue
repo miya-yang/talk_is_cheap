@@ -35,6 +35,8 @@ export default {
     handleNextStep () {
       if (this.ticNumber === '') {
         this.$Message.error('请输入TIC账号')
+      } else {
+        this.$router.push({ name: 'forget-step2', query: { account: this.ticNumber } })
       }
     }
   }

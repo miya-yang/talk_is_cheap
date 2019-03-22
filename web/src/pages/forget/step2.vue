@@ -5,23 +5,13 @@
       <m-input
         class="inputs"
         placeholder="请输入TIC账号绑定的邮箱"
-        :value="ticNumber"
+        v-model.trim="email"
       />
-      <div class="block">
-        <m-input
-          class="left"
-          placeholder="邮箱验证码"
-          type="text"
-          width="80%"
-        ></m-input>
-        <m-button
-          class="register-btn"
-          width="51%"
-          fontSize="18px"
-          display="inline-block"
-        >发送短信验证码</m-button>
-      </div>
-      <m-button class="next-step-btn">
+      <m-button
+        class="next-step-btn"
+        :disabled="nextStepBtnDisabled"
+        @click="handleNextStep"
+      >
         下一步
       </m-button>
     </div>
@@ -39,8 +29,36 @@ export default {
   },
   data () {
     return {
-      ticNumber: ''
+      email: '',
+      nextStepBtnDisabled: false
     }
+  },
+  methods: {
+    verifyQuery () {
+      let account = this.$route.query.account
+      if (!account) {
+        this.$router.push({ name: 'forget-step1' })
+      }
+    },
+    handleNextStep () {
+      // 验证数据格式
+      if (this.code && !/^\w+@\w+.[a-zA-Z]+$/.test(this.email)) {
+        this.$Message.error('请检查邮箱及验证码')
+        return false
+      }
+      this.nextStepBtnDisabled = true
+      this.$http.post(`?m=user&c=user&a=verify_email`, {
+        email: this.email
+      }).then(res => {
+        this.nextStepBtnDisabled = false
+        this.$router.push({ name: 'forget-step3', query: { account: this.$route.query.account, email: this.email } })
+      }).catch(() => {
+        this.nextStepBtnDisabled = false
+      })
+    }
+  },
+  mounted () {
+    this.verifyQuery()
   }
 }
 </script>
@@ -58,11 +76,6 @@ export default {
   .form {
     margin-top: 50px;
     width: 450px;
-  }
-
-  .next-step-btn {
-    margin-top: 20px;
-    clear: both;
   }
 }
 </style>

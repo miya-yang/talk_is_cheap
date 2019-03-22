@@ -1,6 +1,6 @@
 <template>
   <div class="success">
-    <h2>您的 TIC 账号为 <span class="account-number">511287680</span></h2>
+    <h2>您的 TIC 账号为 <span class="account-number">{{ ticNumber }}</span></h2>
     <h4>感谢注册，您可以使用 <span class="account-number">TIC 账号</span> 或者 <span class="account-number">邮箱账号</span> 登录</h4>
     <h5>:)</h5>
   </div>
@@ -8,7 +8,26 @@
 
 <script>
 export default {
-  name: 'register-success'
+  name: 'register-success',
+  data () {
+    return {
+      ticNumber: ''
+    }
+  },
+  methods: {
+    getRegisterInfo () {
+      let registerInfo = sessionStorage.getItem('register_info')
+      if (registerInfo) {
+        registerInfo = JSON.parse(registerInfo)
+        this.ticNumber = registerInfo.account
+      } else {
+        this.$router.push({ name: 'register-index' })
+      }
+    }
+  },
+  mounted () {
+    this.getRegisterInfo()
+  }
 }
 </script>
 
