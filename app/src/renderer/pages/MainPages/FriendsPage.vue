@@ -5,7 +5,6 @@
       :router="router"
     />
     <router-view class="panel-page remove-titlebar-content"></router-view>
-    <!-- <friends-panel class="friends-panel" /> -->
   </div>
 </template>
 

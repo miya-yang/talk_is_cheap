@@ -101,9 +101,7 @@ export default {
   methods: {
     getUserInfo () {
       this.userId = this.$store.getters.userId
-      this.$http.post('?m=user&c=user&a=get_userinfo', {
-        userid: this.userId
-      }).then(res => {
+      this.$http.post('?m=user&c=user&a=get_userinfo').then(res => {
         let data = res.data
         this.ticNumber = data.account
         this.formItem.portrait = data.portrait
@@ -140,7 +138,6 @@ export default {
         formatBirth = `${this.formItem.birth.getFullYear()}-${this.formItem.birth.getMonth() + 1 > 9 ? this.formItem.birth.getMonth() + 1 : '0' + (this.formItem.birth.getMonth() + 1)}-${this.formItem.birth.getDate() > 9 ? this.formItem.birth.getDate() : '0' + this.formItem.birth.getDate()}`
       }
       this.$http.post(`?m=user&c=user&a=update_userinfo`, {
-        userid: this.userId,
         nickname: this.formItem.nickname,
         sex: this.formItem.sex,
         phone: this.formItem.phone || ' ',

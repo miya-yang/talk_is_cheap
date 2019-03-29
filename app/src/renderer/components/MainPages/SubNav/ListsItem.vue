@@ -1,6 +1,8 @@
 <template>
-  <router-link :to="{ name: 'add-friends-page' }" class="lists-item" :class="{ 'lists-active': isActive }">
-    <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
+  <router-link :to="{ name: linkName }" class="lists-item" :class="{ 'lists-active': isActive }">
+    <Badge :count="redCount">
+      <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
+    </Badge>
     <div class="lists-info">
       <span class="lists-title single-line">{{ title }}</span>
     </div>
@@ -26,6 +28,14 @@ export default {
     icon: {
       type: String,
       default: 'ios-person'
+    },
+    redCount: {
+      type: Number,
+      default: 0
+    },
+    linkName: {
+      type: String,
+      default: ''
     }
   }
 }

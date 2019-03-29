@@ -30,6 +30,8 @@
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          :linkName="item2.linkName"
+          :redCount="item2.redCount"
           @click.native="hcActiveList(item2, index2, 'friendsList')"
         />
       </template>
@@ -173,69 +175,6 @@ export default {
           title: '58同城58同城58同城58同城58同城58同城58同城',
           time: '16:40',
           message: '您有一条新消息'
-        },
-        {
-          id: '2',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '3',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '4',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '5',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '6',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '7',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '8',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '9',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
-        },
-        {
-          id: '10',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城',
-          time: '14:40',
-          message: '您的offer已经发送到您的邮箱中了'
         }
       ],
       friendsList: [
@@ -246,12 +185,14 @@ export default {
             {
               id: '1-1',
               icon: 'md-person-add',
-              title: '添加好友'
+              title: '添加好友',
+              linkName: 'add-friends-page'
             },
             {
               id: '1-2',
               icon: 'md-person',
-              title: '好友请求'
+              title: '好友请求',
+              linkName: 'application-friends-page'
             }
           ]
         },
@@ -259,16 +200,11 @@ export default {
           id: '2',
           subTitle: '好友列表',
           list: [
-            {
-              id: '2-1',
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端58 测试名称 前端'
-            },
-            {
-              id: '2-2',
-              portrait: 'imgs/portrait--test.png',
-              title: '58 测试名称 前端'
-            }
+            // {
+            //   id: '2-1',
+            //   portrait: 'imgs/portrait--test.png',
+            //   title: '58 测试名称 前端58 测试名称 前端'
+            // }
           ]
         },
         {
@@ -430,8 +366,23 @@ export default {
   },
   mounted () {
     this.hHideChatRightHandMenu()
+    this.listenRouter()
+  },
+  watch: {
+    '$route' (val) {
+      this.listenRouter()
+    }
   },
   methods: {
+    // 监听路由，根据模块进行不同操作
+    listenRouter () {
+      let route = this.$route
+      // 好友模块
+      if (route.name.indexOf('friend') > -1) {
+        this.friendsGetUnreadCount()
+        this.friendsGetFriendsList()
+      }
+    },
     hcRightChatItem (e) {
       let mouseX = `${e.clientX}px`
       let mouseY = `${e.clientY}px`
@@ -458,6 +409,34 @@ export default {
           }
         })
         this.$set(item, 'isActive', true)
+      })
+    },
+    // 好友模块：获取未读好友申请数量
+    friendsGetUnreadCount () {
+      this.$Loading.show()
+      this.$http.post(`?m=friend&c=friend&a=noRead`).then(res => {
+        this.$Loading.hide()
+        this.$set(this.friendsList[0].list[1], 'redCount', res.data)
+      }).catch(() => {
+        this.$Loading.hide()
+      })
+    },
+    // 好友模块：获取好友列表
+    friendsGetFriendsList () {
+      this.$Loading.show()
+      this.$http.post(`?m=friend&c=friend&a=get_friendList`).then(res => {
+        this.$Loading.hide()
+        let list = []
+        for (let item of res.data) {
+          list.push({
+            id: item.id,
+            title: item.nickname,
+            portrait: item.portrait
+          })
+        }
+        this.$set(this.friendsList[1], 'list', list)
+      }).catch(() => {
+        this.$Loading.hide()
       })
     },
     hcChatRightHandMenuStick () {

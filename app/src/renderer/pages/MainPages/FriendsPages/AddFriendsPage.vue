@@ -38,7 +38,6 @@ export default {
         this.searchList.splice(0, this.searchList.length)
       } else {
         this.$http.post(`?m=friend&c=friend&a=search_user`, {
-          userid: this.$store.getters.userId,
           search: this.inputAccount
         }).then(res => {
           this.searchList = res.data

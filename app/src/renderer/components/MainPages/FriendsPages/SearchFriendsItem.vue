@@ -6,7 +6,25 @@
       <h2 class="nickname">{{ nickname }}</h2>
     </div>
     <div class="operator-btns">
-      <Button @click="hcSendAddMessage" :loading="isLoading" :disabled="disabled" class="add-friends-btn">{{ addBtnText }}</Button>
+      <Button
+        v-if="type === 'add'"
+        @click="hcSendAddMessage"
+        :loading="isLoading"
+        :disabled="disabled"
+        class="add-friends-btn"
+      >
+      {{ addBtnText }}
+      </Button>
+      <Button
+        v-else-if="type === 'request'"
+        @click="hcSendAgreeMessage"
+        :loading="isLoading"
+        :disabled="disabled"
+        class="add-friends-btn"
+        type="primary"
+      >
+      {{ agreeBtnText }}
+      </Button>
     </div>
   </li>
 </template>
@@ -18,6 +36,7 @@ export default {
     return {
       isLoading: false,
       addBtnText: '添加好友',
+      agreeBtnText: '同意',
       disabled: false
     }
   },
@@ -45,19 +64,39 @@ export default {
     sex: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'add'
+    },
+    requestId: {
+      type: String,
+      default: ''
     }
   },
   methods: {
     hcSendAddMessage () {
       this.isLoading = true
       this.$http.post(`?m=friend&c=friend&a=add_approval`, {
-        myid: this.$store.getters.userId,
         touserid: this.id
       }).then(res => {
         this.isLoading = false
         this.addBtnText = '已发送申请'
         this.disabled = true
         this.$Message.success(res.message)
+      }).catch(() => {
+        this.isLoading = false
+      })
+    },
+    hcSendAgreeMessage () {
+      this.isLoading = true
+      this.$http.post(`?m=friend&c=friend&a=addFriend`, {
+        friendid: this.id,
+        approvalid: this.requestId
+      }).then(res => {
+        this.agreeBtnText = '已同意'
+        this.disabled = true
+        this.isLoading = false
       }).catch(() => {
         this.isLoading = false
       })
