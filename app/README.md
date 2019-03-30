@@ -1,9 +1,6 @@
-# talk_is_cheap
+# app2
 
 > An electron-vue project
-
-#### Docs
-[Doc Click Here](https://miya-yang.github.io/talk_is_cheap/#/)
 
 #### Build Setup
 
