@@ -50,6 +50,7 @@
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          :linkName="item2.linkName"
           @click.native="hcActiveList(item2, index2, 'momentsList')"
         />
       </template>
@@ -227,7 +228,8 @@ export default {
             {
               id: '4-1',
               icon: 'ios-send',
-              title: '发布动态'
+              title: '发布动态',
+              linkName: 'new-moments-page'
             },
             {
               id: '4-2',
@@ -243,7 +245,8 @@ export default {
             {
               id: '5-1',
               icon: 'ios-quote',
-              title: '最新动态'
+              title: '最新动态',
+              linkName: 'moments-list-page'
             }
           ]
         }

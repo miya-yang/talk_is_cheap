@@ -11,8 +11,8 @@
       <Button class="login-btn no-drag" type="success" :loading="isLoading" long @click="hLoginBtn">登录</Button>
     </div>
     <div class="bottom-menubar login-pages-content">
-      <a class="menu-item no-drag" href="javascript:;">注册账号</a>
-      <a class="menu-item no-drag" href="javascript:;">找回密码</a>
+      <a class="menu-item no-drag" href="javascript:;" @click="handleOpenUrl('http://codermiya.com/tic/#/register')">注册账号</a>
+      <a class="menu-item no-drag" href="javascript:;" @click="handleOpenUrl('http://codermiya.com/tic/#/forget')">找回密码</a>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@
 <script>
 import TitleBar from '@/components/TitleBar'
 import events from '@/events'
+import { shell } from 'electron'
 
 export default {
   name: 'login',
@@ -61,6 +62,9 @@ export default {
       }).catch(res => {
         this.isLoading = false
       })
+    },
+    handleOpenUrl (url) {
+      shell.openExternal(url)
     }
   }
 }

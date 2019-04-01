@@ -16,6 +16,9 @@ import RankingPage from '@/pages/MainPages/RankingPage'
 import AddFriendsPage from '@/pages/MainPages/FriendsPages/AddFriendsPage'
 import ApplicationFriendsPage from '@/pages/MainPages/FriendsPages/ApplicationFriendsPage'
 
+import NewMomentsPage from '@/pages/MainPages/MomentsPages/NewMomentsPage'
+import MomentsListPage from '@/pages/MainPages/MomentsPages/MomentsListPage'
+
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
 import ReportWindow from '@/pages/MainPages/ChildWindows/ReportWindow'
 
@@ -63,7 +66,19 @@ export default new Router({
         {
           path: '/moments',
           name: 'moments-page',
-          component: MomentsPage
+          component: MomentsPage,
+          children: [
+            {
+              path: '/new-moments',
+              name: 'new-moments-page',
+              component: NewMomentsPage
+            },
+            {
+              path: '/moments-list',
+              name: 'moments-list-page',
+              component: MomentsListPage
+            }
+          ]
         },
         {
           path: '/activity',

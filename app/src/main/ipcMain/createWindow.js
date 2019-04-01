@@ -14,6 +14,7 @@ function createUserInfoWindow () {
       title: '个人资料',
       center: true,
       frame: false,
+      alwaysOnTop: true,
       resizable: false,
       maximizable: false,
       fullscreenable: false,
@@ -22,6 +23,11 @@ function createUserInfoWindow () {
     })
     userInfoWindow.loadURL(`${global.__winURL}/#/window/userInfo`)
     global.__onlyWindow.userInfo = true
+    userInfoWindow.on('closed', () => {
+      userInfoWindow = null
+      global.__onlyWindow.userInfo = false
+    })
+    userInfoWindow.show()
   }
 }
 
@@ -34,6 +40,7 @@ function createReportWindow () {
       title: '举报系统',
       center: true,
       frame: false,
+      alwaysOnTop: true,
       resizable: false,
       maximizable: false,
       fullscreenable: false,
@@ -42,6 +49,12 @@ function createReportWindow () {
     })
     reportWindow.loadURL(`${global.__winURL}/#/window/report`)
     global.__onlyWindow.report = true
+
+    reportWindow.on('closed', () => {
+      reportWindow = null
+      global.__onlyWindow.report = false
+    })
+    reportWindow.show()
   }
 }
 
