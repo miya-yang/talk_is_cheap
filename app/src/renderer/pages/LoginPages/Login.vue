@@ -36,9 +36,6 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(location.href)
-  },
   methods: {
     hLoginBtn () {
       // 验证数据

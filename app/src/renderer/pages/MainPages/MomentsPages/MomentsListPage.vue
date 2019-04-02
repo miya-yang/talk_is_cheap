@@ -6,7 +6,13 @@
       :time="item.createtimes"
       :img="item.pictures"
       :content="item.content"
-      :likes="item.likes"
+      :nickname="item.nickname"
+      :portrait="item.portrait"
+      :isLike="item.islike"
+      :likeList="item.likes"
+      :id="item.id"
+      :commentList="item.remarks"
+      @handleRefreshList="getList"
     />
   </div>
 </template>

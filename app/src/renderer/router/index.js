@@ -15,6 +15,7 @@ import RankingPage from '@/pages/MainPages/RankingPage'
 
 import AddFriendsPage from '@/pages/MainPages/FriendsPages/AddFriendsPage'
 import ApplicationFriendsPage from '@/pages/MainPages/FriendsPages/ApplicationFriendsPage'
+import FriendsInfoPage from '@/pages/MainPages/FriendsPages/FriendsInfoPage'
 
 import NewMomentsPage from '@/pages/MainPages/MomentsPages/NewMomentsPage'
 import MomentsListPage from '@/pages/MainPages/MomentsPages/MomentsListPage'
@@ -60,6 +61,11 @@ export default new Router({
               path: '/application-friends',
               name: 'application-friends-page',
               component: ApplicationFriendsPage
+            },
+            {
+              path: '/friends-info/:id',
+              name: 'friends-info-page',
+              component: FriendsInfoPage
             }
           ]
         },

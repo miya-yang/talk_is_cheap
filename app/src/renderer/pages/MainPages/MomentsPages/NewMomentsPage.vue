@@ -116,7 +116,6 @@ export default {
     // 获取好友列表
     handleGetFriendsList () {
       this.$http.post(`?m=friend&c=friend&a=get_friendList`).then(res => {
-        console.log(res.data)
         this.friendsList = res.data
       })
     },

@@ -22,6 +22,40 @@ export default {
       type: String,
       default: ''
     }
+  },
+  mounted () {
+    this.initWebSocket()
+  },
+  methods: {
+    // 初始化weosocket
+    initWebSocket () {
+      const wsuri = `ws://tic.codergzw.com:7272`
+      this.websock = new WebSocket(wsuri)
+      this.websock.onmessage = this.websocketonmessage
+      this.websock.onopen = this.websocketonopen
+      this.websock.onerror = this.websocketonerror
+      this.websock.onclose = this.websocketclose
+    },
+    // 连接建立之后执行send方法发送数据
+    websocketonopen () {
+      this.websocketsend(this.user)
+    },
+    // 连接建立失败重连
+    websocketonerror () {
+      this.initWebSocket()
+    },
+    // 监听连接
+    websocketonmessage (e) {
+      console.log('websocket连接成功：', JSON.parse(e.data).type)
+    },
+    // 数据发送
+    websocketsend (Data) {
+      this.websock.send(Data)
+    },
+    // 关闭
+    websocketclose (e) {
+      console.log('断开连接', e)
+    }
   }
 }
 </script>

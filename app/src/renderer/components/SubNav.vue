@@ -31,6 +31,7 @@
           :title="item2.title"
           :isActive="item2.isActive"
           :linkName="item2.linkName"
+          :linkParams="item2.linkParams"
           :redCount="item2.redCount"
           @click.native="hcActiveList(item2, index2, 'friendsList')"
         />
@@ -180,7 +181,7 @@ export default {
       ],
       friendsList: [
         {
-          id: '1',
+          id: 'friend-1',
           subTitle: '新的好友',
           list: [
             {
@@ -198,7 +199,7 @@ export default {
           ]
         },
         {
-          id: '2',
+          id: 'friend-2',
           subTitle: '好友列表',
           list: [
             // {
@@ -209,7 +210,7 @@ export default {
           ]
         },
         {
-          id: '3',
+          id: 'friend-3',
           subTitle: '群组列表',
           list: [
             {
@@ -230,12 +231,12 @@ export default {
               icon: 'ios-send',
               title: '发布动态',
               linkName: 'new-moments-page'
-            },
-            {
-              id: '4-2',
-              icon: 'md-text',
-              title: '新的提醒'
             }
+            // {
+            //   id: '4-2',
+            //   icon: 'md-text',
+            //   title: '新的提醒'
+            // }
           ]
         },
         {
@@ -381,7 +382,8 @@ export default {
     listenRouter () {
       let route = this.$route
       // 好友模块
-      if (route.name.indexOf('friend') > -1) {
+      if (route.name.indexOf('friends') > -1) {
+      // if (route.name === 'friends-page' || route.name === 'add-friends-page' || route.name === 'application-friends-page') {
         this.friendsGetUnreadCount()
         this.friendsGetFriendsList()
       }
@@ -434,7 +436,11 @@ export default {
           list.push({
             id: item.id,
             title: item.nickname,
-            portrait: item.portrait
+            portrait: item.portrait,
+            linkName: `friends-info-page`,
+            linkParams: {
+              id: item.id
+            }
           })
         }
         this.$set(this.friendsList[1], 'list', list)

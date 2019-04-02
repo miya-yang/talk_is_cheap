@@ -11,6 +11,7 @@
         :id="item.userid"
         :sex="item.sex"
         :requestId="item.apprvoalid"
+        :readType="item.isread"
         type="request"
       />
     </div>
@@ -35,7 +36,6 @@ export default {
   methods: {
     getList () {
       this.$http.post(`?m=friend&c=friend&a=get_approval_list`).then(res => {
-        // TODO: 判断这条记录是否已经完成操作，若完成 不让其显示同意按钮
         this.dataList = res.data
       })
     }

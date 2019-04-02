@@ -40,6 +40,7 @@ Vue.component('Checkbox', Checkbox)
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice
 Vue.prototype.$qs = qs
+Vue.prototype.$Modal = Modal
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 axios.defaults.baseURL = 'http://tic.codergzw.com'

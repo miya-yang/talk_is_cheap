@@ -16,7 +16,14 @@
       {{ addBtnText }}
       </Button>
       <Button
-        v-else-if="type === 'request'"
+        v-else-if="type === 'request' && Number(readType) > 2"
+        :disabled="true"
+        class="add-friends-btn"
+      >
+      已同意
+      </Button>
+      <Button
+        v-else-if="type === 'request' && Number(readType) <= 2"
         @click="hcSendAgreeMessage"
         :loading="isLoading"
         :disabled="disabled"
@@ -70,6 +77,10 @@ export default {
       default: 'add'
     },
     requestId: {
+      type: String,
+      default: ''
+    },
+    readType: {
       type: String,
       default: ''
     }

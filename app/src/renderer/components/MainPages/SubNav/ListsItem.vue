@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: linkName }" class="lists-item" :class="{ 'lists-active': isActive }">
+  <router-link :to="{ name: linkName, params: linkParams }" class="lists-item" :class="{ 'lists-active': isActive }">
     <Badge :count="redCount">
       <Avatar :src="portrait" class="avatar" :icon="icon"  size="large" shape="square" />
     </Badge>
@@ -35,6 +35,9 @@ export default {
     },
     linkName: {
       type: String,
+      default: ''
+    },
+    linkParams: {
       default: ''
     }
   }
