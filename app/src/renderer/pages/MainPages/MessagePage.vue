@@ -4,17 +4,15 @@
       class="sub-nav"
       :router="router"
     />
-    <message-panel class="message-panel" />
+    <router-view class="message-panel"></router-view>
   </div>
 </template>
 
 <script>
-import MessagePanel from '@/components/MessagePanel'
 import SubNav from '@/components/SubNav'
 export default {
   name: 'message-page',
   components: {
-    MessagePanel,
     SubNav
   },
   props: {

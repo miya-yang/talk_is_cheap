@@ -51,7 +51,7 @@ Vue.config.productionTip = false
 
 // 统一进行请求处理
 axios.interceptors.request.use((config) => {
-  Vue.$Loading.show()
+  // Vue.$Loading.show()
   config.method === 'post'
     ? config.data = qs.stringify({...config.data})
     : config.params = {...config.params}
@@ -64,7 +64,7 @@ axios.interceptors.request.use((config) => {
 
 // 统一进行错误处理
 axios.interceptors.response.use((response) => {
-  Vue.$Loading.hide()
+  // Vue.$Loading.hide()
   if (response.data.code !== 0) {
     Message.error(response.data.message)
     return Promise.reject(response)

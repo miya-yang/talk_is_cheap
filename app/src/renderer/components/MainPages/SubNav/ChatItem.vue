@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <router-link :to="{ name: linkName }">
     <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive }" :chat-id="chatId">
       <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
       <div class="chat-info">
@@ -8,7 +8,7 @@
         <span class="chat-time single-line">{{ time }}</span>
       </div>
     </li>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -42,6 +42,10 @@ export default {
     chatId: {
       type: String,
       default: ''
+    },
+    linkName: {
+      type: String,
+      default: 'chat-page'
     }
   }
 }

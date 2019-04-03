@@ -13,6 +13,8 @@ import CirclePage from '@/pages/MainPages/CirclePage'
 import MatchPage from '@/pages/MainPages/MatchPage'
 import RankingPage from '@/pages/MainPages/RankingPage'
 
+import ChatPage from '@/pages/MainPages/MessagePages/ChatPage'
+
 import AddFriendsPage from '@/pages/MainPages/FriendsPages/AddFriendsPage'
 import ApplicationFriendsPage from '@/pages/MainPages/FriendsPages/ApplicationFriendsPage'
 import FriendsInfoPage from '@/pages/MainPages/FriendsPages/FriendsInfoPage'
@@ -45,7 +47,14 @@ export default new Router({
         {
           path: '/message',
           name: 'message-page',
-          component: MessagePage
+          component: MessagePage,
+          children: [
+            {
+              path: '/chat/:id',
+              name: 'message-chat-page',
+              component: ChatPage
+            }
+          ]
         },
         {
           path: '/friends',

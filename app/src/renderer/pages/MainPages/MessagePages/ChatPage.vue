@@ -1,0 +1,275 @@
+<template>
+  <div class="message-chat-page remove-titlebar-content">
+    <div class="chat-title-panel">
+      <h2 class="chat-title single-line">2019届华信软件学院2019届华信软件学院</h2>
+      <span class="chat-group-count">（256）</span>
+    </div>
+    <Split
+      v-model="system.panel.split" 
+      :min="system.panel.min" 
+      :max="system.panel.max"
+      mode="vertical"
+    >
+      <div class="chat-dialog scroll" slot="top" ref="messageBox">
+        <ul>
+          <chat-dialog-item 
+            v-for="(item) of chatList"
+            :key="item.id"
+            :userId="item.userId"
+            :portrait="item.portrait"
+            :message="item.message"
+            :time="item.time"
+            :username="item.username"
+          />
+        </ul>
+      </div>
+      <div class="chat-input-panel" slot="bottom">
+        <div class="chat-input-panel-menu">
+          <ul>
+            <li 
+              class="menu-list"
+              v-for="(item, index) of system.chatMenu"
+              :key="index"
+            >
+              <a 
+                href="javascript:;"
+                @click="hListenCall(item.hMethods)"
+              >
+                <Icon 
+                  class="menu-item" 
+                  :type="item.icon" 
+                  :title="item.title"
+                />
+              </a>
+            </li>
+          </ul>
+          <sticker-panel
+            class="sticker-panel"
+            v-if="isShowStickerPanel"
+            @handleAddSticker="handleAddSticker"
+          />
+          <Button
+            class="send-message-btn"
+            size="small"
+            type="primary"
+            title="发送消息"
+            @click="handleSendMessage"
+          >发送</Button>
+        </div>
+        <textarea
+          class="chat-input-panel-textarea scroll"
+          v-model.trim="message"
+        ></textarea>
+      </div>
+    </Split>
+  </div>
+</template>
+
+<script>
+import ChatDialogItem from '@/components/MainPages/Message/ChatDialogItem'
+import StickerPanel from '@/components/MainPages/Message/StickerPanel'
+export default {
+  name: 'message-chat-page',
+  components: {
+    ChatDialogItem,
+    StickerPanel
+  },
+  data () {
+    return {
+      isShowStickerPanel: false,
+      message: '',
+      system: {
+        panel: {
+          split: 0.65,
+          min: '50px',
+          max: '200px'
+        },
+        chatMenu: [
+          {
+            title: '表情',
+            icon: 'ios-outlet-outline',
+            hMethods: 'handleOpenStickerPanel'
+          },
+          {
+            title: '历史记录',
+            icon: 'ios-chatboxes-outline',
+            hMethods: ''
+          }
+        ]
+      },
+      chatList: [
+        {
+          id: 1,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '晚上吃饭吗？',
+          time: '03.11 18:10'
+        },
+        {
+          id: 2,
+          userId: 'cba',
+          portrait: 'imgs/portrait--test.png',
+          message: '你是饭桶吗？',
+          time: '03.11 18:10'
+        },
+        {
+          id: 3,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '吃什么呢',
+          time: '03.11 18:10'
+        },
+        {
+          id: 4,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '吃什么呢',
+          time: '03.11 18:10'
+        },
+        {
+          id: 5,
+          userId: 'abc',
+          portrait: 'imgs/portrait--test.png',
+          message: '<h1>hhh</h1>',
+          time: '03.11 18:10'
+        }
+      ]
+    }
+  },
+  methods: {
+    hListenCall (methods) {
+      if (typeof methods === 'string' && methods !== '') {
+        this[methods]()
+      }
+    },
+    // 打开表情面板
+    handleOpenStickerPanel () {
+      this.isShowStickerPanel = !this.isShowStickerPanel
+    },
+    // 添加表情
+    handleAddSticker (text) {
+      this.isShowStickerPanel = false
+      this.message += text
+    },
+    // 发送信息
+    handleSendMessage () {
+      if (this.message.length === 0) {
+        this.$Message.error('消息不得为空')
+        return false
+      }
+      this.chatList.push({
+        id: Math.random(),
+        userId: 'abc',
+        message: this.message,
+        time: '03.11 18:10'
+      })
+      this.message = ''
+      setTimeout(() => {
+        this.handleControllScroll(this.$refs.messageBox)
+      }, 50)
+    },
+    // 控制滚动条位于底部
+    handleControllScroll (o) {
+      o.scrollTop = o.scrollHeight
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '@/scss/common.scss';
+.message-chat-page {
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+  position: relative;
+  overflow: hidden;
+
+  .chat-title-panel {
+    height: 53px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 1px 0 #ddd;
+    display: flex;
+
+    .chat-group-count {
+      -webkit-user-select: none;
+      cursor: default;
+    }
+
+    .chat-title {
+      font-size: 24px;
+      font-weight: 300;
+      max-width: 80%;
+      padding: 8px 0 8px 30px;
+      font-family: 'Microsoft YaHei';
+      cursor: pointer;
+    }
+  }
+  .chat-dialog {
+    flex: 1;
+    padding: 20px;
+    height: 100%;
+    overflow: auto;
+  }
+  .chat-input-panel {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 6px;
+
+    .chat-input-panel-menu {
+      width: 100%;
+      height: 40px;
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+
+      .send-message-btn {
+        margin-right: 10px;
+        padding: 0 20px;
+      }
+
+      .sticker-panel {
+        position: absolute;
+        top: -200px;
+      }
+
+      .menu-list {
+        float: left;
+        list-style: none;
+        margin-left: 15px;
+
+        .menu-item {
+          font-size: 30px;
+          width: 30px;
+          height: 30px;
+          color: #333;
+        }
+      }
+    }
+
+    .chat-input-panel-textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      width: 100%;
+      overflow: auto;
+      padding: 5px 20px 0 20px;
+      font-size: 16px;
+      resize: none;
+    }
+  }
+
+  .chat-group-count {
+    font-size: 14px;
+    line-height: 60px;
+    margin-left: 10px;
+  }
+
+}
+</style>

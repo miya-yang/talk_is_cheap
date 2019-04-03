@@ -32,7 +32,7 @@ export default {
   methods: {
     listenRoute () {
       this.isLoginPage = this.$route.name === 'login-page'
-      this.router = this.$route.path
+      this.router = this.$route.name
     }
   },
   watch: {

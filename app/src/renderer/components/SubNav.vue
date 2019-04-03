@@ -3,7 +3,7 @@
     <!-- message-page start -->
     <ul class="sub-lists scroll" v-if="router.indexOf('message') > -1">
       <chat-item
-        v-for="(item, index) of chatList"
+        v-for="item of chatList"
         :key="item.id"
         :chatId="item.id"
         :portrait="item.portrait"
@@ -11,8 +11,9 @@
         :time="item.time"
         :message="item.message"
         :isActive="item.isActive"
+        :linkName="item.linkName"
         @contextmenu.native="hcRightChatItem"
-        @click.native="hcActiveList(item, index, 'chatList')"
+        @click.native="hcActiveList(item, 'chatList')"
       />
     </ul>
     <!-- message-page end -->
@@ -24,7 +25,7 @@
           :title="item.subTitle"
         />
         <lists-item
-          v-for="(item2, index2) of item.list"
+          v-for="item2 of item.list"
           :key="item2.id"
           :portrait="item2.portrait"
           :icon="item2.icon"
@@ -33,7 +34,7 @@
           :linkName="item2.linkName"
           :linkParams="item2.linkParams"
           :redCount="item2.redCount"
-          @click.native="hcActiveList(item2, index2, 'friendsList')"
+          @click.native="hcActiveList(item2, 'friendsList')"
         />
       </template>
     </ul>
@@ -46,13 +47,13 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2, index2) of item.list"
+          v-for="item2 of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
           :linkName="item2.linkName"
-          @click.native="hcActiveList(item2, index2, 'momentsList')"
+          @click.native="hcActiveList(item2, 'momentsList')"
         />
       </template>
     </ul>
@@ -65,12 +66,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2, index2) of item.list"
+          v-for="item2 of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
-          @click.native="hcActiveList(item2, index2, 'activityList')"
+          @click.native="hcActiveList(item2, 'activityList')"
         />
       </template>
     </ul>
@@ -83,12 +84,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2, index2) of item.list"
+          v-for="(item2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
-          @click.native="hcActiveList(item2, index2, 'circleList')"
+          @click.native="hcActiveList(item2, 'circleList')"
         />
       </template>
     </ul>
@@ -101,12 +102,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2, index2) of item.list"
+          v-for="(item2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
-          @click.native="hcActiveList(item2, index2, 'matchList')"
+          @click.native="hcActiveList(item2, 'matchList')"
         />
       </template>
     </ul>
@@ -119,12 +120,12 @@
           :title="item.subTitle"
         />
         <lists-item 
-          v-for="(item2, index2) of item.list"
+          v-for="(item2) of item.list"
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
-          @click.native="hcActiveList(item2, index2, 'rankingList')"
+          @click.native="hcActiveList(item2, 'rankingList')"
         />
       </template>
     </ul>
@@ -176,7 +177,8 @@ export default {
           portrait: 'imgs/portrait--test.png',
           title: '58同城58同城58同城58同城58同城58同城58同城',
           time: '16:40',
-          message: '您有一条新消息'
+          message: '您有一条新消息',
+          linkName: 'message-chat-page'
         }
       ],
       friendsList: [
@@ -383,11 +385,11 @@ export default {
       let route = this.$route
       // 好友模块
       if (route.name.indexOf('friends') > -1) {
-      // if (route.name === 'friends-page' || route.name === 'add-friends-page' || route.name === 'application-friends-page') {
         this.friendsGetUnreadCount()
         this.friendsGetFriendsList()
       }
     },
+    // 绑定右键点击聊天对象选项
     hcRightChatItem (e) {
       let mouseX = `${e.clientX}px`
       let mouseY = `${e.clientY}px`
@@ -402,7 +404,7 @@ export default {
         this.chatRightMenu.display = false
       }, false)
     },
-    hcActiveList (item, index, listName) {
+    hcActiveList (item, listName) {
       this.$nextTick(() => {
         this[listName].forEach((i) => {
           if (i.list) {
@@ -418,19 +420,14 @@ export default {
     },
     // 好友模块：获取未读好友申请数量
     friendsGetUnreadCount () {
-      this.$Loading.show()
       this.$http.post(`?m=friend&c=friend&a=noRead`).then(res => {
-        this.$Loading.hide()
         this.$set(this.friendsList[0].list[1], 'redCount', res.data)
       }).catch(() => {
-        this.$Loading.hide()
       })
     },
     // 好友模块：获取好友列表
     friendsGetFriendsList () {
-      this.$Loading.show()
       this.$http.post(`?m=friend&c=friend&a=get_friendList`).then(res => {
-        this.$Loading.hide()
         let list = []
         for (let item of res.data) {
           list.push({
@@ -444,8 +441,6 @@ export default {
           })
         }
         this.$set(this.friendsList[1], 'list', list)
-      }).catch(() => {
-        this.$Loading.hide()
       })
     },
     hcChatRightHandMenuStick () {
