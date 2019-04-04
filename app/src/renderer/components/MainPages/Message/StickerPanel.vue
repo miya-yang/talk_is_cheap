@@ -41,7 +41,6 @@ export default {
     },
     // 添加表情
     handleAddSticker (text) {
-      console.log(text)
       this.$emit('handleAddSticker', text)
     }
   }
@@ -51,8 +50,8 @@ export default {
 <style lang="scss" scoped>
 @import '@/scss/common.scss';
 .sticker-panel {
-  width: 264px;
-  height: 200px;
+  width: 269px;
+  height: 154px;
   background: #fff;
   overflow: auto;
 

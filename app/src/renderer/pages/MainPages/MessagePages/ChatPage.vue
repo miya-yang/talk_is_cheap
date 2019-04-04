@@ -68,6 +68,7 @@
 <script>
 import ChatDialogItem from '@/components/MainPages/Message/ChatDialogItem'
 import StickerPanel from '@/components/MainPages/Message/StickerPanel'
+import stickerList from '@/data/sticker-list.js'
 export default {
   name: 'message-chat-page',
   components: {
@@ -130,11 +131,19 @@ export default {
           id: 5,
           userId: 'abc',
           portrait: 'imgs/portrait--test.png',
-          message: '<h1>hhh</h1>',
+          message: '/:88',
           time: '03.11 18:10'
         }
       ]
     }
+  },
+  mounted () {
+    // 对聊天内容进行过滤
+    for (let item of this.chatList) {
+      this.listenMessageWithSticker(item)
+    }
+    // 让滚动条初始化在最下面
+    this.handleControllScroll()
   },
   methods: {
     hListenCall (methods) {
@@ -165,12 +174,27 @@ export default {
       })
       this.message = ''
       setTimeout(() => {
-        this.handleControllScroll(this.$refs.messageBox)
+        this.handleControllScroll()
       }, 50)
+      this.listenMessageWithSticker(this.chatList[this.chatList.length - 1])
     },
     // 控制滚动条位于底部
-    handleControllScroll (o) {
-      o.scrollTop = o.scrollHeight
+    handleControllScroll () {
+      this.$refs.messageBox.scrollTop = this.$refs.messageBox.scrollHeight
+    },
+    // 监听聊天内容中是否存在表情
+    listenMessageWithSticker (item) {
+      item.message = item.message.replace(/\r\n/g, '<br/>')
+      item.message = item.message.replace(/\n/g, '<br/>')
+      item.message = item.message.replace(/\s/g, ' ')
+      item.message = item.message.replace(/</g, '&lt')
+      item.message = item.message.replace(/>/g, '&gt')
+      for (let stickerItem of stickerList) {
+        if (item.message.indexOf(stickerItem.name) > -1) {
+          let reg = `${stickerItem.name}`
+          item.message = item.message.replace(new RegExp(reg, 'g'), `<img src="/static/stickers/default/${stickerItem.file}" />`)
+        }
+      }
     }
   }
 }
@@ -236,7 +260,7 @@ export default {
 
       .sticker-panel {
         position: absolute;
-        top: -200px;
+        top: -160px;
       }
 
       .menu-list {

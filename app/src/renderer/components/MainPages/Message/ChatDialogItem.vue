@@ -12,9 +12,7 @@
     <div class="flex" :class="{ 'flex-reverse': isReverse }">
       <Avatar class="portrait" :src="portrait" />
       <div class="dialog" :class="{ 'flex-item-reverse': isReverse, 'dialog-margin': isReverse === false, 'dialog-margin-reverse': isReverse }">
-        <div class="message">
-          {{ message }}
-        </div>
+        <div class="message" v-html="message"></div>
         <span class="triangle-base" :class="{ 'triangle': isReverse === false, 'triangle-reverse': isReverse }"></span>
       </div>
     </div>
