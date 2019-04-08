@@ -12,6 +12,7 @@
         :message="item.message"
         :isActive="item.isActive"
         :linkName="item.linkName"
+        :isTop="item.isTop"
         @contextmenu.native="hcRightChatItem"
         @click.native="hcActiveList(item, 'chatList')"
       />
@@ -138,7 +139,7 @@
       :style="{ top: chatRightMenu.y, left: chatRightMenu.x }"
     >
       <CellGroup>
-        <Cell class="item" title="置顶聊天" @click.native="hcChatRightHandMenuStick" />
+        <Cell class="item" :title="topTitle" @click.native="hcChatRightHandMenuStick" />
         <Cell class="item" title="删除聊天" @click.native="hcChatRightHandMenuDelete" />
       </CellGroup>
     </div>
@@ -165,21 +166,24 @@ export default {
   },
   data () {
     return {
+      topTitle: '置顶聊天',
       chatRightMenu: {
         x: 0,
         y: 0,
         display: false,
-        ele: ''
+        ele: '',
+        id: '',
+        isTop: false
       },
       chatList: [
-        {
-          id: '1',
-          portrait: 'imgs/portrait--test.png',
-          title: '58同城58同城58同城58同城58同城58同城58同城',
-          time: '16:40',
-          message: '您有一条新消息',
-          linkName: 'message-chat-page'
-        }
+        // {
+        //   id: 'chat-1',
+        //   portrait: 'imgs/portrait--test.png',
+        //   title: '58同城58同城58同城58同城58同城58同城58同城',
+        //   time: '16:40',
+        //   message: '您有一条新消息',
+        //   linkName: 'message-chat-page'
+        // }
       ],
       friendsList: [
         {
@@ -197,6 +201,12 @@ export default {
               icon: 'md-person',
               title: '好友请求',
               linkName: 'application-friends-page'
+            },
+            {
+              id: '1-3',
+              icon: 'md-contacts',
+              title: '创建群聊',
+              linkName: 'friends-create-group-page'
             }
           ]
         },
@@ -375,18 +385,21 @@ export default {
     this.listenRouter()
   },
   watch: {
-    '$route' (val) {
-      this.listenRouter()
+    '$route.path' (val, oldval) {
+      this.listenRouter(oldval)
     }
   },
   methods: {
     // 监听路由，根据模块进行不同操作
-    listenRouter () {
+    listenRouter (oldval) {
       let route = this.$route
       // 好友模块
-      if (route.name.indexOf('friends') > -1) {
+      if (route.name.indexOf('friends') > -1 && route.name !== 'friends-info-page') {
         this.friendsGetUnreadCount()
         this.friendsGetFriendsList()
+        this.friendsGetGroupList()
+      } else if (route.name.indexOf('message') > -1 && oldval !== '/message') {
+        this.messageGetMessageList()
       }
     },
     // 绑定右键点击聊天对象选项
@@ -397,6 +410,8 @@ export default {
       this.chatRightMenu.y = mouseY
       this.chatRightMenu.display = true
       this.chatRightMenu.id = e.currentTarget.firstChild.getAttribute('chat-id')
+      this.chatRightMenu.isTop = e.currentTarget.firstChild.getAttribute('is-top')
+      this.topTitle = this.chatRightMenu.isTop ? '取消置顶' : '置顶聊天'
     },
     hHideChatRightHandMenu () {
       let app = document.querySelector('#app')
@@ -404,6 +419,7 @@ export default {
         this.chatRightMenu.display = false
       }, false)
     },
+    // 绑定选项点击效果
     hcActiveList (item, listName) {
       this.$nextTick(() => {
         this[listName].forEach((i) => {
@@ -422,8 +438,7 @@ export default {
     friendsGetUnreadCount () {
       this.$http.post(`?m=friend&c=friend&a=noRead`).then(res => {
         this.$set(this.friendsList[0].list[1], 'redCount', res.data)
-      }).catch(() => {
-      })
+      }).catch(() => {})
     },
     // 好友模块：获取好友列表
     friendsGetFriendsList () {
@@ -443,11 +458,78 @@ export default {
         this.$set(this.friendsList[1], 'list', list)
       })
     },
-    hcChatRightHandMenuStick () {
-      alert('聊天已置顶')
+    // 好友模块：获取群组列表
+    friendsGetGroupList () {
+      this.$http.post(`?m=chat&c=chat&a=get_grouplist`).then(res => {
+        console.log(res)
+      })
     },
+    // 聊天模块：获取聊天列表
+    messageGetMessageList () {
+      this.$http.post(`?m=chat&c=chat&a=get_chatList`).then(res => {
+        this.chatList = []
+        for (let item of res.data) {
+          let specialObj = {}
+          if (Number(item.type) === 1) {
+            specialObj = {
+              id: item.userid,
+              title: item.username
+            }
+          } else {
+            specialObj = {
+              id: item.roomid,
+              title: item.roomname
+            }
+          }
+          this.chatList.push(Object.assign(specialObj, {
+            type: item.type,
+            portrait: item.picture,
+            time: item.lasttime ? item.lasttime : '',
+            message: item.lastmessage ? item.lastmessage : '',
+            isTop: item.top,
+            linkName: 'message-chat-page'
+          }))
+          if (this.$route.params.id) {
+            this.fixedCurrentTarget(this.$route.params.id)
+          }
+        }
+      })
+    },
+    // 修复当前选中对象
+    fixedCurrentTarget (id) {
+      let index = 0
+      for (let i = 0; i < this.chatList.length; i++) {
+        if (this.chatList[i].id === id) {
+          index = i
+          break
+        }
+      }
+      this.hcActiveList(this.chatList[index], 'chatList')
+    },
+    // 置顶聊天
+    hcChatRightHandMenuStick () {
+      let params = {
+        touserid: this.chatRightMenu.id,
+        type: 1 // TODO...群聊为2
+      }
+      if (this.chatRightMenu.isTop) {
+        params.action = 4
+      } else {
+        params.action = 3
+      }
+      this.$http.post(`?m=chat&c=chat&a=update_chatList`, params).then(res => {
+        this.messageGetMessageList()
+      })
+    },
+    // 删除聊天
     hcChatRightHandMenuDelete () {
-      alert('聊天已删除')
+      this.$http.post(`?m=chat&c=chat&a=update_chatList`, {
+        action: 5,
+        touserid: this.chatRightMenu.id,
+        type: 1 // TODO...群聊为2
+      }).then(res => {
+        this.messageGetMessageList()
+      })
     }
   }
 }

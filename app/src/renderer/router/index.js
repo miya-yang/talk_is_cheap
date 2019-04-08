@@ -18,6 +18,7 @@ import ChatPage from '@/pages/MainPages/MessagePages/ChatPage'
 import AddFriendsPage from '@/pages/MainPages/FriendsPages/AddFriendsPage'
 import ApplicationFriendsPage from '@/pages/MainPages/FriendsPages/ApplicationFriendsPage'
 import FriendsInfoPage from '@/pages/MainPages/FriendsPages/FriendsInfoPage'
+import CreateGroupPage from '@/pages/MainPages/FriendsPages/CreateGroupPage'
 
 import NewMomentsPage from '@/pages/MainPages/MomentsPages/NewMomentsPage'
 import MomentsListPage from '@/pages/MainPages/MomentsPages/MomentsListPage'
@@ -45,7 +46,7 @@ export default new Router({
       component: MainBaseFrame,
       children: [
         {
-          path: '/message',
+          path: '/message/',
           name: 'message-page',
           component: MessagePage,
           children: [
@@ -75,6 +76,11 @@ export default new Router({
               path: '/friends-info/:id',
               name: 'friends-info-page',
               component: FriendsInfoPage
+            },
+            {
+              path: '/create-group',
+              name: 'friends-create-group-page',
+              component: CreateGroupPage
             }
           ]
         },

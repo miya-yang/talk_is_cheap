@@ -35,7 +35,7 @@ export default {
       for (let item of stickerList) {
         let obj = {}
         obj.name = item.name
-        obj.file = `/static/stickers/default/${item.file}`
+        obj.file = `static/stickers/default/${item.file}`
         this.stickerList.push(obj)
       }
     },

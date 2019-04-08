@@ -27,7 +27,13 @@
         </FormItem>
       </Form>
     </div>
-    <Button class="send-message-btn" type="success">发消息</Button>
+    <Button
+      class="send-message-btn"
+      type="success"
+      @click="handleSendMessage"
+    >
+    发消息
+    </Button>
   </div>
 </template>
 
@@ -53,8 +59,10 @@ export default {
   },
   mounted () {
     this.initUserId()
+    console.log('userid:', this.userId)
   },
   methods: {
+    // 初始化用户信息
     initUserId () {
       this.userId = this.$route.params.id
       this.$http.post(`?m=user&c=user&a=get_userinfo_byid`, {
@@ -67,6 +75,18 @@ export default {
         this.address = `${res.data.province} ${res.data.city}`
         this.tic = res.data.account
         this.zodiac = res.data.constellation
+      })
+    },
+    // 点击发送消息按钮
+    handleSendMessage () {
+      let params = {
+        action: 2,
+        touserid: this.userId,
+        type: 1// TODO 如果是群 则传递 2 / 1 为私聊
+      }
+      this.$http.post(`?m=chat&c=chat&a=update_chatList`, params).then(res => {
+        console.log(res)
+        this.$router.push({ name: 'message-chat-page', params: { id: this.userId } })
       })
     }
   }

@@ -1,338 +1,338 @@
 const stickerList = [
   {
-    name: '/:88',
+    name: '/:88/',
     file: '88_thumb.gif'
   },
   {
-    name: '/:angrya',
+    name: '/:angrya/',
     file: 'angrya_thumb.gif'
   },
   {
-    name: '/:bba',
+    name: '/:bba/',
     file: 'bba_thumb.gif'
   },
   {
-    name: '/:bs',
+    name: '/:bs/',
     file: 'bs_thumb.gif'
   },
   {
-    name: '/:bs2',
+    name: '/:bs2/',
     file: 'bs2_thumb.gif'
   },
   {
-    name: '/:bz',
+    name: '/:bz/',
     file: 'bz_thumb.gif'
   },
   {
-    name: '/:cake',
+    name: '/:cake/',
     file: 'cake.gif'
   },
   {
-    name: '/:cj',
+    name: '/:cj/',
     file: 'cj_thumb.gif'
   },
   {
-    name: '/:clock',
+    name: '/:clock/',
     file: 'clock_thumb.gif'
   },
   {
-    name: '/:come',
+    name: '/:come/',
     file: 'come_thumb.gif'
   },
   {
-    name: '/:cool',
+    name: '/:cool/',
     file: 'cool_thumb.gif'
   },
   {
-    name: '/:crazya',
+    name: '/:crazya/',
     file: 'crazya_thumb.gif'
   },
   {
-    name: '/:cry',
+    name: '/:cry/',
     file: 'cry.gif'
   },
   {
-    name: '/:cza',
+    name: '/:cza/',
     file: 'cza_thumb.gif'
   },
   {
-    name: '/:dintuizhuang',
+    name: '/:dintuizhuang/',
     file: 'dintuizhuang_thumb.gif'
   },
   {
-    name: '/:dizzya',
+    name: '/:dizzya/',
     file: 'dizzya_thumb.gif'
   },
   {
-    name: '/:fuyun',
+    name: '/:fuyun/',
     file: 'fuyun_thumb.gif'
   },
   {
-    name: '/:gangnamstyle',
+    name: '/:gangnamstyle/',
     file: 'gangnamstyle_thumb.gif'
   },
   {
-    name: '/:geili',
+    name: '/:geili/',
     file: 'geili_thumb.gif'
   },
   {
-    name: '/:good',
+    name: '/:good/',
     file: 'good_thumb.gif'
   },
   {
-    name: '/:gstnaini',
+    name: '/:gstnaini/',
     file: 'gstnaini_thumb.gif'
   },
   {
-    name: '/:gza',
+    name: '/:gza/',
     file: 'gza_thumb.gif'
   },
   {
-    name: '/:h',
+    name: '/:h/',
     file: 'h_thumb.gif'
   },
   {
-    name: '/:hatea',
+    name: '/:hatea/',
     file: 'hatea_thumb.gif'
   },
   {
-    name: '/:hearta',
+    name: '/:hearta/',
     file: 'hearta_thumb.gif'
   },
   {
-    name: '/:heia',
+    name: '/:heia/',
     file: 'heia_thumb.gif'
   },
   {
-    name: '/:horse2',
+    name: '/:horse2/',
     file: 'horse2_thumb.gif'
   },
   {
-    name: '/:hsa',
+    name: '/:hsa/',
     file: 'hsa_thumb.gif'
   },
   {
-    name: '/:hufen',
+    name: '/:hufen/',
     file: 'hufen_thumb.gif'
   },
   {
-    name: '/:j',
+    name: '/:j/',
     file: 'j_thumb.gif'
   },
   {
-    name: '/:k',
+    name: '/:k/',
     file: 'k_thumb.gif'
   },
   {
-    name: '/:kbsa',
+    name: '/:kbsa/',
     file: 'kbsa_thumb.gif'
   },
   {
-    name: '/:kl',
+    name: '/:kl/',
     file: 'kl_thumb.gif'
   },
   {
-    name: '/:laugh',
+    name: '/:laugh/',
     file: 'laugh_thumb.gif'
   },
   {
-    name: '/:lazu',
+    name: '/:lazu/',
     file: 'lazu_thumb.gif'
   },
   {
-    name: '/:ldln',
+    name: '/:ldln/',
     file: 'ldln_thumb.gif'
   },
   {
-    name: '/:liwu',
+    name: '/:liwu/',
     file: 'liwu_thumb.gif'
   },
   {
-    name: '/:lovea',
+    name: '/:lovea/',
     file: 'lovea_thumb.gif'
   },
   {
-    name: '/:ltqiekenao',
+    name: '/:ltqiekenao/',
     file: 'ltqiekenao_thumb.gif'
   },
   {
-    name: '/:lxhdeyidixiao',
+    name: '/:lxhdeyidixiao/',
     file: 'lxhdeyidixiao_thumb.gif'
   },
   {
-    name: '/:lxhtongku',
+    name: '/:lxhtongku/',
     file: 'lxhtongku_thumb.gif'
   },
   {
-    name: '/:lxhtouxiao',
+    name: '/:lxhtouxiao/',
     file: 'lxhtouxiao_thumb.gif'
   },
   {
-    name: '/:lxhwahaha',
+    name: '/:lxhwahaha/',
     file: 'lxhwahaha_thumb.gif'
   },
   {
-    name: '/:lxhzhuanfa',
+    name: '/:lxhzhuanfa/',
     file: 'lxhzhuanfa_thumb.gif'
   },
   {
-    name: '/:m',
+    name: '/:m/',
     file: 'm_thumb.gif'
   },
   {
-    name: '/:mb',
+    name: '/:mb/',
     file: 'mb_thumb.gif'
   },
   {
-    name: '/:moczhuanfa',
+    name: '/:moczhuanfa/',
     file: 'moczhuanfa_thumb.gif'
   },
   {
-    name: '/:money',
+    name: '/:money/',
     file: 'money_thumb.gif'
   },
   {
-    name: '/:nm',
+    name: '/:nm/',
     file: 'nm_thumb.gif'
   },
   {
-    name: '/:no',
+    name: '/:no/',
     file: 'no_thumb.gif'
   },
   {
-    name: '/:ok',
+    name: '/:ok/',
     file: 'ok_thumb.gif'
   },
   {
-    name: '/:otm',
+    name: '/:otm/',
     file: 'otm_thumb.gif'
   },
   {
-    name: '/:panda',
+    name: '/:panda/',
     file: 'panda_thumb.gif'
   },
   {
-    name: '/:pig',
+    name: '/:pig/',
     file: 'pig_thumb.gif'
   },
   {
-    name: '/:ppbguzhang',
+    name: '/:ppbguzhang/',
     file: 'ppbguzhang_thumb.gif'
   },
   {
-    name: '/:qq',
+    name: '/:qq/',
     file: 'qq_thumb.gif'
   },
   {
-    name: '/:rabbit',
+    name: '/:rabbit/',
     file: 'rabbit_thumb.gif'
   },
   {
-    name: '/:sad',
+    name: '/:sad/',
     file: 'sad_thumb.gif'
   },
   {
-    name: '/:sada',
+    name: '/:sada/',
     file: 'sada_thumb.gif'
   },
   {
-    name: '/:sb',
+    name: '/:sb/',
     file: 'sb_thumb.gif'
   },
   {
-    name: '/:shamea',
+    name: '/:shamea/',
     file: 'shamea_thumb.gif'
   },
   {
-    name: '/:shenshou',
+    name: '/:shenshou/',
     file: 'shenshou_thumb.gif'
   },
   {
-    name: '/:sk',
+    name: '/:sk/',
     file: 'sk_thumb.gif'
   },
   {
-    name: '/:sleepa',
+    name: '/:sleepa/',
     file: 'sleepa_thumb.gif'
   },
   {
-    name: '/:sleepya',
+    name: '/:sleepya/',
     file: 'sleepya_thumb.gif'
   },
   {
-    name: '/:smilea',
+    name: '/:smilea/',
     file: 'smilea_thumb.gif'
   },
   {
-    name: '/:sw',
+    name: '/:sw/',
     file: 'sw_thumb.gif'
   },
   {
-    name: '/:sweata',
+    name: '/:sweata/',
     file: 'sweata_thumb.gif'
   },
   {
-    name: '/:t',
+    name: '/:t/',
     file: 't_thumb.gif'
   },
   {
-    name: '/:tootha',
+    name: '/:tootha/',
     file: 'tootha_thumb.gif'
   },
   {
-    name: '/:tza',
+    name: '/:tza/',
     file: 'tza_thumb.gif'
   },
   {
-    name: '/:unhear',
+    name: '/:unhear/',
     file: 'unhear_thumb.gif'
   },
   {
-    name: '/:vw',
+    name: '/:vw/',
     file: 'vw_thumb.gif'
   },
   {
-    name: '/:wg',
+    name: '/:wg/',
     file: 'wg_thumb.gif'
   },
   {
-    name: '/:wq',
+    name: '/:wq/',
     file: 'wq_thumb.gif'
   },
   {
-    name: '/:x',
+    name: '/:x/',
     file: 'x_thumb.gif'
   },
   {
-    name: '/:xbyali',
+    name: '/:xbyali/',
     file: 'xbyali_thumb.gif'
   },
   {
-    name: '/:ye',
+    name: '/:ye/',
     file: 'ye_thumb.gif'
   },
   {
-    name: '/:yhh',
+    name: '/:yhh/',
     file: 'yhh_thumb.gif'
   },
   {
-    name: '/:yw',
+    name: '/:yw/',
     file: 'yw_thumb.gif'
   },
   {
-    name: '/:yx',
+    name: '/:yx/',
     file: 'yx_thumb.gif'
   },
   {
-    name: '/:z2',
+    name: '/:z2/',
     file: 'z2_thumb.gif'
   },
   {
-    name: '/:zhh',
+    name: '/:zhh/',
     file: 'zhh_thumb.gif'
   },
   {
-    name: '/:zy',
+    name: '/:zy/',
     file: 'zy_thumb.gif'
   }
 ]

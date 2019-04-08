@@ -132,6 +132,27 @@ export default {
   mounted () {
     this.hHideMoreMenu()
   },
+  watch: {
+    '$route' () {
+      // 解决激活选项与路由页面不符的问题
+      let route = this.$route.name
+      if (route.indexOf('message') > -1) {
+        this.hToggleIcon(0)
+      } else if (route.indexOf('friends') > -1) {
+        this.hToggleIcon(1)
+      } else if (route.indexOf('moments') > -1) {
+        this.hToggleIcon(2)
+      } else if (route.indexOf('activity') > -1) {
+        this.hToggleIcon(3)
+      } else if (route.indexOf('circle') > -1) {
+        this.hToggleIcon(4)
+      } else if (route.indexOf('match') > -1) {
+        this.hToggleIcon(5)
+      } else if (route.indexOf('ranking') > -1) {
+        this.hToggleIcon(6)
+      }
+    }
+  },
   methods: {
     hToggleIcon (index) {
       for (let i = 0; i < this.system.menuList.length; i++) {

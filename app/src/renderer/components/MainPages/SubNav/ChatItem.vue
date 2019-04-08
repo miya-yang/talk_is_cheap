@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: linkName }">
-    <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive }" :chat-id="chatId">
+    <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive }" :chat-id="chatId" :is-top="isTop">
       <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
       <div class="chat-info">
         <span class="chat-title single-line">{{ title }}</span>
@@ -46,6 +46,10 @@ export default {
     linkName: {
       type: String,
       default: 'chat-page'
+    },
+    isTop: {
+      type: Boolean,
+      default: false
     }
   }
 }

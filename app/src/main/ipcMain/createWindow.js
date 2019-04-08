@@ -5,20 +5,11 @@ import {
   ipcMain
 } from 'electron'
 
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
-
-let __onlyWindow = {
-  userInfo: false,
-  report: false
-}
-
 let userInfoWindow
 let reportWindow
 
 function createUserInfoWindow () {
-  if (!__onlyWindow.userInfo) {
+  if (!global.__onlyWindow.userInfo) {
     userInfoWindow = new BrowserWindow({
       height: 480,
       width: 330,
@@ -34,18 +25,18 @@ function createUserInfoWindow () {
       show: true
     })
 
-    userInfoWindow.loadURL(`${winURL}#/window/userInfo`)
-    __onlyWindow.userInfo = true
+    userInfoWindow.loadURL(`${global.__winURL}#/window/userInfo`)
+    global.__onlyWindow.userInfo = true
     userInfoWindow.on('closed', () => {
       userInfoWindow = null
-      __onlyWindow.userInfo = false
+      global.__onlyWindow.userInfo = false
     })
     userInfoWindow.show()
   }
 }
 
 function createReportWindow () {
-  if (!__onlyWindow.report) {
+  if (!global.__onlyWindow.report) {
     reportWindow = new BrowserWindow({
       height: 500,
       width: 500,
@@ -60,12 +51,12 @@ function createReportWindow () {
       transparent: true,
       show: true
     })
-    reportWindow.loadURL(`${winURL}#/window/report`)
-    __onlyWindow.report = true
+    reportWindow.loadURL(`${global.__winURL}#/window/report`)
+    global.__onlyWindow.report = true
 
     reportWindow.on('closed', () => {
       reportWindow = null
-      __onlyWindow.report = false
+      global.__onlyWindow.report = false
     })
     reportWindow.show()
   }

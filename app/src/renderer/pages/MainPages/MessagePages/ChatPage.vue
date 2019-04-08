@@ -131,7 +131,7 @@ export default {
           id: 5,
           userId: 'abc',
           portrait: 'imgs/portrait--test.png',
-          message: '/:88',
+          message: '/:88/',
           time: '03.11 18:10'
         }
       ]
@@ -184,6 +184,7 @@ export default {
     },
     // 监听聊天内容中是否存在表情
     listenMessageWithSticker (item) {
+      // 过滤 HTML 标签
       item.message = item.message.replace(/\r\n/g, '<br/>')
       item.message = item.message.replace(/\n/g, '<br/>')
       item.message = item.message.replace(/\s/g, ' ')
@@ -192,7 +193,7 @@ export default {
       for (let stickerItem of stickerList) {
         if (item.message.indexOf(stickerItem.name) > -1) {
           let reg = `${stickerItem.name}`
-          item.message = item.message.replace(new RegExp(reg, 'g'), `<img src="/static/stickers/default/${stickerItem.file}" />`)
+          item.message = item.message.replace(new RegExp(reg, 'g'), `<img src="static/stickers/default/${stickerItem.file}" />`)
         }
       }
     }

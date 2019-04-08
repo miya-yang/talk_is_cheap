@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted () {
-    this.initWebSocket()
+    // this.initWebSocket()
   },
   methods: {
     // 初始化weosocket
