@@ -67,6 +67,7 @@ export default {
         this.$Message.success(res.message)
         this.form.groupName = ''
         this.form.memberList = []
+        this.$store.dispatch('changeGroupsListFlag')
       })
     }
   }

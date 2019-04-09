@@ -11,6 +11,7 @@
         :time="item.time"
         :message="item.message"
         :isActive="item.isActive"
+        :isGroup="item.isGroup"
         :linkName="item.linkName"
         :isTop="item.isTop"
         @contextmenu.native="hcRightChatItem"
@@ -173,7 +174,8 @@ export default {
         display: false,
         ele: '',
         id: '',
-        isTop: false
+        isTop: false,
+        isGroup: false
       },
       chatList: [
         // {
@@ -387,6 +389,20 @@ export default {
   watch: {
     '$route.path' (val, oldval) {
       this.listenRouter(oldval)
+    },
+    groupsFlag () {
+      this.friendsGetGroupList()
+    },
+    friendsFlag () {
+      this.friendsGetFriendsList()
+    }
+  },
+  computed: {
+    groupsFlag () {
+      return this.$store.getters.refreshGroupsFlag
+    },
+    friendsFlag () {
+      return this.$store.getters.refreshFriendsFlag
     }
   },
   methods: {
@@ -411,6 +427,7 @@ export default {
       this.chatRightMenu.display = true
       this.chatRightMenu.id = e.currentTarget.firstChild.getAttribute('chat-id')
       this.chatRightMenu.isTop = e.currentTarget.firstChild.getAttribute('is-top')
+      this.chatRightMenu.isGroup = e.currentTarget.firstChild.getAttribute('isGroup')
       this.topTitle = this.chatRightMenu.isTop ? '取消置顶' : '置顶聊天'
     },
     hHideChatRightHandMenu () {
@@ -461,7 +478,20 @@ export default {
     // 好友模块：获取群组列表
     friendsGetGroupList () {
       this.$http.post(`?m=chat&c=chat&a=get_grouplist`).then(res => {
-        console.log(res)
+        let list = []
+        for (let item of res.data) {
+          list.push({
+            id: item.id,
+            title: item.group_name,
+            portrait: 'static/group-portrait.png',
+            linkName: `friends-info-page`,
+            linkParams: {
+              id: item.id,
+              isGroup: true
+            }
+          })
+        }
+        this.$set(this.friendsList[2], 'list', list)
       })
     },
     // 聊天模块：获取聊天列表
@@ -473,12 +503,14 @@ export default {
           if (Number(item.type) === 1) {
             specialObj = {
               id: item.userid,
-              title: item.username
+              title: item.username,
+              isGroup: false
             }
           } else {
             specialObj = {
               id: item.roomid,
-              title: item.roomname
+              title: item.roomname,
+              isGroup: true
             }
           }
           this.chatList.push(Object.assign(specialObj, {
@@ -510,7 +542,7 @@ export default {
     hcChatRightHandMenuStick () {
       let params = {
         touserid: this.chatRightMenu.id,
-        type: 1 // TODO...群聊为2
+        type: this.chatRightMenu.isGroup ? 2 : 1 // 群聊为2
       }
       if (this.chatRightMenu.isTop) {
         params.action = 4
@@ -526,9 +558,13 @@ export default {
       this.$http.post(`?m=chat&c=chat&a=update_chatList`, {
         action: 5,
         touserid: this.chatRightMenu.id,
-        type: 1 // TODO...群聊为2
+        type: this.chatRightMenu.isGroup ? 2 : 1 // 群聊为2
       }).then(res => {
-        this.messageGetMessageList()
+        if (this.$route.name === 'message-page') {
+          this.messageGetMessageList()
+        } else {
+          this.$router.push({ name: 'message-page' })
+        }
       })
     }
   }

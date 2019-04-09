@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: linkName }">
-    <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive }" :chat-id="chatId" :is-top="isTop">
+    <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive, 'top-active': isTop }" :chat-id="chatId" :isGroup="isGroup" :is-top="isTop">
       <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
       <div class="chat-info">
         <span class="chat-title single-line">{{ title }}</span>
@@ -48,6 +48,10 @@ export default {
       default: 'chat-page'
     },
     isTop: {
+      type: Boolean,
+      default: false
+    },
+    isGroup: {
       type: Boolean,
       default: false
     }
@@ -101,5 +105,8 @@ export default {
 
 .chat-active {
   background: #d3d3d3 !important;
+}
+.top-active {
+  background: #c3c3c3 !important;
 }
 </style>

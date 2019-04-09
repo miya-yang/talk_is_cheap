@@ -108,6 +108,7 @@ export default {
         this.agreeBtnText = '已同意'
         this.disabled = true
         this.isLoading = false
+        this.$store.dispatch('changeFriendsListFlag')
       }).catch(() => {
         this.isLoading = false
       })

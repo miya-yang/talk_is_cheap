@@ -3,19 +3,25 @@
     <header>
       <div class="info">
         <h2 class="title">
-          {{ title }}
+          {{ this.$route.params.isGroup ? group.name : title }}
           <Icon type="md-female" color="pink" v-if="sex === 'female'" />
           <Icon type="md-male" color="blue" v-else-if="sex === 'male'" />
         </h2>
         <p class="intro">
           {{ intro }}
         </p>
-        <Button class="delete-friends-btn" type="error">删除该好友</Button>
+        <Button
+          class="delete-friends-btn"
+          type="error"
+          @click="handleClickDeleteBtn"
+        >
+        {{ this.$route.params.isGroup ? '退出群聊' : '删除该好友' }}
+        </Button>
       </div>
       <img :src="portrait" class="avatar" />
     </header>
     <div class="content">
-      <Form :label-width="80">
+      <Form :label-width="80" v-if="!this.$route.params.isGroup">
         <FormItem label="地区">
           {{ address }}
         </FormItem>
@@ -24,6 +30,25 @@
         </FormItem>
         <FormItem label="星座">
           {{ zodiac }}
+        </FormItem>
+      </Form>
+      <Form :label-width="80" v-else>
+        <FormItem label="人数">
+          {{ group.count }}
+        </FormItem>
+        <FormItem label="创建时间">
+          {{ group.createtimes }}
+        </FormItem>
+        <FormItem label="成员列表">
+          <Avatar
+            v-for="(item, index) of group.members"
+            :key="index"
+            shape="square"
+            :src="item.portrait"
+            :title="item.nickname"
+            icon="ios-person"
+            class="member-item"
+          />
         </FormItem>
       </Form>
     </div>
@@ -49,19 +74,46 @@ export default {
       portrait: '',
       address: '',
       tic: '',
-      zodiac: ''
+      zodiac: '',
+      group: {
+        name: '',
+        count: 0,
+        createtimes: '',
+        members: []
+      }
     }
   },
   watch: {
     '$route' () {
-      this.initUserId()
+      this.init()
     }
   },
   mounted () {
-    this.initUserId()
-    console.log('userid:', this.userId)
+    this.init()
   },
   methods: {
+    // 初始化
+    init () {
+      this.userId = ''
+      this.title = ''
+      this.sex = ''
+      this.intro = ''
+      this.portrait = ''
+      this.address = ''
+      this.tic = ''
+      this.zodiac = ''
+      this.group = {
+        name: '',
+        count: 0,
+        createtimes: '',
+        members: []
+      }
+      if (this.$route.params.isGroup) {
+        this.initGroup()
+      } else {
+        this.initUserId()
+      }
+    },
     // 初始化用户信息
     initUserId () {
       this.userId = this.$route.params.id
@@ -77,17 +129,50 @@ export default {
         this.zodiac = res.data.constellation
       })
     },
+    // 初始化群组信息
+    initGroup () {
+      this.userId = this.$route.params.id
+      this.$http.post(`?m=chat&c=chat&a=get_groupinfo`, {
+        groupid: this.userId
+      }).then(res => {
+        this.portrait = 'static/group-portrait.png'
+        this.group = {
+          name: res.data.group_name,
+          count: res.data.users.length,
+          createtimes: res.data.createtimes,
+          members: res.data.users
+        }
+      })
+    },
     // 点击发送消息按钮
     handleSendMessage () {
       let params = {
         action: 2,
         touserid: this.userId,
-        type: 1// TODO 如果是群 则传递 2 / 1 为私聊
+        type: this.$route.params.isGroup ? 2 : 1 // 如果是群 则传递 2 / 1 为私聊
       }
       this.$http.post(`?m=chat&c=chat&a=update_chatList`, params).then(res => {
-        console.log(res)
         this.$router.push({ name: 'message-chat-page', params: { id: this.userId } })
       })
+    },
+    // 退出群聊 / 删除好友按钮
+    handleClickDeleteBtn () {
+      // 如果是群聊
+      if (this.$route.params.isGroup) {
+        this.$Modal.confirm({
+          title: '删除提示',
+          content: '<p>确认要退出该群组吗？</p>',
+          onOk: () => {
+            this.$http.post(`?m=chat&c=chat&a=out_group`, {
+              groupid: this.userId
+            }).then(res => {
+              this.$Message.success(res.message)
+              this.$router.push({ name: 'friends-page' })
+            })
+          },
+          onCancel: () => {}
+        })
+      } else {}
     }
   }
 }
@@ -144,6 +229,9 @@ export default {
     display: block;
     padding: 5px 50px;
     margin: 30px auto;
+  }
+  .member-item {
+    margin: 5px;
   }
 }
 
