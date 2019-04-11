@@ -20,24 +20,58 @@ export default {
     TitleBar,
     LeftNav
   },
-  mounted () {
-    this.listenRoute()
-  },
   data () {
     return {
       isLoginPage: true,
       router: 'message-page'
     }
   },
-  methods: {
-    listenRoute () {
-      this.isLoginPage = this.$route.name === 'login-page'
-      this.router = this.$route.name
-    }
-  },
   watch: {
     $route () {
       this.listenRoute()
+    }
+  },
+  mounted () {
+    this.listenRoute()
+    this.initWebSocket()
+  },
+  methods: {
+    // 初始化weosocket
+    initWebSocket () {
+      const wsuri = `ws://tic.codergzw.com:7272`
+      this.websock = new WebSocket(wsuri)
+      this.websock.onmessage = this.websocketonmessage
+      this.websock.onopen = this.websocketonopen
+      this.websock.onerror = this.websocketonerror
+      this.websock.onclose = this.websocketclose
+      console.log('init Websocket Complete.')
+    },
+    // 连接建立之后执行send方法发送数据
+    websocketonopen () {
+      this.websocketsend(this.user)
+      console.log('init Websocket Open.')
+    },
+    // 连接建立失败重连
+    websocketonerror () {
+      this.initWebSocket()
+      console.log('init Websocket Error.')
+    },
+    // 监听连接
+    websocketonmessage (e) {
+      console.log('websocket连接成功：', JSON.parse(e.data).type)
+    },
+    // 数据发送
+    websocketsend (Data) {
+      this.websock.send(Data)
+    },
+    // 关闭
+    websocketclose (e) {
+      console.log('断开连接', e)
+    },
+    // 路由监听
+    listenRoute () {
+      this.isLoginPage = this.$route.name === 'login-page'
+      this.router = this.$route.name
     }
   }
 }

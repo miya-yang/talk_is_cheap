@@ -185,11 +185,12 @@ export default {
     // 监听聊天内容中是否存在表情
     listenMessageWithSticker (item) {
       // 过滤 HTML 标签
+      item.message = item.message.replace(/&/g, '&amp')
+      item.message = item.message.replace(/</g, '&lt')
+      item.message = item.message.replace(/>/g, '&gt')
       item.message = item.message.replace(/\r\n/g, '<br/>')
       item.message = item.message.replace(/\n/g, '<br/>')
       item.message = item.message.replace(/\s/g, ' ')
-      item.message = item.message.replace(/</g, '&lt')
-      item.message = item.message.replace(/>/g, '&gt')
       for (let stickerItem of stickerList) {
         if (item.message.indexOf(stickerItem.name) > -1) {
           let reg = `${stickerItem.name}`

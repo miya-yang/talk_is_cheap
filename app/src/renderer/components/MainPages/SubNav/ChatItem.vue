@@ -103,10 +103,11 @@ export default {
   background: #eaeaea;
 }
 
-.chat-active {
-  background: #d3d3d3 !important;
-}
 .top-active {
   background: #c3c3c3 !important;
+}
+
+.chat-active {
+  background: #d3d3d3 !important;
 }
 </style>

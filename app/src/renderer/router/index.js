@@ -23,6 +23,11 @@ import CreateGroupPage from '@/pages/MainPages/FriendsPages/CreateGroupPage'
 import NewMomentsPage from '@/pages/MainPages/MomentsPages/NewMomentsPage'
 import MomentsListPage from '@/pages/MainPages/MomentsPages/MomentsListPage'
 
+import MatchResultPage from '@/pages/MainPages/MatchPages/MatchResultPage'
+import DirectionMatchPage from '@/pages/MainPages/MatchPages/DirectionMatchPage'
+
+import RankingPanelPage from '@/pages/MainPages/RankingPages/RankingPanelPage'
+
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
 import ReportWindow from '@/pages/MainPages/ChildWindows/ReportWindow'
 
@@ -114,12 +119,31 @@ export default new Router({
         {
           path: '/match',
           name: 'match-page',
-          component: MatchPage
+          component: MatchPage,
+          children: [
+            {
+              path: '/match-result',
+              name: 'match-result-page',
+              component: MatchResultPage
+            },
+            {
+              path: '/direction-match',
+              name: 'direction-match-page',
+              component: DirectionMatchPage
+            }
+          ]
         },
         {
           path: '/ranking',
           name: 'ranking-page',
-          component: RankingPage
+          component: RankingPage,
+          children: [
+            {
+              path: '/ranking-panel-page/:type',
+              name: 'ranking-panel-page',
+              component: RankingPanelPage
+            }
+          ]
         }
       ]
     },

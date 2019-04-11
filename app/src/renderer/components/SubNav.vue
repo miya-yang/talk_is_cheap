@@ -109,6 +109,8 @@
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          :linkName="item2.linkName"
+          :linkParams="item2.linkParams"
           @click.native="hcActiveList(item2, 'matchList')"
         />
       </template>
@@ -127,6 +129,8 @@
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          :linkName="item2.linkName"
+          :linkParams="item2.linkParams"
           @click.native="hcActiveList(item2, 'rankingList')"
         />
       </template>
@@ -341,41 +345,64 @@ export default {
       ],
       matchList: [
         {
-          id: '10',
+          id: 'match-1',
           subTitle: '匹配',
           list: [
             {
               id: '10-1',
               icon: 'ios-heart',
-              title: '猜你喜欢'
+              title: '猜你喜欢',
+              linkName: 'match-result-page'
+            },
+            {
+              id: '10-2',
+              icon: 'ios-heart',
+              title: '定向推荐',
+              linkName: 'direction-match-page'
             }
           ]
         }
       ],
       rankingList: [
         {
-          id: '11',
+          id: 'ranking-1',
           subTitle: '排行榜',
           list: [
             {
               id: '11-1',
               icon: 'ios-trending-up',
-              title: '积分排行榜'
+              title: '积分排行榜',
+              linkName: 'ranking-panel-page',
+              linkParams: {
+                type: 'score'
+              }
             },
             {
               id: '11-2',
               icon: 'ios-trending-up',
-              title: '圈子排行榜'
+              title: '圈子排行榜',
+              linkName: 'ranking-panel-page',
+              linkParams: {
+                type: 'circle'
+              }
             },
             {
               id: '11-3',
               icon: 'ios-trending-up',
-              title: '动态排行榜'
+              title: '动态排行榜',
+              linkName: 'ranking-panel-page',
+              linkParams: {
+                type: 'moments'
+              }
             },
             {
               id: '11-4',
               icon: 'ios-trending-up',
-              title: '活动排行榜'
+              title: '活动排行榜',
+              linkName: 'ranking-panel-page',
+              linkParams: {
+                type: 'activity'
+              }
             }
           ]
         }

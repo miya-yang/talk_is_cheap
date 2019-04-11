@@ -157,7 +157,7 @@ export default {
     },
     // 退出群聊 / 删除好友按钮
     handleClickDeleteBtn () {
-      // 如果是群聊
+      // 群聊
       if (this.$route.params.isGroup) {
         this.$Modal.confirm({
           title: '删除提示',
@@ -172,7 +172,22 @@ export default {
           },
           onCancel: () => {}
         })
-      } else {}
+      } else {
+        // 私聊
+        this.$Modal.confirm({
+          title: '删除提示',
+          content: '<p>确认要删除该好友吗？</p>',
+          onOk: () => {
+            this.$http.post(`?m=friend&c=friend&a=delFriend`, {
+              friendid: this.userId
+            }).then(res => {
+              this.$Message.success(res.message)
+              this.$router.push({ name: 'friends-page' })
+            })
+          },
+          onCancel: () => {}
+        })
+      }
     }
   }
 }
