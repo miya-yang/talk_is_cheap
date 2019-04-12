@@ -88,3 +88,4 @@ app.on('ready', () => {
 
 require('./ipcMain/createWindow')
 require('./ipcMain/controlWindow')
+require('./ipcMain/message')

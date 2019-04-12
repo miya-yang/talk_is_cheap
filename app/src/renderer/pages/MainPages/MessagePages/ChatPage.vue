@@ -1,7 +1,7 @@
 <template>
   <div class="message-chat-page remove-titlebar-content">
     <div class="chat-title-panel">
-      <h2 class="chat-title single-line">2019届华信软件学院2019届华信软件学院</h2>
+      <h2 class="chat-title single-line">{{ targetInfo.username }}</h2>
       <span class="chat-group-count">（256）</span>
     </div>
     <Split
@@ -78,6 +78,9 @@ export default {
   data () {
     return {
       isShowStickerPanel: false,
+      targetInfo: {
+        username: ''
+      },
       message: '',
       system: {
         panel: {
@@ -137,7 +140,19 @@ export default {
       ]
     }
   },
+  computed: {
+    targetId () {
+      return this.$store.getters.userChatToId
+    }
+  },
+  watch: {
+    'targetId' () {
+      this.init()
+    }
+  },
   mounted () {
+    // 初始化用户信息
+    this.init()
     // 对聊天内容进行过滤
     for (let item of this.chatList) {
       this.listenMessageWithSticker(item)
@@ -146,6 +161,15 @@ export default {
     this.handleControllScroll()
   },
   methods: {
+    // 根据对方id进行初始化信息
+    init () {
+      this.$http.post(`?m=user&c=user&a=get_userinfo_byid`, {
+        userid: this.targetId
+      }).then(res => {
+        this.targetInfo.username = res.data.nickname
+        console.log('对方用户信息：', res)
+      })
+    },
     hListenCall (methods) {
       if (typeof methods === 'string' && methods !== '') {
         this[methods]()

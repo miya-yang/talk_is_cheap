@@ -75,6 +75,8 @@ axios.interceptors.response.use((response) => {
   Message.error('请求出现错误，请查看请求信息')
 })
 
+window.bus = new Vue()
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },

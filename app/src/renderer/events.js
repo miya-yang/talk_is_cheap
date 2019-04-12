@@ -29,6 +29,13 @@ const events = {
    */
   hWindowControl ({ name, isMain, windowName }) {
     ipcRenderer.send(`controlWindow`, { name, isMain, windowName })
+  },
+  /**
+   * 戳一戳功能
+   */
+  poke () {
+    console.log('戳一戳触发')
+    ipcRenderer.send(`poke`)
   }
 }
 

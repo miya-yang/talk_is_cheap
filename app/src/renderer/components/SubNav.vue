@@ -412,6 +412,7 @@ export default {
   mounted () {
     this.hHideChatRightHandMenu()
     this.listenRouter()
+    window.bus.$on('refreshMessageList', this.messageGetMessageList)
   },
   watch: {
     '$route.path' (val, oldval) {
@@ -477,6 +478,11 @@ export default {
         })
         this.$set(item, 'isActive', true)
       })
+      // 如果是chatList，需传递对方id并保存
+      if (listName === 'chatList') {
+        console.log('已设置item.id：', item.id)
+        this.$store.dispatch('setChatToId', item.id)
+      }
     },
     // 好友模块：获取未读好友申请数量
     friendsGetUnreadCount () {
