@@ -56,7 +56,7 @@ export default new Router({
           component: MessagePage,
           children: [
             {
-              path: '/chat/:id',
+              path: '/chat/:id/:isGroup',
               name: 'message-chat-page',
               component: ChatPage
             }

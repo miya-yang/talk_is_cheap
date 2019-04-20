@@ -1,7 +1,15 @@
 <template>
-  <router-link :to="{ name: linkName }">
+  <router-link :to="{ name: linkName, params: { isGroup: isGroup, id: chatId } }">
     <li id="chat-item" class="chat-item" :class="{ 'chat-active': isActive, 'top-active': isTop }" :chat-id="chatId" :isGroup="isGroup" :is-top="isTop">
-      <Avatar :src="portrait" class="avatar" :icon="icon" size="large" shape="square" />
+      <Badge :dot="!isRead">
+        <Avatar
+          :src="portrait"
+          class="avatar"
+          :icon="icon"
+          size="large"
+          shape="square"
+        />
+      </Badge>
       <div class="chat-info">
         <span class="chat-title single-line">{{ title }}</span>
         <span class="chat-message single-line">{{ message }}</span>
@@ -54,6 +62,10 @@ export default {
     isGroup: {
       type: Boolean,
       default: false
+    },
+    isRead: {
+      type: Boolean,
+      default: true
     }
   }
 }

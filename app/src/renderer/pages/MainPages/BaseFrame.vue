@@ -35,8 +35,13 @@ export default {
   mounted () {
     this.listenRoute()
     this.initWebSocket()
+    this.initEmit()
   },
   methods: {
+    // 初始化bus监听事件
+    initEmit () {
+      window.bus.$on('sendMessage', this.websocketOnSendMessage)
+    },
     // 初始化weosocket
     initWebSocket () {
       const wsuri = `ws://tic.codergzw.com:7272`
@@ -56,6 +61,25 @@ export default {
       }))
       console.log('init Websocket Open.')
     },
+    // 发送消息请求
+    websocketOnSendMessage (data) {
+      this.websocketsend(JSON.stringify({
+        type: 'say',
+        touserid: data.toId,
+        fromuser: data.fromId,
+        msg: data.msg
+      }))
+      this.$http.post(`?m=chat&c=chat&a=update_chatList`, {
+        action: 1,
+        touserid: data.toId,
+        type: data.type
+      }).then(res => {
+        // 获取列表
+        window.bus.$emit('refreshMessageList')
+        // 获取聊天记录
+        // TODO...
+      })
+    },
     // 连接建立失败重连
     websocketonerror () {
       this.initWebSocket()
@@ -73,6 +97,7 @@ export default {
         console.log('用户注册成功')
       } else if (type === 2) {
         // 收到新消息
+        window.bus.$emit('readMessage')
         window.bus.$emit('refreshMessageList')
         console.log(`收到一条来自${data.fromuser}的消息，内容是${data.msg}`)
       } else if (type === 3) {

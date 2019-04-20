@@ -14,6 +14,7 @@
         :isGroup="item.isGroup"
         :linkName="item.linkName"
         :isTop="item.isTop"
+        :isRead="item.isRead"
         @contextmenu.native="hcRightChatItem"
         @click.native="hcActiveList(item, 'chatList')"
       />
@@ -413,10 +414,12 @@ export default {
     this.hHideChatRightHandMenu()
     this.listenRouter()
     window.bus.$on('refreshMessageList', this.messageGetMessageList)
+    window.bus.$on('readMessage', this.readMessage)
   },
   watch: {
     '$route.path' (val, oldval) {
       this.listenRouter(oldval)
+      this.readMessage()
     },
     groupsFlag () {
       this.friendsGetGroupList()
@@ -479,9 +482,16 @@ export default {
         this.$set(item, 'isActive', true)
       })
       // 如果是chatList，需传递对方id并保存
-      if (listName === 'chatList') {
-        console.log('已设置item.id：', item.id)
-        this.$store.dispatch('setChatToId', item.id)
+      // if (listName === 'chatList') {
+      //   this.$store.dispatch('setChatInfo', { _chatToId: item.id, _chatIsGroup: item.isGroup })
+      // }
+    },
+    // 阅读消息
+    readMessage () {
+      if (this.$route.params.id) {
+        this.$http.post(`?m=chat&c=chat&a=isread_history`, {
+          otheruserid: this.$route.params.id
+        }).then(res => {})
       }
     },
     // 好友模块：获取未读好友申请数量
@@ -552,6 +562,7 @@ export default {
             time: item.lasttime ? item.lasttime : '',
             message: item.lastmessage ? item.lastmessage : '',
             isTop: item.top,
+            isRead: item.isread,
             linkName: 'message-chat-page'
           }))
           if (this.$route.params.id) {

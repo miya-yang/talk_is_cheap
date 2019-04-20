@@ -2,7 +2,12 @@
   <div class="message-chat-page remove-titlebar-content">
     <div class="chat-title-panel">
       <h2 class="chat-title single-line">{{ targetInfo.username }}</h2>
-      <span class="chat-group-count">（256）</span>
+      <span
+        class="chat-group-count"
+        v-if="this.$route.params.isGroup"
+      >
+      （{{ targetInfo.count }}）
+      </span>
     </div>
     <Split
       v-model="system.panel.split" 
@@ -79,7 +84,8 @@ export default {
     return {
       isShowStickerPanel: false,
       targetInfo: {
-        username: ''
+        username: '',
+        count: 0
       },
       message: '',
       system: {
@@ -142,16 +148,18 @@ export default {
   },
   computed: {
     targetId () {
-      return this.$store.getters.userChatToId
+      return this.$route.params.id
     }
   },
   watch: {
-    'targetId' () {
+    $route () {
+      console.log('watch route running...')
       this.init()
     }
   },
   mounted () {
     // 初始化用户信息
+    console.log('mounted targetId running...')
     this.init()
     // 对聊天内容进行过滤
     for (let item of this.chatList) {
@@ -163,12 +171,24 @@ export default {
   methods: {
     // 根据对方id进行初始化信息
     init () {
-      this.$http.post(`?m=user&c=user&a=get_userinfo_byid`, {
-        userid: this.targetId
-      }).then(res => {
-        this.targetInfo.username = res.data.nickname
-        console.log('对方用户信息：', res)
-      })
+      // 如果是群聊
+      if (this.$route.params.isGroup) {
+        this.$http.post(`?m=chat&c=chat&a=get_groupinfo`, {
+          groupid: this.$route.params.id
+        }).then(res => {
+          this.targetInfo.username = res.data.group_name
+          this.targetInfo.count = res.data.users.length
+          console.log('群组信息', res)
+        })
+      } else {
+        // 如果是单聊
+        this.$http.post(`?m=user&c=user&a=get_userinfo_byid`, {
+          userid: this.$route.params.id
+        }).then(res => {
+          this.targetInfo.username = res.data.nickname
+          console.log('对方用户信息：', res)
+        })
+      }
     },
     hListenCall (methods) {
       if (typeof methods === 'string' && methods !== '') {
@@ -190,12 +210,18 @@ export default {
         this.$Message.error('消息不得为空')
         return false
       }
-      this.chatList.push({
-        id: Math.random(),
-        userId: 'abc',
-        message: this.message,
-        time: '03.11 18:10'
+      window.bus.$emit('sendMessage', {
+        toId: this.$route.params.id,
+        fromId: this.$store.getters.userId,
+        msg: this.message,
+        type: this.$route.params.isGroup ? 2 : 1
       })
+      // this.chatList.push({
+      //   id: Math.random(),
+      //   userId: 'abc',
+      //   message: this.message,
+      //   time: '03.11 18:10'
+      // })
       this.message = ''
       setTimeout(() => {
         this.handleControllScroll()
