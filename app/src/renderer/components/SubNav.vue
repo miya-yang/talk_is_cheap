@@ -491,7 +491,15 @@ export default {
       if (this.$route.params.id) {
         this.$http.post(`?m=chat&c=chat&a=isread_history`, {
           otheruserid: this.$route.params.id
-        }).then(res => {})
+        }).then(res => {
+          // 更新列表
+          window.bus.$emit('refreshMessageList')
+          // 获取历史记录
+          window.bus.$emit('getHistory')
+        })
+      } else {
+        // 更新列表
+        window.bus.$emit('refreshMessageList')
       }
     },
     // 好友模块：获取未读好友申请数量
@@ -539,6 +547,7 @@ export default {
     },
     // 聊天模块：获取聊天列表
     messageGetMessageList () {
+      console.log('获取聊天列表成功')
       this.$http.post(`?m=chat&c=chat&a=get_chatList`).then(res => {
         this.chatList = []
         for (let item of res.data) {

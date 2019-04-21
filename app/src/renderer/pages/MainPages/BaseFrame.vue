@@ -77,7 +77,7 @@ export default {
         // 获取列表
         window.bus.$emit('refreshMessageList')
         // 获取聊天记录
-        // TODO...
+        window.bus.$emit('getHistory')
       })
     },
     // 连接建立失败重连
@@ -98,7 +98,6 @@ export default {
       } else if (type === 2) {
         // 收到新消息
         window.bus.$emit('readMessage')
-        window.bus.$emit('refreshMessageList')
         console.log(`收到一条来自${data.fromuser}的消息，内容是${data.msg}`)
       } else if (type === 3) {
         // 戳一戳

@@ -83,6 +83,7 @@ export default {
   data () {
     return {
       isShowStickerPanel: false,
+      historyCount: 10,
       targetInfo: {
         username: '',
         count: 0
@@ -108,41 +109,13 @@ export default {
         ]
       },
       chatList: [
-        {
-          id: 1,
-          userId: 'abc',
-          portrait: 'imgs/portrait--test.png',
-          message: '晚上吃饭吗？',
-          time: '03.11 18:10'
-        },
-        {
-          id: 2,
-          userId: 'cba',
-          portrait: 'imgs/portrait--test.png',
-          message: '你是饭桶吗？',
-          time: '03.11 18:10'
-        },
-        {
-          id: 3,
-          userId: 'abc',
-          portrait: 'imgs/portrait--test.png',
-          message: '吃什么呢',
-          time: '03.11 18:10'
-        },
-        {
-          id: 4,
-          userId: 'abc',
-          portrait: 'imgs/portrait--test.png',
-          message: '吃什么呢',
-          time: '03.11 18:10'
-        },
-        {
-          id: 5,
-          userId: 'abc',
-          portrait: 'imgs/portrait--test.png',
-          message: '/:88/',
-          time: '03.11 18:10'
-        }
+        // {
+        //   id: 1,
+        //   userId: 'abc',
+        //   portrait: 'imgs/portrait--test.png',
+        //   message: '晚上吃饭吗？',
+        //   time: '03.11 18:10'
+        // }
       ]
     }
   },
@@ -155,18 +128,17 @@ export default {
     $route () {
       console.log('watch route running...')
       this.init()
+      // 获取聊天记录
+      this.handleGetChatHistory(this.historyCount)
     }
   },
   mounted () {
+    window.bus.$on('getHistory', this.handleGetChatHistory)
     // 初始化用户信息
     console.log('mounted targetId running...')
     this.init()
-    // 对聊天内容进行过滤
-    for (let item of this.chatList) {
-      this.listenMessageWithSticker(item)
-    }
-    // 让滚动条初始化在最下面
-    this.handleControllScroll()
+    // 获取聊天记录
+    this.handleGetChatHistory(this.historyCount)
   },
   methods: {
     // 根据对方id进行初始化信息
@@ -204,6 +176,50 @@ export default {
       this.isShowStickerPanel = false
       this.message += text
     },
+    // 获取聊天记录
+    handleGetChatHistory (count = -1) {
+      this.chatList = []
+      this.$http.post(`?m=chat&c=chat&a=get_chathistory`, {
+        otheruserid: this.$route.params.id
+      }).then(res => {
+        // 获取所有记录
+        if (count < 0) {
+          for (let item of res.data) {
+            let chatItem = {
+              id: item.historyid,
+              userId: item.send_user,
+              username: item.send_nickname,
+              portrait: item.portrait,
+              message: item.message,
+              time: item.createtimes
+            }
+            this.chatList.push(chatItem)
+          }
+        } else {
+          // 获取 count 条记录
+          let getLens = res.data.length > count ? count : res.data.length
+          for (let i = res.data.length - getLens; i < res.data.length; i++) {
+            let item = res.data[i]
+            let chatItem = {
+              id: item.historyid,
+              userId: item.send_user,
+              username: item.send_nickname,
+              portrait: item.portrait,
+              message: item.message,
+              time: item.createtimes
+            }
+            this.chatList.push(chatItem)
+          }
+        }
+        setTimeout(() => {
+          this.handleControllScroll()
+        }, 50)
+        // 对聊天内容进行过滤
+        for (let item of this.chatList) {
+          this.listenMessageWithSticker(item)
+        }
+      })
+    },
     // 发送信息
     handleSendMessage () {
       if (this.message.length === 0) {
@@ -223,10 +239,8 @@ export default {
       //   time: '03.11 18:10'
       // })
       this.message = ''
-      setTimeout(() => {
-        this.handleControllScroll()
-      }, 50)
-      this.listenMessageWithSticker(this.chatList[this.chatList.length - 1])
+      // 获取聊天记录
+      this.handleGetChatHistory(this.historyCount)
     },
     // 控制滚动条位于底部
     handleControllScroll () {
