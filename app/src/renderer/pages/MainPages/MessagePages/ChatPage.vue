@@ -178,6 +178,7 @@ export default {
     },
     // 获取聊天记录
     handleGetChatHistory (count = -1) {
+      console.log('获取聊天记录执行', new Date())
       this.chatList = []
       this.$http.post(`?m=chat&c=chat&a=get_chathistory`, {
         otheruserid: this.$route.params.id
@@ -211,6 +212,7 @@ export default {
             this.chatList.push(chatItem)
           }
         }
+        console.log(`当前聊天记录数量：${this.chatList.length}`)
         setTimeout(() => {
           this.handleControllScroll()
         }, 50)

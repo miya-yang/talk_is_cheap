@@ -77,7 +77,7 @@ export default {
         // 获取列表
         window.bus.$emit('refreshMessageList')
         // 获取聊天记录
-        window.bus.$emit('getHistory')
+        window.bus.$emit('getHistory', 10)
       })
     },
     // 连接建立失败重连

@@ -46,8 +46,6 @@ export default {
   },
   computed: {
     isReverse () {
-      console.log('store userid', this.$store.getters.userId)
-      console.log('this userid', this.userId)
       return this.userId === this.$store.getters.userId
     }
   }

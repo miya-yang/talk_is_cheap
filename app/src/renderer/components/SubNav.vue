@@ -488,14 +488,14 @@ export default {
     },
     // 阅读消息
     readMessage () {
-      if (this.$route.params.id) {
+      if (this.$route.params.id && !this.$route.params.isGroup) {
         this.$http.post(`?m=chat&c=chat&a=isread_history`, {
           otheruserid: this.$route.params.id
         }).then(res => {
           // 更新列表
           window.bus.$emit('refreshMessageList')
           // 获取历史记录
-          window.bus.$emit('getHistory')
+          window.bus.$emit('getHistory', 10)
         })
       } else {
         // 更新列表
