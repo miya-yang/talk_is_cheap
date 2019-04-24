@@ -2,7 +2,12 @@
   <div class="moments-item">
     <div class="userinfo">
       <Avatar :src="portrait" />
-      <span class="nickname">{{ nickname }}</span>
+      <span
+        class="nickname"
+        :title="id"
+      >
+      {{ nickname }}
+      </span>
       <span class="time">{{ time }}</span>
     </div>
     <div class="content">{{ content }}</div>

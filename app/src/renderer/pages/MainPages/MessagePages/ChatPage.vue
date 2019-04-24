@@ -105,6 +105,11 @@ export default {
             title: '历史记录',
             icon: 'ios-chatboxes-outline',
             hMethods: ''
+          },
+          {
+            title: '戳一戳',
+            icon: 'ios-locate-outline',
+            hMethods: 'handleChuoYiChuo'
           }
         ]
       },
@@ -129,6 +134,7 @@ export default {
       console.log('watch route running...')
       this.init()
       // 获取聊天记录
+      console.log('路由变化，获取历史记录')
       this.handleGetChatHistory(this.historyCount)
     }
   },
@@ -138,11 +144,14 @@ export default {
     console.log('mounted targetId running...')
     this.init()
     // 获取聊天记录
+    console.log('mounted，获取历史记录')
     this.handleGetChatHistory(this.historyCount)
   },
   methods: {
     // 根据对方id进行初始化信息
     init () {
+      // 清空消息框
+      this.message = ''
       // 如果是群聊
       if (this.$route.params.isGroup) {
         this.$http.post(`?m=chat&c=chat&a=get_groupinfo`, {
@@ -179,7 +188,7 @@ export default {
     // 获取聊天记录
     handleGetChatHistory (count = -1) {
       console.log('获取聊天记录执行', new Date())
-      this.chatList = []
+      let tempArr = []
       this.$http.post(`?m=chat&c=chat&a=get_chathistory`, {
         otheruserid: this.$route.params.id
       }).then(res => {
@@ -194,7 +203,7 @@ export default {
               message: item.message,
               time: item.createtimes
             }
-            this.chatList.push(chatItem)
+            tempArr.push(chatItem)
           }
         } else {
           // 获取 count 条记录
@@ -209,9 +218,10 @@ export default {
               message: item.message,
               time: item.createtimes
             }
-            this.chatList.push(chatItem)
+            tempArr.push(chatItem)
           }
         }
+        this.chatList.splice(0, this.chatList.length, ...tempArr)
         console.log(`当前聊天记录数量：${this.chatList.length}`)
         setTimeout(() => {
           this.handleControllScroll()
@@ -241,7 +251,6 @@ export default {
       //   time: '03.11 18:10'
       // })
       this.message = ''
-      // 获取聊天记录
       this.handleGetChatHistory(this.historyCount)
     },
     // 控制滚动条位于底部

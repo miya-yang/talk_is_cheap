@@ -4,7 +4,7 @@
       <span class="time">
         {{ time }}
       </span>
-      <span class="username single-line" v-if="!isReverse">
+      <span class="username single-line" v-if="!isReverse && isGroup">
         {{ username }}
       </span>
     </div>
@@ -47,6 +47,9 @@ export default {
   computed: {
     isReverse () {
       return this.userId === this.$store.getters.userId
+    },
+    isGroup () {
+      return this.$route.params.isGroup
     }
   }
 }

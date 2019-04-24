@@ -41,6 +41,7 @@ export default {
     // 初始化bus监听事件
     initEmit () {
       window.bus.$on('sendMessage', this.websocketOnSendMessage)
+      window.bus.$on('chuoYiChuo', this.websocketOnChuoYiChuo)
     },
     // 初始化weosocket
     initWebSocket () {
@@ -76,9 +77,15 @@ export default {
       }).then(res => {
         // 获取列表
         window.bus.$emit('refreshMessageList')
-        // 获取聊天记录
-        window.bus.$emit('getHistory', 10)
       })
+    },
+    // 戳一戳
+    websocketOnChuoYiChuo (data) {
+      this.websocketsend(JSON.stringify({
+        type: 'cyc',
+        touserid: data.toId,
+        fromuser: data.fromId
+      }))
     },
     // 连接建立失败重连
     websocketonerror () {

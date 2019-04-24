@@ -481,26 +481,20 @@ export default {
         })
         this.$set(item, 'isActive', true)
       })
-      // 如果是chatList，需传递对方id并保存
-      // if (listName === 'chatList') {
-      //   this.$store.dispatch('setChatInfo', { _chatToId: item.id, _chatIsGroup: item.isGroup })
-      // }
     },
     // 阅读消息
     readMessage () {
       if (this.$route.params.id && !this.$route.params.isGroup) {
         this.$http.post(`?m=chat&c=chat&a=isread_history`, {
           otheruserid: this.$route.params.id
-        }).then(res => {
-          // 更新列表
-          window.bus.$emit('refreshMessageList')
-          // 获取历史记录
-          window.bus.$emit('getHistory', 10)
-        })
-      } else {
-        // 更新列表
-        window.bus.$emit('refreshMessageList')
+        }).then(res => {})
       }
+      // 即时获取聊天内容
+      if (this.$route.parms.id) {
+        window.bus.$emit('getHistory')
+      }
+      // 更新列表
+      window.bus.$emit('refreshMessageList')
     },
     // 好友模块：获取未读好友申请数量
     friendsGetUnreadCount () {
