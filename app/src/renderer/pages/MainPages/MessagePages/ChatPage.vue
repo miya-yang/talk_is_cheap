@@ -67,6 +67,18 @@
         ></textarea>
       </div>
     </Split>
+    <!-- history panel -->
+    <Modal
+      v-model="isShowHistoryPanel"
+      fullscreen
+      title="历史记录"
+    >
+      <Table
+        size="large"
+       :columns="historyTableHeader"
+       :data="historyData"
+      ></Table>
+    </Modal>
   </div>
 </template>
 
@@ -82,8 +94,25 @@ export default {
   },
   data () {
     return {
+      isShowHistoryPanel: false,
       isShowStickerPanel: false,
       historyCount: 10,
+      historyTableHeader: [
+        {
+          title: '发送者',
+          key: 'sendUser'
+        },
+        {
+          title: '消息内容',
+          key: 'message',
+          type: 'html'
+        },
+        {
+          title: '发送时间',
+          key: 'time'
+        }
+      ],
+      historyData: [],
       targetInfo: {
         username: '',
         count: 0
@@ -104,12 +133,12 @@ export default {
           {
             title: '历史记录',
             icon: 'ios-chatboxes-outline',
-            hMethods: ''
+            hMethods: 'handleOpenHistoryPanel'
           },
           {
             title: '戳一戳',
             icon: 'ios-locate-outline',
-            hMethods: 'handleChuoYiChuo'
+            hMethods: 'handlePoke'
           }
         ]
       },
@@ -176,6 +205,18 @@ export default {
         this[methods]()
       }
     },
+    // 戳一戳功能
+    handlePoke () {
+      // 如果是群聊，则提示无法使用该功能
+      if (this.$route.params.isGroup) {
+        this.$Message.warning('群组不能使用戳一戳功能哦')
+        return false
+      }
+      window.bus.$emit('poke', {
+        toId: this.$route.params.id,
+        fromId: this.$store.getters.userId
+      })
+    },
     // 打开表情面板
     handleOpenStickerPanel () {
       this.isShowStickerPanel = !this.isShowStickerPanel
@@ -185,41 +226,50 @@ export default {
       this.isShowStickerPanel = false
       this.message += text
     },
+    // 获取所有聊天记录
+    handleOpenHistoryPanel () {
+      this.isShowHistoryPanel = true
+      // 获取聊天记录
+      this.$http.post(`?m=chat&c=chat&a=get_chathistory`, {
+        otheruserid: this.$route.params.id
+      }).then(res => {
+        this.historyData = []
+        for (let item of res.data) {
+          this.historyData.push({
+            sendUser: item.send_nickname,
+            message: item.message,
+            time: item.createtimes
+          })
+        }
+        console.log(this.historyData)
+        console.log(res.data)
+        console.log(`当前聊天记录数量：${this.chatList.length}`)
+        // // 对聊天内容进行过滤
+        for (let item of this.historyData) {
+          this.listenMessageWithSticker(item)
+        }
+      })
+    },
     // 获取聊天记录
-    handleGetChatHistory (count = -1) {
+    handleGetChatHistory (count = 10) {
       console.log('获取聊天记录执行', new Date())
       let tempArr = []
       this.$http.post(`?m=chat&c=chat&a=get_chathistory`, {
         otheruserid: this.$route.params.id
       }).then(res => {
-        // 获取所有记录
-        if (count < 0) {
-          for (let item of res.data) {
-            let chatItem = {
-              id: item.historyid,
-              userId: item.send_user,
-              username: item.send_nickname,
-              portrait: item.portrait,
-              message: item.message,
-              time: item.createtimes
-            }
-            tempArr.push(chatItem)
+        // 获取 count 条记录
+        let getLens = res.data.length > count ? count : res.data.length
+        for (let i = res.data.length - getLens; i < res.data.length; i++) {
+          let item = res.data[i]
+          let chatItem = {
+            id: item.historyid,
+            userId: item.send_user,
+            username: item.send_nickname,
+            portrait: item.portrait,
+            message: item.message,
+            time: item.createtimes
           }
-        } else {
-          // 获取 count 条记录
-          let getLens = res.data.length > count ? count : res.data.length
-          for (let i = res.data.length - getLens; i < res.data.length; i++) {
-            let item = res.data[i]
-            let chatItem = {
-              id: item.historyid,
-              userId: item.send_user,
-              username: item.send_nickname,
-              portrait: item.portrait,
-              message: item.message,
-              time: item.createtimes
-            }
-            tempArr.push(chatItem)
-          }
+          tempArr.push(chatItem)
         }
         this.chatList.splice(0, this.chatList.length, ...tempArr)
         console.log(`当前聊天记录数量：${this.chatList.length}`)

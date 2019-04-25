@@ -419,7 +419,10 @@ export default {
   watch: {
     '$route.path' (val, oldval) {
       this.listenRouter(oldval)
-      this.readMessage()
+      // 进入聊天页面才执行阅读消息
+      if (this.$route.path.indexOf('/chat') > -1 && !this.$route.params.isGroup) {
+        this.readMessage()
+      }
     },
     groupsFlag () {
       this.friendsGetGroupList()
@@ -490,7 +493,7 @@ export default {
         }).then(res => {})
       }
       // 即时获取聊天内容
-      if (this.$route.parms.id) {
+      if (this.$route.params.id) {
         window.bus.$emit('getHistory')
       }
       // 更新列表
@@ -562,7 +565,7 @@ export default {
           this.chatList.push(Object.assign(specialObj, {
             type: item.type,
             portrait: item.picture,
-            time: item.lasttime ? item.lasttime : '',
+            time: item.lasttime ? item.lasttime.split(' ')[1] : '',
             message: item.lastmessage ? item.lastmessage : '',
             isTop: item.top,
             isRead: item.isread,

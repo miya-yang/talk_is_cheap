@@ -4,7 +4,7 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
-import { Button, Icon, Input, Avatar, Split, Form, FormItem, Card, CellGroup, Cell, Upload, DatePicker, RadioGroup, Radio, Select, Option, Message, Spin, Badge, Progress, Modal, Notice, CheckboxGroup, Checkbox } from 'iview'
+import { Button, Icon, Input, Avatar, Table, Split, Form, FormItem, Card, CellGroup, Cell, Upload, DatePicker, RadioGroup, Radio, Select, Option, Message, Spin, Badge, Progress, Modal, Notice, CheckboxGroup, Checkbox } from 'iview'
 import 'iview/dist/styles/iview.css'
 import qs from 'qs'
 import Loading from './plugins/Loading/index'
@@ -36,6 +36,7 @@ Vue.component('Progress', Progress)
 Vue.component('Modal', Modal)
 Vue.component('CheckboxGroup', CheckboxGroup)
 Vue.component('Checkbox', Checkbox)
+Vue.component('Table', Table)
 
 Vue.prototype.$Message = Message
 Vue.prototype.$Notice = Notice

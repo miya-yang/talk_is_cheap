@@ -34,7 +34,6 @@ const events = {
    * 戳一戳功能
    */
   poke () {
-    console.log('戳一戳触发')
     ipcRenderer.send(`poke`)
   }
 }

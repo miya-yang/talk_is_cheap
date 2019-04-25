@@ -1,5 +1,11 @@
 <template>
   <div class="base-frame panel">
+    <audio ref="seMessage">
+      <source src="../../assets/sounds/message.mp3" type="audio/mpeg" />
+    </audio>
+    <audio ref="sePoke">
+      <source src="../../assets/sounds/poke.mp3" type="audio/mpeg" />
+    </audio>
     <title-bar 
       :isColorDefault="isLoginPage"
     />
@@ -24,7 +30,8 @@ export default {
   data () {
     return {
       isLoginPage: true,
-      router: 'message-page'
+      router: 'message-page',
+      lastPokeTime: ''
     }
   },
   watch: {
@@ -41,7 +48,7 @@ export default {
     // 初始化bus监听事件
     initEmit () {
       window.bus.$on('sendMessage', this.websocketOnSendMessage)
-      window.bus.$on('chuoYiChuo', this.websocketOnChuoYiChuo)
+      window.bus.$on('poke', this.websocketOnPoke)
     },
     // 初始化weosocket
     initWebSocket () {
@@ -80,12 +87,30 @@ export default {
       })
     },
     // 戳一戳
-    websocketOnChuoYiChuo (data) {
+    websocketOnPoke (data) {
+      // 每10s只能poke一次
+      if (this.lastPokeTime === '') {
+        this.lastPokeTime = new Date().getTime()
+      } else if (new Date().getTime() - this.lastPokeTime <= 10000) {
+        this.$Message.warning('每10秒只能戳一次哦')
+        return false
+      } else {
+        this.lastPokeTime = new Date().getTime()
+      }
+      this.$Message.info('你刚刚戳了对方一下')
       this.websocketsend(JSON.stringify({
         type: 'cyc',
         touserid: data.toId,
         fromuser: data.fromId
       }))
+      this.$http.post(`?m=chat&c=chat&a=update_chatList`, {
+        action: 1,
+        touserid: data.toId,
+        type: 1
+      }).then(res => {
+        // 获取列表
+        window.bus.$emit('refreshMessageList')
+      })
     },
     // 连接建立失败重连
     websocketonerror () {
@@ -104,11 +129,17 @@ export default {
         console.log('用户注册成功')
       } else if (type === 2) {
         // 收到新消息
+        this.$refs.seMessage.play()
         window.bus.$emit('readMessage')
         console.log(`收到一条来自${data.fromuser}的消息，内容是${data.msg}`)
       } else if (type === 3) {
         // 戳一戳
+        this.$refs.sePoke.play()
+        this.$router.push({ name: 'message-chat-page', params: { id: data.fromuser, isGroup: false } })
         events.poke()
+        this.$Message.info('滴滴滴...有人戳了你一下~')
+        // 更新列表
+        window.bus.$emit('refreshMessageList')
       } else if (type === 4) {
         // 消息发送失败
         this.$Message.error(data.msg)

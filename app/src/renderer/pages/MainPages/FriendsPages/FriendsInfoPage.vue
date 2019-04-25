@@ -94,20 +94,6 @@ export default {
   methods: {
     // 初始化
     init () {
-      this.userId = ''
-      this.title = ''
-      this.sex = ''
-      this.intro = ''
-      this.portrait = ''
-      this.address = ''
-      this.tic = ''
-      this.zodiac = ''
-      this.group = {
-        name: '',
-        count: 0,
-        createtimes: '',
-        members: []
-      }
       if (this.$route.params.isGroup) {
         this.initGroup()
       } else {

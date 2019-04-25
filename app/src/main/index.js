@@ -50,6 +50,7 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  global.__mainWindow = mainWindow
 }
 
 app.on('ready', createWindow)
