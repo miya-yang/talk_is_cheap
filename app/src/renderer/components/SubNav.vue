@@ -92,6 +92,7 @@
           :icon="item2.icon"
           :title="item2.title"
           :isActive="item2.isActive"
+          :linkName="item2.linkName"
           @click.native="hcActiveList(item2, 'circleList')"
         />
       </template>
@@ -313,20 +314,20 @@ export default {
             {
               id: '8-1',
               icon: 'ios-share',
-              title: '我发布的'
+              title: '发布内容'
             },
+            // {
+            //   id: '8-2',
+            //   icon: 'md-text',
+            //   title: '新的回复'
+            // },
             {
               id: '8-2',
-              icon: 'md-text',
-              title: '新的回复'
-            },
-            {
-              id: '8-3',
               icon: 'md-contacts',
               title: '我的关注'
             },
             {
-              id: '8-4',
+              id: '8-3',
               icon: 'ios-people',
               title: '我的粉丝'
             }
@@ -339,7 +340,8 @@ export default {
             {
               id: '9-1',
               icon: 'logo-chrome',
-              title: '所有圈子'
+              title: '所有圈子',
+              linkName: 'all-circle-page'
             }
           ]
         }

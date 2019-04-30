@@ -8,6 +8,10 @@
         class="ranking-item"
       >
         <div class="ranking-level">{{ index + 1 }}</div>
+        <Avatar
+          class="ranking-portrait"
+          :src="item.portrait"
+        />
         <div class="ranking-user">
           <span class="nickname">
             {{ item.nickname }}
@@ -16,7 +20,7 @@
             {{ desc }}{{ item.data }}
           </span>
           <span class="account">
-            {{ item.account }}
+            {{ Number(item.account) === 0 ? '-' : item.account }}
           </span>
         </div>
       </li>
@@ -31,58 +35,9 @@ export default {
     return {
       title: '',
       desc: '',
-      rankingData: [
-        {
-          account: '511287680',
-          nickname: '如果昵称长一点的话会怎么样呢',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        },
-        {
-          account: '511287680',
-          nickname: 'Miyang',
-          data: 35
-        }
-      ]
+      // 根据路由判断页面类型 1-积分 2-圈子 3-动态 4-活动
+      type: 0,
+      rankingData: []
     }
   },
   watch: {
@@ -100,20 +55,30 @@ export default {
         case 'score':
           this.title = '积分排行榜'
           this.desc = '总积分：'
+          this.type = 1
           break
         case 'circle':
           this.title = '圈子排行榜'
           this.desc = '粉丝总数：'
+          this.type = 2
           break
         case 'moments':
           this.title = '动态排行榜'
           this.desc = '动态活跃总数：'
+          this.type = 3
           break
         case 'activity':
           this.title = '活动排行榜'
           this.desc = '参与活动总数：'
+          this.type = 4
           break
       }
+      // 获取排行榜数据
+      this.$http.post(`?m=rank&c=rank&a=get_rank`, {
+        type: this.type
+      }).then(res => {
+        this.rankingData = res.data
+      })
     }
   }
 }
@@ -142,6 +107,10 @@ export default {
         width: 50px;
         font-size: 40px;
         text-align: center;
+      }
+      .ranking-portrait {
+        margin-top: 14px;
+        margin-right: 10px;
       }
       .ranking-user {
         flex: 1;

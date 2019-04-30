@@ -4,6 +4,7 @@
       class="sub-nav"
       :router="router"
     />
+    <router-view class="panel-page remove-titlebar-content"></router-view>
   </div>
 </template>
 
@@ -29,6 +30,15 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  .panel-page {
+    position: absolute;
+    margin: auto;
+    left: 320px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 
   .sub-nav {
     position: absolute;

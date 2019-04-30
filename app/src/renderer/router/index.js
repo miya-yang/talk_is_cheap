@@ -26,6 +26,8 @@ import MomentsListPage from '@/pages/MainPages/MomentsPages/MomentsListPage'
 import MatchResultPage from '@/pages/MainPages/MatchPages/MatchResultPage'
 import DirectionMatchPage from '@/pages/MainPages/MatchPages/DirectionMatchPage'
 
+import AllCirclePage from '@/pages/MainPages/CirclePages/AllCirclePage'
+
 import RankingPanelPage from '@/pages/MainPages/RankingPages/RankingPanelPage'
 
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
@@ -114,7 +116,14 @@ export default new Router({
         {
           path: '/circle',
           name: 'circle-page',
-          component: CirclePage
+          component: CirclePage,
+          children: [
+            {
+              path: '/all-circle',
+              name: 'all-circle-page',
+              component: AllCirclePage
+            }
+          ]
         },
         {
           path: '/match',
