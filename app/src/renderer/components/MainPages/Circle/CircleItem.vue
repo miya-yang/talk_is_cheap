@@ -4,9 +4,19 @@
       :src="portrait"
       :title="title"
       class="portrait"
+      :class="{ pointer: this.type !== 'join' }"
+      @click="handleShowContent"
     >
     <div class="infos">
-      <h2 class="title single-line">{{ title }}</h2>
+      <h2 class="title single-line" v-if="this.type === 'join'">{{ title }}</h2>
+      <a
+        class="title single-line"
+        href="javascript:;"
+        @click="handleShowContent"
+        v-else
+      >
+      {{ title }}
+      </a>
       <p class="users single-line">共发布了 <span style="color: #2db7f5;">{{ circleCount }}</span> 个帖子</p>
       <p class="users single-line">有 <span style="color: #ed4014;">{{ userCount }}</span> 个用户活跃</p>
     </div>
@@ -27,16 +37,55 @@
       退出
       </Button>
     </div>
+    <!-- circle-content-begin -->
+    <Modal
+      v-model="circleContentVisible"
+      fullscreen
+      footer-hide
+      :title="circleContentTitle"
+    >
+      <div class="scroll">
+        <p v-if="circleContentList.length === 0" style="text-align: center;">啊哦，这个圈子还没有人发过帖子呢</p>
+        <circle-content-item
+          v-for="item of circleContentList"
+          :key="item.id"
+          :time="item.createtimes"
+          :img="item.pictures"
+          :content="item.content"
+          :nickname="item.nickname"
+          :portrait="item.portrait"
+          :isFans="item.isfans"
+          :userId="item.userid"
+          :isLike="item.islike"
+          :likeList="item.likes"
+          :id="item.id"
+          :commentList="item.remarks"
+          @handleRefreshList="handleShowContent"
+        />
+      </div>
+    </Modal>
+    <!-- circle-content-end -->
   </div>
 </template>
 
 <script>
+import circleContentItem from '@/components/MainPages/Circle/CircleContentItem'
 export default {
   name: 'circle-item',
+  components: {
+    circleContentItem
+  },
   data () {
     return {
       joinBtnTitle: '加入',
-      joinBtnDisabled: false
+      joinBtnDisabled: false,
+      circleContentVisible: false,
+      circleContentList: []
+    }
+  },
+  computed: {
+    circleContentTitle () {
+      return `${this.title}圈儿`
     }
   },
   props: {
@@ -87,6 +136,19 @@ export default {
         this.$Message.success(`退出 ${this.title} 圈子成功！`)
         this.$emit('refreshHasJoin')
       })
+    },
+    // 显示全部帖子内容
+    handleShowContent () {
+      // 仅在加入圈子后才能看到内容
+      if (this.type !== 'join') {
+        this.circleContentVisible = true
+        // 获取全部帖子内容
+        this.$http.post(`?m=circle&c=circle&a=get_circle`, {
+          circleid: this.id
+        }).then(res => {
+          this.circleContentList = res.data
+        })
+      }
     }
   }
 }
@@ -104,6 +166,7 @@ export default {
     display: block;
   }
   .title {
+    display: block;
     text-align: center;
     font-weight: 300;
     font-size: 14px;
@@ -115,6 +178,9 @@ export default {
   }
   .btns {
     text-align: center;
+  }
+  .pointer {
+    cursor: pointer;
   }
 }
 </style>

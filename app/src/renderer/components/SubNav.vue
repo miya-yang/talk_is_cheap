@@ -314,7 +314,8 @@ export default {
             {
               id: '8-1',
               icon: 'ios-share',
-              title: '发布内容'
+              title: '发布内容',
+              linkName: 'new-circle-page'
             },
             // {
             //   id: '8-2',
@@ -324,12 +325,14 @@ export default {
             {
               id: '8-2',
               icon: 'md-contacts',
-              title: '我的关注'
+              title: '我的关注',
+              linkName: 'circle-follow-page'
             },
             {
               id: '8-3',
               icon: 'ios-people',
-              title: '我的粉丝'
+              title: '我的粉丝',
+              linkName: 'circle-fans-page'
             }
           ]
         },

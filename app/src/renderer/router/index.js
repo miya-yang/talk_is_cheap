@@ -27,6 +27,9 @@ import MatchResultPage from '@/pages/MainPages/MatchPages/MatchResultPage'
 import DirectionMatchPage from '@/pages/MainPages/MatchPages/DirectionMatchPage'
 
 import AllCirclePage from '@/pages/MainPages/CirclePages/AllCirclePage'
+import NewCirclePage from '@/pages/MainPages/CirclePages/NewCirclePage'
+import MyFansPage from '@/pages/MainPages/CirclePages/MyFansPage'
+import MyFollowPage from '@/pages/MainPages/CirclePages/MyFollowPage'
 
 import RankingPanelPage from '@/pages/MainPages/RankingPages/RankingPanelPage'
 
@@ -122,6 +125,21 @@ export default new Router({
               path: '/all-circle',
               name: 'all-circle-page',
               component: AllCirclePage
+            },
+            {
+              path: '/new-circle',
+              name: 'new-circle-page',
+              component: NewCirclePage
+            },
+            {
+              path: '/my-fans',
+              name: 'circle-fans-page',
+              component: MyFansPage
+            },
+            {
+              path: '/my-follow',
+              name: 'circle-follow-page',
+              component: MyFollowPage
             }
           ]
         },

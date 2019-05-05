@@ -1,6 +1,6 @@
 <template>
-  <div class="new-moments-page">
-    <h2 class="title">发布动态</h2>
+  <div class="new-circle-page">
+    <h2 class="title">发布圈子</h2>
     <Button
       type="primary"
       class="submit-btn"
@@ -11,7 +11,7 @@
     <Input
       v-model.trim="content"
       type="textarea"
-      placeholder="请输入动态内容"
+      placeholder="请输入圈子内容"
       size="large"
       :maxlength="contentMaxLength"
       :autosize="{ minRows: 8, maxRows: 8 }"
@@ -53,14 +53,17 @@
             <Icon type="ios-camera" size="20"></Icon>
         </div>
       </Upload>
-      <div class="not-allow">
-        <a
-          class="not-allow-btn"
-          href="javascript:;"
-          @click="friendsVisible = true;"
-        >
-        不给谁看
-        </a>
+      <div class="circle-list">
+        <p>请选择要发布的圈子</p>
+        <Select v-model="circleId" style="width:200px">
+          <Option
+            v-for="item in circleList"
+            :value="item.id"
+            :key="item.id"
+          >
+          {{ item.circle_name }}
+          </Option>
+        </Select>
       </div>
       <Modal
         title="图片预览"
@@ -68,39 +71,22 @@
       >
         <img :src="imgUrl" v-if="imgPreviewVisible" style="width: 100%">
       </Modal>
-      <Modal
-        v-model="friendsVisible"
-        fullscreen
-        title="请选择屏蔽的好友"
-        footer-hide
-      >
-        <CheckboxGroup v-model="blackList">
-          <Checkbox
-            v-for="item of friendsList"
-            :key="item.id"
-            class="block"
-            :label="item.id"
-            :title="item.account"
-          >{{ item.nickname }}</Checkbox>
-        </CheckboxGroup>
-      </Modal>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'new-moments-page',
+  name: 'new-circle-page',
   data () {
     return {
       content: '',
       contentMaxLength: 200,
       imgUrl: '',
       imgPreviewVisible: false,
-      friendsVisible: false,
       uploadList: [],
-      friendsList: [],
-      blackList: []
+      circleList: [],
+      circleId: ''
     }
   },
   computed: {
@@ -109,16 +95,10 @@ export default {
     }
   },
   mounted () {
-    this.handleGetFriendsList()
     this.uploadList = this.$refs.upload.fileList
+    this.getCircleList()
   },
   methods: {
-    // 获取好友列表
-    handleGetFriendsList () {
-      this.$http.post(`?m=friend&c=friend&a=get_friendList`).then(res => {
-        this.friendsList = res.data
-      })
-    },
     // 预览图片
     handleView (url) {
       this.imgUrl = url
@@ -158,6 +138,12 @@ export default {
       }
       return check
     },
+    // 获取圈子列表
+    getCircleList () {
+      this.$http.post(`?m=circle&c=circle&a=get_my_circle`).then(res => {
+        this.circleList = res.data
+      })
+    },
     // 发送动态
     handleSubmitMoments () {
       if (this.content.length === 0) {
@@ -166,17 +152,23 @@ export default {
         })
         return false
       }
+      if (this.circleId === '') {
+        this.$Notice.warning({
+          title: '请选择要发布的圈子'
+        })
+        return false
+      }
       let picList = []
       this.uploadList.forEach(item => {
         picList.push(item.response.data)
       })
-      this.$http.post(`?m=moments&c=moments&a=add_moments`, {
+      this.$http.post(`?m=circle&c=circle&a=add_circle`, {
+        circleid: this.circleId,
         content: this.content,
-        pritures: picList.join(','),
-        blacklist: this.blackList.join('|')
+        pritures: picList.join(',')
       }).then(res => {
-        this.$Message.success('动态发布成功！')
-        this.$router.push({ name: 'moments-page' })
+        this.$Message.success('圈子发布成功！')
+        this.$router.push({ name: 'all-circle-page' })
       })
     }
   }
@@ -184,7 +176,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.new-moments-page {
+.new-circle-page {
   padding-left: 20px;
   padding-right: 20px;
 

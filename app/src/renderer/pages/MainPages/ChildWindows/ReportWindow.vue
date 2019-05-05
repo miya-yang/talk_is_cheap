@@ -10,19 +10,19 @@
     />
     <div class="report-form remove-titlebar-content">
       <Form :model="formItem">
-        <FormItem label="举报类型">
-          <Select v-model.trim="formItem.type">
-            <Option v-for="item of reportTypeList" :key="item.id" :value="item.title">{{ item.title }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem :label="reportIdLabel">
-          <Input v-model="formItem.id" />
+        <FormItem label="举报用户TIC账号">
+          <Input v-model.trim="formItem.id" />
         </FormItem>
         <FormItem label="描述">
-          <Input v-model="formItem.desc" />
+          <Input v-model.trim="formItem.desc" />
         </FormItem>
         <FormItem>
-          <Button type="error">提交举报</Button>
+          <Button
+            type="error"
+            @click="handleReport"
+          >
+          提交举报
+          </Button>
         </FormItem>
       </Form>
     </div>
@@ -39,38 +39,32 @@ export default {
   data () {
     return {
       formItem: {
-        type: '',
         id: '',
         desc: ''
-      },
-      reportTypeList: [
-        {
-          id: 1,
-          title: '圈子'
-        },
-        {
-          id: 2,
-          title: '动态'
-        },
-        {
-          id: 3,
-          title: '好友'
-        }
-      ]
+      }
     }
   },
-  computed: {
-    reportIdLabel () {
-      switch (this.formItem.type) {
-        case '圈子':
-          return '圈子ID'
-        case '动态':
-          return '动态ID'
-        case '好友':
-          return '好友TIC账号'
-        default:
-          return '请选择举报类型'
+  methods: {
+    // 提交举报
+    handleReport () {
+      // 数据验证
+      if (this.formItem.id === '') {
+        this.$Message.error('举报用户TIC账号不得为空')
+        return false
       }
+      if (this.formItem.desc === '') {
+        this.$Message.error('举报内容不得为空')
+        return false
+      }
+      // 发送请求
+      this.$http.post(`?m=reportuser&c=reportuser&a=add_report`, {
+        reportuser: this.formItem.id,
+        content: this.formItem.desc
+      }).then(res => {
+        this.formItem.id = ''
+        this.formItem.desc = ''
+        this.$Message.success('举报内容提交成功！')
+      })
     }
   }
 }

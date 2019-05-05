@@ -28,6 +28,9 @@
           {{ ticNumber }}
         </h1>
         <Form class="form" :model="formItem" :label-width="40">
+          <FormItem label="积分">
+            {{ formItem.score }}
+          </FormItem>
           <FormItem label="昵称">
             <Input v-model.trim="formItem.nickname" placeholder="展示给他人看的名字" :maxlength="10" />
           </FormItem>
@@ -85,6 +88,7 @@ export default {
       userId: '',
       ticNumber: '',
       formItem: {
+        score: '',
         nickname: '',
         portrait: '',
         intro: '',
@@ -112,6 +116,7 @@ export default {
         this.formItem.phone = data.phone
         this.formItem.province = data.province
         this.formItem.city = data.city
+        this.formItem.score = data.score
       })
     },
     hUploadPortraitSuccess (result) {

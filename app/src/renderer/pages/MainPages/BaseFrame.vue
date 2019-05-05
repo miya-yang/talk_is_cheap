@@ -43,6 +43,7 @@ export default {
     this.listenRoute()
     this.initWebSocket()
     this.initEmit()
+    this.getInformation()
   },
   methods: {
     // 初始化bus监听事件
@@ -154,6 +155,31 @@ export default {
     // 关闭
     websocketclose (e) {
       console.log('断开连接', e)
+    },
+    // 获取资讯
+    getInformation () {
+      let infos = []
+      let index = 0
+      this.$http.post(`?m=information&c=information&a=get_information`).then(res => {
+        infos = res.data
+        this.$Notice.warning({
+          title: '系统提示',
+          desc: infos[index].content,
+          duration: 10000
+        })
+        index++
+        setInterval(() => {
+          this.$Notice.warning({
+            title: '系统提示',
+            desc: infos[index].content,
+            duration: 10000
+          })
+          index++
+          if (index >= infos.length) {
+            index = 0
+          }
+        }, 1000 * 60 * 5)
+      })
     },
     // 路由监听
     listenRoute () {
