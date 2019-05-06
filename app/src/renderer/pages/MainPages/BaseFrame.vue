@@ -165,14 +165,14 @@ export default {
         this.$Notice.warning({
           title: '系统提示',
           desc: infos[index].content,
-          duration: 10000
+          duration: 30
         })
         index++
         setInterval(() => {
           this.$Notice.warning({
             title: '系统提示',
             desc: infos[index].content,
-            duration: 10000
+            duration: 30
           })
           index++
           if (index >= infos.length) {

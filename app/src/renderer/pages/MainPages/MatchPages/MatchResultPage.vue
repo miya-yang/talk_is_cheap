@@ -1,23 +1,35 @@
 <template>
   <div class="match-result-page scroll">
-    <Spin fix v-if="isLoading">
-      <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
-      <div>正在匹配中...</div>
-    </Spin>
-    <div class="match-panel" v-else>
-      <h1 class="match-tips">系统为您匹配到了如下用户</h1>
-      <img :src="user.portrait" class="portrait">
-      <p class="nickname">{{ user.nickname }}</p>
-      <p class="intro">
-        {{ call }}是个90后 <br>
-        来自 <span style="color: #2b85e4;">{{ user.province }} {{ user.city }}</span> <br>
-        是 <span style="color: #ff9900;">{{ user.zodiac }}</span> 呢 <br>
-        想了解更多吗？ <br>
-        快加好友聊天吧！
-      </p>
-      <div class="btns">
-        <Button type="primary" size="large">加好友</Button>
-        <Button type="warning" size="large">换一换</Button>
+    <div class="match-panel">
+      <Spin fix v-if="isLoading">
+        <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+        <div>正在匹配中...</div>
+      </Spin>
+      <div v-else-if="user.id">
+        <h1 class="match-tips">系统为您匹配到了如下用户</h1>
+        <img :src="user.portrait" class="portrait">
+        <p class="nickname">{{ user.nickname }}</p>
+        <p class="intro">
+          你们的匹配度是<span>{{ user.matchscore }}</span> <br>
+          {{ call }}是个{{ times }}后 <br>
+          来自 <span style="color: #2b85e4;">{{ user.province }} {{ user.city }}</span> <br>
+          是 <span style="color: #ff9900;">{{ user.zodiac }}</span> 呢 <br>
+          想了解更多吗？ <br>
+          快加好友聊天吧！
+        </p>
+      </div>
+      <p class="no-match" style="text-align: center;" v-else>啊哦，暂时没有匹配到用户</p>
+      <div class="btns" v-if="!isLoading">
+        <Button
+          type="primary"
+          size="large"
+          :disabled="disabled"
+          @click="addFriends"
+          v-if="user.id"
+        >
+        {{ addBtnText }}
+        </Button>
+        <Button type="warning" size="large" @click="matchLoading">换一换</Button>
       </div>
     </div>
   </div>
@@ -30,14 +42,18 @@ export default {
     return {
       isLoading: true,
       user: {
-        portrait: 'http://tic.codergzw.com/Public/img/portraits/5c8f529e83992.jpg',
-        nickname: 'Miyang',
-        sex: '女',
-        birth: '2019.10.10',
-        province: '北京市',
-        city: '石景山区',
-        zodiac: '狮子座'
-      }
+        id: '',
+        portrait: '',
+        nickname: '',
+        sex: '',
+        birth: '',
+        province: '',
+        city: '',
+        zodiac: '',
+        matchscore: ''
+      },
+      addBtnText: '加好友',
+      disabled: false
     }
   },
   computed: {
@@ -46,16 +62,62 @@ export default {
     },
     age () {
       return this.user.birth.getFullYear().charAt(2)
+    },
+    times () {
+      return `${this.user.birth.split('-')[0].substr(2, 1)}0`
     }
   },
   mounted () {
     this.matchLoading()
   },
   methods: {
+    // 匹配用户
     matchLoading () {
-      setTimeout(() => {
-        this.isLoading = false
-      }, 2000)
+      this.isLoading = true
+      this.addBtnText = '加好友'
+      this.disabled = false
+      this.$http.post(`?m=matchuser&c=matchuser&a=system_match`).then(res => {
+        let data = res.data
+        if (data) {
+          this.user.id = data.id
+          this.user.portrait = data.portrait
+          this.user.nickname = data.nickname
+          this.user.sex = data.sex
+          this.user.birth = data.birthday
+          this.user.province = data.province
+          this.user.city = data.city
+          this.user.zodiac = data.constellation
+          this.user.matchscore = data.matchscore
+          setTimeout(() => {
+            this.isLoading = false
+          }, 2000)
+        } else {
+          this.user = {
+            id: '',
+            portrait: '',
+            nickname: '',
+            sex: '',
+            birth: '',
+            province: '',
+            city: '',
+            zodiac: '',
+            matchscore: ''
+          }
+        }
+      })
+    },
+    // 添加好友
+    addFriends () {
+      this.$http.post(`?m=friend&c=friend&a=add_approval`, {
+        touserid: this.user.id
+      }).then(res => {
+        this.addBtnText = '已发送申请'
+        this.disabled = true
+        this.$Message.success(res.message)
+      }).catch(() => {
+        this.addBtnText = '已是好友'
+        this.disabled = true
+      })
     }
   }
 }

@@ -31,6 +31,11 @@ import NewCirclePage from '@/pages/MainPages/CirclePages/NewCirclePage'
 import MyFansPage from '@/pages/MainPages/CirclePages/MyFansPage'
 import MyFollowPage from '@/pages/MainPages/CirclePages/MyFollowPage'
 
+import AllActivityPage from '@/pages/MainPages/ActivityPages/AllActivityPage'
+import InitiatingActivityPage from '@/pages/MainPages/ActivityPages/InitiatingActivityPage'
+import JoinActivityPage from '@/pages/MainPages/ActivityPages/JoinActivityPage'
+import NewActivityPage from '@/pages/MainPages/ActivityPages/NewActivityPage'
+
 import RankingPanelPage from '@/pages/MainPages/RankingPages/RankingPanelPage'
 
 import UserInfoWindow from '@/pages/MainPages/ChildWindows/UserInfoWindow'
@@ -114,7 +119,29 @@ export default new Router({
         {
           path: '/activity',
           name: 'activity-page',
-          component: ActivityPage
+          component: ActivityPage,
+          children: [
+            {
+              path: '/new-activity',
+              name: 'all-activity-page',
+              component: AllActivityPage
+            },
+            {
+              path: '/initiating-activity',
+              name: 'initiating-activity-page',
+              component: InitiatingActivityPage
+            },
+            {
+              path: '/join-activity',
+              name: 'join-activity-page',
+              component: JoinActivityPage
+            },
+            {
+              path: '/new-activity',
+              name: 'new-activity-page',
+              component: NewActivityPage
+            }
+          ]
         },
         {
           path: '/circle',

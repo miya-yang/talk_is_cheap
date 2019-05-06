@@ -73,6 +73,7 @@
           :key="item2.id"
           :icon="item2.icon"
           :title="item2.title"
+          :linkName="item2.linkName"
           :isActive="item2.isActive"
           @click.native="hcActiveList(item2, 'activityList')"
         />
@@ -280,17 +281,20 @@ export default {
             {
               id: '6-1',
               icon: 'ios-share',
-              title: '发起活动'
+              title: '发起活动',
+              linkName: 'new-activity-page'
             },
             {
               id: '6-2',
               icon: 'ios-wifi',
-              title: '我发起的'
+              title: '我发起的',
+              linkName: 'initiating-activity-page'
             },
             {
               id: '6-3',
               icon: 'ios-stats',
-              title: '我参与的'
+              title: '我参与的',
+              linkName: 'join-activity-page'
             }
           ]
         },
@@ -301,7 +305,8 @@ export default {
             {
               id: '7-1',
               icon: 'ios-walk',
-              title: '所有活动'
+              title: '所有活动',
+              linkName: 'all-activity-page'
             }
           ]
         }

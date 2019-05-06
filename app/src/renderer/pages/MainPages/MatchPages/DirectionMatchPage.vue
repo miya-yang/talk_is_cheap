@@ -1,66 +1,57 @@
 <template>
   <div class="direction-match-page">
-    <h1 class="title">搜索条件</h1>
-    <Form
-      :model="formItem"
-      :label-width="80"
-      class="search-form"
-    >
-      <FormItem label="星座">
-        <Select
-          v-model="formItem.zodiac"
-        >
-          <Option
-            v-for="item of zodiacList"
-            :key="item.key"
-            :value="item.key"
-          >
-          {{ item.value }}
-          </Option>
-        </Select>
-      </FormItem>
-      <FormItem label="DatePicker">
-          <Row>
-              <Col span="11">
-                <DatePicker type="date" placeholder="Select date" v-model="formItem.date"></DatePicker>
-              </Col>
-              <Col span="2" style="text-align: center">-</Col>
-              <Col span="11">
-                <TimePicker type="time" placeholder="Select time" v-model="formItem.time"></TimePicker>
-              </Col>
-          </Row>
-      </FormItem>
-      <FormItem label="Radio">
-          <RadioGroup v-model="formItem.radio">
-              <Radio label="male">Male</Radio>
-              <Radio label="female">Female</Radio>
-          </RadioGroup>
-      </FormItem>
-      <FormItem label="Checkbox">
-          <CheckboxGroup v-model="formItem.checkbox">
-              <Checkbox label="Eat"></Checkbox>
-              <Checkbox label="Sleep"></Checkbox>
-              <Checkbox label="Run"></Checkbox>
-              <Checkbox label="Movie"></Checkbox>
+    <div class="direction-panel" v-if="!isShowResult">
+      <h1 class="title">定向推荐</h1>
+      <Form
+        :label-width="120"
+        class="search-form"
+      >
+        <FormItem label="请选择包含条件">
+          <CheckboxGroup v-model="conditions">
+            <Checkbox
+              style="display: block;"
+              v-for="item of conditionsList"
+              :label="item"
+            ></Checkbox>
           </CheckboxGroup>
-      </FormItem>
-      <FormItem label="Switch">
-          <i-switch v-model="formItem.switch" size="large">
-              <span slot="open">On</span>
-              <span slot="close">Off</span>
-          </i-switch>
-      </FormItem>
-      <FormItem label="Slider">
-          <Slider v-model="formItem.slider" range></Slider>
-      </FormItem>
-      <FormItem label="Text">
-          <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
-      </FormItem>
-      <FormItem>
-          <Button type="primary">Submit</Button>
-          <Button style="margin-left: 8px">Cancel</Button>
-      </FormItem>
-    </Form>
+        </FormItem>
+        <FormItem>
+          <Button type="primary" @click="handleMatch">开始匹配</Button>
+        </FormItem>
+      </Form>
+    </div>
+    <div class="match-panel" v-else>
+      <Spin fix v-if="isLoading">
+        <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+        <div>正在匹配中...</div>
+      </Spin>
+      <div v-else-if="user.id">
+        <h1 class="match-tips">系统为您匹配到了如下用户</h1>
+        <img :src="user.portrait" class="portrait">
+        <p class="nickname">{{ user.nickname }}</p>
+        <p class="intro">
+          你们的匹配度是<span>{{ user.matchscore }}</span> <br>
+          {{ call }}是个{{ times }}后 <br>
+          来自 <span style="color: #2b85e4;">{{ user.province }} {{ user.city }}</span> <br>
+          是 <span style="color: #ff9900;">{{ user.zodiac }}</span> 呢 <br>
+          想了解更多吗？ <br>
+          快加好友聊天吧！
+        </p>
+      </div>
+      <p class="no-match" style="text-align: center;" v-else-if="isShowResult">啊哦，暂时没有匹配到用户</p>
+      <div class="btns" v-if="!isLoading">
+        <Button
+          type="primary"
+          size="large"
+          :disabled="disabled"
+          @click="addFriends"
+          v-if="user.id"
+        >
+        {{ addBtnText }}
+        </Button>
+        <Button type="warning" size="large" @click="handleMatch" v-if="isShowResult">换一换</Button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,55 +60,107 @@ export default {
   name: 'direction-match-page',
   data () {
     return {
-      formItem: {
-        zodiac: ''
+      isLoading: false,
+      isShowResult: false,
+      conditions: [],
+      conditionsList: ['生日', '省份', '城市', '星座', '圈子'],
+      user: {
+        id: '',
+        portrait: '',
+        nickname: '',
+        sex: '',
+        birth: '',
+        province: '',
+        city: '',
+        zodiac: '',
+        matchscore: ''
       },
-      zodiacList: [
-        {
-          key: 'baiyang',
-          value: '白羊座'
-        },
-        {
-          key: 'jinniu',
-          value: '金牛座'
-        },
-        {
-          key: 'shuangzi',
-          value: '双子座'
-        },
-        {
-          key: 'juxie',
-          value: '巨蟹座'
-        },
-        {
-          key: 'shizi',
-          value: '狮子座'
-        },
-        {
-          key: 'chunv',
-          value: '处女座'
-        },
-        {
-          key: 'tiancheng',
-          value: '天秤座'
-        },
-        {
-          key: 'sheshou',
-          value: '射手座'
-        },
-        {
-          key: 'mojie',
-          value: '摩羯座'
-        },
-        {
-          key: 'shuiping',
-          value: '水瓶座'
-        },
-        {
-          key: 'shuangyu',
-          value: '双鱼座'
+      addBtnText: '加好友',
+      disabled: false
+    }
+  },
+  computed: {
+    call () {
+      return this.user.sex === '男' ? '他' : '她'
+    },
+    age () {
+      return this.user.birth.getFullYear().charAt(2)
+    },
+    times () {
+      return `${this.user.birth.split('-')[0].substr(2, 1)}0`
+    }
+  },
+  methods: {
+    // 开始匹配
+    handleMatch () {
+      // 参数设置
+      let params = {}
+      for (let item in this.conditions) {
+        switch (this.conditions[item]) {
+          case '生日':
+            params.birthday = 1
+            break
+          case '省份':
+            params.province = 1
+            break
+          case '城市':
+            params.city = 1
+            break
+          case '星座':
+            params.constellation = 1
+            break
+          case '圈子':
+            params.circle = 1
+            break
         }
-      ]
+      }
+      console.log('params:', params)
+      this.isLoading = true
+      this.addBtnText = '加好友'
+      this.disabled = false
+      this.isShowResult = true
+      this.$http.post(`?m=matchuser&c=matchuser&a=hobby_match`, params).then(res => {
+        let data = res.data
+        if (data) {
+          this.user.id = data.id
+          this.user.portrait = data.portrait
+          this.user.nickname = data.nickname
+          this.user.sex = data.sex
+          this.user.birth = data.birthday
+          this.user.province = data.province
+          this.user.city = data.city
+          this.user.zodiac = data.constellation
+          this.user.matchscore = data.matchscore
+          setTimeout(() => {
+            this.isLoading = false
+          }, 2000)
+        } else {
+          this.user = {
+            id: '',
+            portrait: '',
+            nickname: '',
+            sex: '',
+            birth: '',
+            province: '',
+            city: '',
+            zodiac: '',
+            matchscore: ''
+          }
+        }
+      })
+    },
+    // 添加好友
+    addFriends () {
+      this.$http.post(`?m=friend&c=friend&a=add_approval`, {
+        touserid: this.user.id
+      }).then(res => {
+        this.addBtnText = '已发送申请'
+        this.disabled = true
+        this.$Message.success(res.message)
+      }).catch(() => {
+        this.addBtnText = '已是好友'
+        this.disabled = true
+      })
     }
   }
 }
@@ -135,5 +178,43 @@ export default {
     width: 80%;
     margin: 0 auto;
   }
+  .match-panel {
+    margin-top:20px;
+
+    .match-tips {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 28px;
+    }
+    .portrait {
+      display: block;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+    .nickname {
+      text-align: center;
+      font-size: 26px;
+      line-height: 52px;
+    }
+    .intro {
+      width: 80%;
+      margin: 0 auto;
+    }
+    .btns {
+      margin: 20px auto;
+      text-align: center;
+    }
+  }
+}
+.spin-icon-load{
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from { transform: rotate(0deg); }
+  50%  { transform: rotate(180deg); }
+  to   { transform: rotate(360deg); }
 }
 </style>
