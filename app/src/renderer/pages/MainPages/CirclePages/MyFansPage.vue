@@ -1,6 +1,6 @@
 <template>
   <div class="my-fans-page scroll">
-    <h1 class="title">我的粉丝</h1>
+    <h1 class="title">我的粉丝<span v-if="dataList.length !== 0">({{ dataList.length }})</span></h1>
     <p class="no-data" v-if="dataList.length === 0">
       啊哦，好像还没有人关注你呀~
     </p>

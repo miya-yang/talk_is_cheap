@@ -70,6 +70,10 @@ export default {
         this.$Message.error('请输入开始时间')
         return false
       }
+      if (this.formItem.starttime.getTime() <= new Date().getTime() + (60000 * 30)) {
+        this.$Message.error('开始时间必须在30分钟以后')
+        return false
+      }
       if (this.formItem.count < 2) {
         this.$Message.error('最大参与人数不得小于2')
         return false

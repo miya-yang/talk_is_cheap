@@ -1,6 +1,6 @@
 <template>
   <div class="my-follow-page scroll">
-    <h1 class="title">我的关注</h1>
+    <h1 class="title">我的关注<span v-if="dataList.length !== 0">({{ dataList.length }})</span></h1>
     <p class="no-data" v-if="dataList.length === 0">
       啊哦，你还没有关注任何人哦~
     </p>

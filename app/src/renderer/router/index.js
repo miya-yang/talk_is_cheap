@@ -122,7 +122,7 @@ export default new Router({
           component: ActivityPage,
           children: [
             {
-              path: '/new-activity',
+              path: '/all-activity',
               name: 'all-activity-page',
               component: AllActivityPage
             },
