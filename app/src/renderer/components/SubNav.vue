@@ -234,11 +234,11 @@ export default {
           id: 'friend-3',
           subTitle: '群组列表',
           list: [
-            {
-              id: '3-1',
-              portrait: 'imgs/portrait--test.png',
-              title: '58 商业产品技术部前端'
-            }
+            // {
+            //   id: '3-1',
+            //   portrait: 'imgs/portrait--test.png',
+            //   title: '58 商业产品技术部前端'
+            // }
           ]
         }
       ],
